@@ -1,18 +1,27 @@
 <!-- jQuery -->
-<script src="gentelella/vendors/jquery/dist/jquery.min.js"></script>
+<script src="{{asset('gentelella/vendors/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
-<script src="gentelella/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{asset('gentelella/vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
 <!-- FastClick -->
-<script src="gentelella/vendors/fastclick/lib/fastclick.js"></script>
+<script src="{{asset('gentelella/vendors/fastclick/lib/fastclick.js')}}"></script>
 <!-- NProgress -->
-{{--<script src="gentelella/vendors/nprogress/nprogress.js"></script>--}}
+<script src="{{asset('gentelella/vendors/nprogress/nprogress.js')}}"></script>
 <!-- jQuery custom content scroller -->
-<script src="gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{asset('gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
 
+{{--<script src="{{asset('gentelella/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js')}} "></script>--}}
+{{--<script src="{{asset('gentelella/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js')}} "></script>--}}
+{{--<script src="{{asset('gentelella/vendors/datatables.net-responsive/js/dataTables.responsive.min.js')}} "></script>--}}
+{{--<script src="{{asset('gentelella/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js')}}"></script>--}}
+{{--<script src="{{asset('gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"')}}"></script>--}}
 <!-- Custom Theme Scripts -->
-<script src="gentelella/build/js/custom.min.js"></script>
+<script src="{{asset('gentelella/build/js/custom.min.js')}}"></script>
 
-
+{{--{{HTML::script('gentelella/vendors/jquery/dist/jquery.min.js')}}--}}
+{{--{{HTML::script('gentelella/vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}--}}
+{{--{{HTML::script('gentelella/vendors/fastclick/lib/fastclick.js')}}--}}
+{{--{{HTML::script('gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}--}}
+{{--{{HTML::script('gentelella/build/js/custom.min.js')}}--}}
 
 {{--<script src="gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>--}}
 

@@ -16,7 +16,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="#" class="site_title"> <img src="images/pr.png" alt="..." class=""></a>
+                        <a href="{{route('home')}}" class="site_title"> <img src="{{asset('images/pr.png')}}" alt="..." class=""></a>
                     </div>
                     <div class="clearfix"></div>
                     @include('identification.sections.menuprofille')
