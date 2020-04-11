@@ -1,17 +1,6 @@
 <?php
-
+App::setlocale('es');
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,3 +9,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//route::view('/identification','identification.layouts.app');
+//route::view('/register','identification.institutions.educational.register');
+
+route::get('/institution','InstitutionsController@index')->name('institution.index');
+route::get('/institutions','InstitutionsController@create')->name('institution.create');
+route::post('/institution','InstitutionsController@store')->name('institution.store');
+
+//route::view('/institution','identification.institutions.educational.create');
+//route::view('/ejemplo','identification.institutions.educational.ejemplo');
