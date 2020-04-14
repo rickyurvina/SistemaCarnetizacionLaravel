@@ -29,7 +29,9 @@ class InstitutionsController extends Controller
      */
     public function create()
     {
-        return view('identification.institutions.educational.create');
+        return view('identification.institutions.educational.create',[
+            'institution'=>new Institution
+        ]);
     }
 
     /**
@@ -54,7 +56,10 @@ class InstitutionsController extends Controller
      */
     public function show(Institution $institution)
     {
-        //
+
+        return view('identification.institutions.educational.show',[
+            'institution'=>$institution
+        ]);
     }
 
     /**
@@ -65,7 +70,9 @@ class InstitutionsController extends Controller
      */
     public function edit(Institution $institution)
     {
-        //
+        return view('identification.institutions.educational.edit',[
+            'institution'=>$institution
+        ]);
     }
 
     /**
@@ -75,9 +82,13 @@ class InstitutionsController extends Controller
      * @param  \App\Institution  $institution
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Institution $institution)
+    public function update(CreateMesageRequest $request, Institution $institution)
     {
         //
+        $institution->update( $request->validated() );
+        return redirect()
+            ->route('institution.show',$institution)
+            ->with('status','El Proyecto Fue actualizado con exito');
     }
 
     /**
@@ -88,6 +99,7 @@ class InstitutionsController extends Controller
      */
     public function destroy(Institution $institution)
     {
-        //
+        $institution->delete();
+        return redirect()->route('institution.index');
     }
 }

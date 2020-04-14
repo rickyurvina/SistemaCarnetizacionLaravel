@@ -8,14 +8,14 @@
                     <li><a href="#"> Inicio</a></li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-institution"></i> Registrar Institución <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-institution"></i>Registro Instituciones <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('institution.create')}}">Registrar Institución Educativa</a></li>
-                    <li><a href="{{route('institution.index')}}">Ver Instituciones Educativa</a></li>
-                    <li><a href="#">Registrar Organización</a></li>
-                    <li><a href="#">Ver Organizaciones</a></li>
-                    <li><a href="#">Registrar Representante</a></li>
-                    <li><a href="#">Ver Representante</a></li>
+                    <li><a href="{{route('institution.index')}}">Instituciones Educativas</a></li>
+{{--                    <li><a href="{{route('institution.index')}}">Ver Instituciones Educativa</a></li>--}}
+                    <li><a href="#">Organizaciones</a></li>
+{{--                    <li><a href="#">Ver Organizaciones</a></li>--}}
+                    <li><a href="#">Representantes</a></li>
+{{--                    <li><a href="#">Ver Representante</a></li>--}}
                 </ul>
             </li>
             <li><a><i class="fa fa-sheqel"></i> Instituciones Educativas <span class="fa fa-chevron-down"></span></a>

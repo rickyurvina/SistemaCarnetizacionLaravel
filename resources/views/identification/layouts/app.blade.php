@@ -42,6 +42,5 @@
     </div>
 {{--    @include('identification.links-scripts.scripts.appscripts')--}}
 </body>
-
 @include('identification.links-scripts.scripts.appscripts')
 </html>
