@@ -28,7 +28,8 @@ class CreateMesageRequest extends FormRequest
                 'INS_NOMBRE'=>'required',
                 'INS_DIRECCION'=>'required',
                 'INS_TELEFONO'=>'required|min:7',
-                'INS_CELULAR'=>'required|min:10'
+                'INS_CELULAR'=>'required|min:10',
+                 'INS_TIPO'=>'required'
             ];
 
     }

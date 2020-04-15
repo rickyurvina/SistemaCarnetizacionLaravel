@@ -15,7 +15,7 @@ class InstitutionsController extends Controller
      */
     public function index()
     {
-        $institutions=Institution::paginate(10);
+        $institutions=Institution::latest('created_at')->paginate(10);
         return view('identification.institutions.educational.index_educational',[
             'institutions'=>Institution::paginate()
         ]);
@@ -45,7 +45,7 @@ class InstitutionsController extends Controller
         Institution::create($request->validated());
         return redirect()
             ->route('institution.index')
-            ->with('info','Institucion registrada exitosamente');
+            ->with('info','Institución registrada exitosamente');
     }
 
     /**
@@ -56,6 +56,8 @@ class InstitutionsController extends Controller
      */
     public function show(Institution $institution)
     {
+//        $institution=Institution::findOrFail($institution);
+//        return view('identification.institutions.educational.show',compact('institutions'));
 
         return view('identification.institutions.educational.show',[
             'institution'=>$institution
@@ -88,7 +90,7 @@ class InstitutionsController extends Controller
         $institution->update( $request->validated() );
         return redirect()
             ->route('institution.show',$institution)
-            ->with('status','El Proyecto Fue actualizado con exito');
+            ->with('info','Institución actualizada exitosamente');
     }
 
     /**
