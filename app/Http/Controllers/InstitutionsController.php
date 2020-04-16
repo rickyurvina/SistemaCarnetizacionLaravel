@@ -13,12 +13,21 @@ class InstitutionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $institutions=Institution::latest('created_at')->paginate(10);
-        return view('identification.institutions.educational.index_educational',[
-            'institutions'=>Institution::paginate()
-        ]);
+        $INS_NOMBRE=$request->get('INS_NOMBRE');
+        $institutions=Institution::latest('created_at')
+            ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
+            ->paginate(4);
+
+        return view('identification.institutions.educational.index_educational',compact('institutions'));
+
+
+//        $institutions=Institution::latest('created_at')
+//        ->name($name);
+//        return view('identification.institutions.educational.index_educational',[
+//            'institutions'=>Institution::paginate(5)
+//        ]);
         //return view('identification.institutions.educational.index_educational');
     }
 
@@ -42,6 +51,7 @@ class InstitutionsController extends Controller
      */
     public function store(CreateMesageRequest $request)
     {
+//        dd($request);
         Institution::create($request->validated());
         return redirect()
             ->route('institution.index')

@@ -3,10 +3,23 @@
 @section('content')
     <!-- page content -->
     @include('identification.institutions.educational.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organisaciones'])
+
         <div class="row">
             <div class="col-sm-12">
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                        {{Form::open(['route'=>'institution.index','method'=>'GET'])}}
+                        <div class="input-group">
+                            {{Form::text('INS_NOMBRE', null,['class'=>'form-control','placeholder'=>'Nombre de la Institución'])}}
+{{--                            <input type="text" name="INS_NOMBRE" class="form-control" placeholder="Buscar por Nombre...">--}}
+                            <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default" >Buscar</button>
+                    </span>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of institutions')}}</p>
+                    <p>{{__('List of institutions')}} {{$institutions->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
@@ -54,6 +67,7 @@
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
+                                    {{Form::close()}}
                                 </a>
                                     <a href="#"
                                        class="btn btn-danger btn-xs"
@@ -79,6 +93,7 @@
                 </div>
             </div>
         </div>
+
         <!-- end project list -->
     </div>
 </div>

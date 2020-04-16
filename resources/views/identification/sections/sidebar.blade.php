@@ -40,7 +40,7 @@
                     {{__('Institutions Educatives')}}
                     <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#">{{__('Courses')}}</a></li>
+                    <li><a href="#">{{__('Course')}}</a></li>
                     <li><a href="#">{{__('Students')}}</a></li>
                 </ul>
             </li>

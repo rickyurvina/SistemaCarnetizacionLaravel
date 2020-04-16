@@ -1,12 +1,13 @@
 <?php
 use Illuminate\Support\Facades\Route;
-App::setlocale('es');
+//App::setlocale('es');
 //Auth::routes();
-route::view('/','identification.layouts.app')->name('home');
+route::view('/','home')->name('home');
 /*
  * all rest routes for institutions-educational
  */
 route::resource('/institution','InstitutionsController')->names('institution');
+route::resource('/course','CoursesController')->names('course');
 //
 //route::get('/institution','InstitutionsController@index')->name('institution.index');
 //route::get('/institution/create','InstitutionsController@create')->name('institution.create');
