@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\CourseMessageRequest;
 use App\Course;
 use Illuminate\Http\Request;
+use Monolog\Handler\IFTTTHandler;
 
 class CoursesController extends Controller
 {
@@ -12,9 +13,14 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $CUR_NOMBRE=$request->get('CUR_NOMBRE');
+        $courses=Course::latest('created_at')
+            ->where('CUR_NOMBRE','LIKE',"%$CUR_NOMBRE%")
+            ->paginate(5);
+        return view('identification.courses.index', compact('courses'));
     }
 
     /**
@@ -24,7 +30,9 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        //
+        return view('identification.courses.create',[
+            'course'=>new Course
+        ]);
     }
 
     /**
@@ -33,33 +41,40 @@ class CoursesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CourseMessageRequest $request)
     {
-        //
+        Course::create($request->validated());
+        return redirect()
+            ->route('course.index')
+            ->with('info','Curso registrada exitosamente');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Course  $courses
+     * @param Course $course
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $courses)
+    public function show(Course $course)
     {
         //
+        return view('identification.courses.show',[
+            'course'=>$course
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Course  $courses
+     * @param Course $course
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $courses)
+    public function edit(Course $course)
     {
-        //
+        return view('identification.courses.edit',[
+            'course'=>$course
+        ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -67,9 +82,12 @@ class CoursesController extends Controller
      * @param  \App\Course  $courses
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $courses)
+    public function update(CourseMessageRequest $request, Course $course)
     {
-        //
+        $course->update( $request->validated() );
+        return redirect()
+            ->route('course.show',$course)
+            ->with('info','Curso actualizada exitosamente');
     }
 
     /**
@@ -78,8 +96,11 @@ class CoursesController extends Controller
      * @param  \App\Course  $courses
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $courses)
+    public function destroy($id)
     {
         //
+        Course::findOrFail($id)->delete();
+        return redirect()->route('course.index')->with('info','Curso eliminada exitosamente');
+
     }
 }

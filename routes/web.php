@@ -4,10 +4,14 @@ use Illuminate\Support\Facades\Route;
 //Auth::routes();
 route::view('/','home')->name('home');
 /*
- * all rest routes for institutions-educational
+ * all rest routes for institutions-institutions
  */
 route::resource('/institution','InstitutionsController')->names('institution');
 route::resource('/course','CoursesController')->names('course');
+
+route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
+route::get('/organisation','InstitutionsController@showO')->name('institutionsO');
+
 //
 //route::get('/institution','InstitutionsController@index')->name('institution.index');
 //route::get('/institution/create','InstitutionsController@create')->name('institution.create');

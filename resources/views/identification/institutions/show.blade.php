@@ -1,6 +1,6 @@
 @extends('identification.layouts.app')
 @section('content')
-@include('identification.institutions.educational.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Institución'])
+@include('identification.layouts.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Institución'])
                <div>
                 <br/>
                 <p>{{__('Name')}}: {{$institution->INS_NOMBRE}}</p>
@@ -10,6 +10,7 @@
                    <p>{{__('Type')}}: {{$institution->INS_TIPO}}</p>
                 <p>{{__('Created_at')}} {{$institution->created_at->format('d/m/Y')}}</p>
                 <p>{{__('Updated_at')}}{{$institution->updated_at->format('d/m/Y')}}</p>
+                   <div class="btn-group btn-group-xs">
                 <a href="{{route('institution.edit',$institution)}}"
                    class="btn btn-info btn-xs">
                     <i class="fa fa-pencil"></i>
@@ -28,6 +29,7 @@
                        action="{{route('institution.destroy',$institution)}}">
                        @csrf @method('DELETE')
                    </form>
+                   </div>
                </div>
         </div>
     </div>

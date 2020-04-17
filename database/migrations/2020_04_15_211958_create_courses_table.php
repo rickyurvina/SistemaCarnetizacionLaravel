@@ -14,13 +14,14 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
+//            $table->engine = 'InnoDB';
             $table->id();
             $table->string('CUR_NOMBRE');
             $table->string('CUR_PARALELO');
-            $table->foreignId('institution_id')->constrained()->onDelete('cascade');
+            $table->foreignId('institution_id')->constrained();
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

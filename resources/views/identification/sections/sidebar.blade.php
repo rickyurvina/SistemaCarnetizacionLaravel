@@ -40,7 +40,8 @@
                     {{__('Institutions Educatives')}}
                     <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#">{{__('Course')}}</a></li>
+                    <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>
+                    <li><a href="{{route('course.index')}}">{{__('Course')}}</a></li>
                     <li><a href="#">{{__('Students')}}</a></li>
                 </ul>
             </li>
@@ -52,6 +53,7 @@
                 </a>
                 <ul class="nav child_menu">
                     <li>
+                        <a href="{{route('institutionsO')}}">Ver {{__('Organisations')}}</a>
                         <a href="#">{{__('Users')}}</a>
                     </li>
                 </ul>

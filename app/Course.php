@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     //
-    protected $guarded=[];
+    protected $fillable=['CUR_NOMBRE','CUR_PARALELO','institution_id'];
 }

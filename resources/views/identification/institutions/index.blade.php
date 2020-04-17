@@ -2,7 +2,7 @@
 @section('title','Institucion Educativa')
 @section('content')
     <!-- page content -->
-    @include('identification.institutions.educational.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organisaciones'])
+    @include('identification.layouts.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organisaciones'])
 
         <div class="row">
             <div class="col-sm-12">
@@ -25,7 +25,7 @@
                            class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th style="width: 1%">#</th>
+{{--                            <th style="width: 1%">#</th>--}}
                             <th style="width: 20%">{{__('Name')}}</th>
                             <th>{{__('Direction')}}</th>
                             <th>{{__('Phone')}}</th>
@@ -37,7 +37,7 @@
                         <tbody>
                         @forelse($institutions as $institution)
                             <tr>
-                                <td>{{$institution->id}}</td>
+{{--                                <td>{{$institution->id}}</td>--}}
                                 <td>
                                     <a>{{$institution->INS_NOMBRE}}</a>
                                     <br />
@@ -58,6 +58,7 @@
                                     <a> {{$institution->INS_TIPO}}</a>
                                 </td>
                                 <td>
+                                    <div class="btn-group btn-group-sm">
                                 <a href="{{route('institution.show',$institution)}}"
                                    class="btn btn-primary btn-xs">
                                     <i class="fa fa-folder"></i>
@@ -69,20 +70,15 @@
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
-                                    <a href="#"
-                                       class="btn btn-danger btn-xs"
-                                       onclick="document.
-                                    getElementById('delete-institution').
-                                       submit()"
-                                    ><i class="fa fa-trash-o"></i>{{__('Delete')}}</a>
-                                    <form
-                                        class="d-none"
-                                        id="delete-institution"
-                                        method="POST"
-                                        action="{{route('institution.destroy',$institution)}}">
+                                    <form action="{{route('institution.destroy',$institution->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
+                                        <button type="sumbit" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash-o"></i>
+                                            {{__('Delete')}}
+                                        </button>
                                     </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -90,10 +86,9 @@
                         @endforelse
                         </tbody>
                     </table>
-                </div>
+            </div>
             </div>
         </div>
-
         <!-- end project list -->
     </div>
 </div>

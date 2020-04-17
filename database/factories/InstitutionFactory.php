@@ -8,10 +8,10 @@ use Faker\Generator as Faker;
 $factory->define(Institution::class, function (Faker $faker) {
     return [
         //
-        'INS_NOMBRE'=>$faker->name,
-        'INS_DIRECCION'=>$faker->city,
-        'INS_TELEFONO'=>$faker->randomNumber(),
-        'INS_CELULAR'=>$faker->randomNumber(),
-        'INS_TIPO'=>$faker->text(150),
+        'INS_NOMBRE'=>$faker->company,
+        'INS_DIRECCION'=>$faker->city(),
+        'INS_TELEFONO'=>$faker->numberBetween(1000000,2000000),
+        'INS_CELULAR'=>$faker->numberBetween(100000000,200000000),
+        'INS_TIPO'=>$faker->randomElement(['Institución Educativa','Organisación']),
     ];
 });
