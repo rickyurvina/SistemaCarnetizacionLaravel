@@ -38,22 +38,33 @@
             {{$errors->first('CUR_PARALELO')}}
         </div>
     </div>
+{{--    <div class="item form-group">--}}
+{{--        <label class="col-form-label col-md-3 col-sm-3 label-align">--}}
+{{--            {{__('Institution_id')}}--}}
+{{--            <span class="required">*</span>--}}
+{{--        </label>--}}
+{{--        <div class="col-md-6 col-sm-6 ">--}}
+{{--            <input--}}
+{{--                name="institution_id"--}}
+{{--                class="form-control"--}}
+{{--                type="number"--}}
+{{--                required="required"--}}
+{{--                value="{{old('institution_id',$course->institution_id )}}">--}}
+{{--            <span class="fa fa-phone form-control-feedback right"--}}
+{{--                  aria-hidden="true"></span>--}}
+{{--            {{$errors->first('institution_id')}}--}}
+{{--        </div>--}}
+{{--    </div>--}}
     <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Institution_id')}}
-            <span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                name="institution_id"
-                class="form-control"
-                type="number"
-                required="required"
-                value="{{old('institution_id',$course->institution_id )}}">
-            <span class="fa fa-phone form-control-feedback right"
-                  aria-hidden="true"></span>
-            {{$errors->first('institution_id')}}
-        </div>
+            <div class="custom-select-sm align-items-center">
+                <select name="institution_id" id="">
+                        @foreach($institution as $id =>$name )
+                        <option value="{{$id}}">
+                            {{$name}}
+                        </option>
+                            @endforeach
+                </select>
+            </div>
     </div>
     <div class="ln_solid"></div>
     <div class="item form-group">

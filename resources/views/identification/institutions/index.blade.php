@@ -3,7 +3,6 @@
 @section('content')
     <!-- page content -->
     @include('identification.layouts.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organisaciones'])
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">

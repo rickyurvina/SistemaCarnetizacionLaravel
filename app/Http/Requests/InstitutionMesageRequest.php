@@ -23,7 +23,6 @@ class InstitutionMesageRequest extends FormRequest
      */
     public function rules()
     {
-
           return[
                 'INS_NOMBRE'=>'required',
                 'INS_DIRECCION'=>'required',
@@ -31,6 +30,5 @@ class InstitutionMesageRequest extends FormRequest
                 'INS_CELULAR'=>'required|min:10',
                  'INS_TIPO'=>'required'
             ];
-
     }
 }

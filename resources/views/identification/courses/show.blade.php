@@ -5,7 +5,7 @@
                 <br/>
                 <p>{{__('Name')}}: {{$course->CUR_NOMBRE}}</p>
                 <p>{{__('Paralelo')}}: {{$course->CUR_PARALELO}}</p>
-                <p>{{__('Institution_id')}}: {{$course->institution_id}}</p>
+                <p>{{__('Institution')}}:  {{$course->institution->INS_NOMBRE}}</p>
                 <p>{{__('Created_at')}} {{$course->created_at->format('d/m/Y')}}</p>
                 <p>{{__('Updated_at')}}{{$course->updated_at->format('d/m/Y')}}</p>
                    <div class="btn-group btn-group-xs">

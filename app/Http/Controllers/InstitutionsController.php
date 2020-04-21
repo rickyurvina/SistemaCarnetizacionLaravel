@@ -36,12 +36,6 @@ class InstitutionsController extends Controller
         ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
         ->paginate(5);
         return view('identification.institutions.index',compact('institutions'));
-//        $institutions=Institution::latest('created_at')
-//        ->name($name);
-//        return view('identification.institutions.institutions.index_educational',[
-//            'institutions'=>Institution::paginate(5)
-//        ]);
-        //return view('identification.institutions.institutions.index_educational');
     }
 
     /**

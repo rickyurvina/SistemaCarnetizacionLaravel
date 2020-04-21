@@ -12,7 +12,7 @@ route::resource('/course','CoursesController')->names('course');
 route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
 route::get('/organisation','InstitutionsController@showO')->name('institutionsO');
 
-//
+
 //route::get('/institution','InstitutionsController@index')->name('institution.index');
 //route::get('/institution/create','InstitutionsController@create')->name('institution.create');
 //route::post('/institution','InstitutionsController@store')->name('institution.store');

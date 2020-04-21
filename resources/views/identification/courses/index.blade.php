@@ -10,7 +10,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'course.index','method'=>'GET'])}}
                         <div class="input-group">
-                            {{Form::text('CUR_NOMBRE', null,['class'=>'form-control','placeholder'=>'Nombre del curso'])}}
+                            {{Form::text('institution_id', null,['class'=>'form-control','placeholder'=>'Nombre de la institución'])}}
                           <span class="input-group-btn">
                       <button type="submit" class="btn btn-default" >Buscar</button>
                     </span>
@@ -27,7 +27,7 @@
 {{--                            <th style="width: 1%">#</th>--}}
                             <th style="width: 20%">{{__('Name')}}</th>
                             <th>{{__('Paralelo')}}</th>
-                            <th>{{__('institution_id')}}</th>
+                            <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
@@ -45,7 +45,9 @@
                                     <a> {{$course->CUR_PARALELO}}</a>
                                 </td>
                                 <td class="project_progress">
-                                    <a> {{$course->institution_id}}</a>
+                                    <a href="{{route('institution.show',$course->institution->id)}}">
+                                     {{$course->institution->INS_NOMBRE}}
+                                    </a>
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">

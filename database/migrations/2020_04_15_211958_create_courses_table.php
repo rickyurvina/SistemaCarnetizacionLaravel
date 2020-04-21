@@ -14,7 +14,6 @@ class CreateCoursesTable extends Migration
     public function up()
     {
         Schema::create('courses', function (Blueprint $table) {
-//            $table->engine = 'InnoDB';
             $table->id();
             $table->string('CUR_NOMBRE');
             $table->string('CUR_PARALELO');
@@ -23,7 +22,6 @@ class CreateCoursesTable extends Migration
         });
         Schema::enableForeignKeyConstraints();
     }
-
     /**
      * Reverse the migrations.
      *
