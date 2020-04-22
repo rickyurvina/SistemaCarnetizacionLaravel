@@ -18,7 +18,7 @@
                 value="{{old('INS_NOMBRE', $institution->INS_NOMBRE) }}">
             <span class="fa fa-user form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('INS_NOMBRE')}}
+            {!! $errors->first('INS_NOMBRE','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
@@ -35,7 +35,7 @@
                 value="{{old('INS_DIRECCION',$institution->INS_DIRECCION)}}">
             <span class="fa fa-user form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('INS_DIRECCION')}}
+            {!! $errors->first('INS_DIRECCION','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
@@ -52,7 +52,7 @@
                 value="{{old('INS_TELEFONO',$institution->INS_TELEFONO )}}">
             <span class="fa fa-phone form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('INS_TELEFONO')}}
+            {!! $errors->first('INS_TELEFONO','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
@@ -69,7 +69,7 @@
                    value="{{old('INS_CELULAR', $institution->INS_CELULAR)}}">
             <span class="fa fa-phone form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('INS_CELULAR')}}
+            {!! $errors->first('INS_CELULAR','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
@@ -96,7 +96,7 @@
                         </p>
             <span class="fa fa-check form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('INS_TIPO')}}
+            {!! $errors->first('INS_TIPO','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="ln_solid"></div>

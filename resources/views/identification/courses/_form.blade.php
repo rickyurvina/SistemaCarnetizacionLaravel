@@ -18,7 +18,7 @@
                 value="{{old('CUR_NOMBRE', $course->CUR_NOMBRE) }}">
             <span class="fa fa-user form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('CUR_NOMBRE')}}
+            {!! $errors->first('CUR_NOMBRE','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
@@ -35,36 +35,30 @@
                 value="{{old('CUR_PARALELO',$course->CUR_PARALELO)}}">
             <span class="fa fa-user form-control-feedback right"
                   aria-hidden="true"></span>
-            {{$errors->first('CUR_PARALELO')}}
+            {!! $errors->first('CUR_PARALELO','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
-{{--    <div class="item form-group">--}}
-{{--        <label class="col-form-label col-md-3 col-sm-3 label-align">--}}
-{{--            {{__('Institution_id')}}--}}
-{{--            <span class="required">*</span>--}}
-{{--        </label>--}}
-{{--        <div class="col-md-6 col-sm-6 ">--}}
-{{--            <input--}}
-{{--                name="institution_id"--}}
-{{--                class="form-control"--}}
-{{--                type="number"--}}
-{{--                required="required"--}}
-{{--                value="{{old('institution_id',$course->institution_id )}}">--}}
-{{--            <span class="fa fa-phone form-control-feedback right"--}}
-{{--                  aria-hidden="true"></span>--}}
-{{--            {{$errors->first('institution_id')}}--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="item form-group">
-            <div class="custom-select-sm align-items-center">
-                <select name="institution_id" id="">
-                        @foreach($institution as $id =>$name )
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Institution')}}
+            <span class="required">*</span>
+        </label>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
+                <option selected></option>
+            @foreach($institution as $id =>$name )
+                    @if(old('institution', $course->institution_id)==$id)
+                    <option value="{{$id}}" selected>
+                        {{$name}}
+                    </option>
+                        @else
                         <option value="{{$id}}">
                             {{$name}}
                         </option>
-                            @endforeach
-                </select>
-            </div>
+                    @endif
+                @endforeach
+            </select>
+        {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
+
     </div>
     <div class="ln_solid"></div>
     <div class="item form-group">
@@ -76,4 +70,5 @@
             </button>
         </div>
     </div>
+
 </form>

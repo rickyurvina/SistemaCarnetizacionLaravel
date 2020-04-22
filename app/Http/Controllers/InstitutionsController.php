@@ -15,15 +15,18 @@ class InstitutionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showIE(Request $request){
-        $INS_TIPO='Educativa';
-        $institutions=Institution::latest('created_at')
-            ->where('INS_TIPO','LIKE',"% $INS_TIPO%")
-            ->paginate(5);
-        return view('identification.institutions.index',compact('institutions'));
+
+            $name='Educativa';
+            $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+                ->where('INS_TIPO','LIKE',"% $name%")
+                ->paginate(5);
+            return view('identification.institutions.index',compact('institutions'));
+
+
     }
     public function showO(Request $request){
         $INS_TIPO='Organisación';
-        $institutions=Institution::latest('created_at')
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
             ->where('INS_TIPO','LIKE',"%$INS_TIPO%")
             ->paginate(5);
         return view('identification.institutions.index',compact('institutions'));
@@ -32,7 +35,7 @@ class InstitutionsController extends Controller
     public function index(Request $request)
     {
         $INS_NOMBRE=$request->get('INS_NOMBRE');
-        $institutions=Institution::latest('created_at')
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
         ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
         ->paginate(5);
         return view('identification.institutions.index',compact('institutions'));

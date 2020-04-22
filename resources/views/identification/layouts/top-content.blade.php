@@ -15,9 +15,6 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>{{$textTitle}}</h2>
-                @if(session()->has('info'))
-                    <h1>{{session('info')}}</h1>
-                @endif
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link">
@@ -32,4 +29,5 @@
                 </ul>
                 <div class="clearfix"></div>
             </div>
+            @include('partials.session-status')
             <div class="x_content">

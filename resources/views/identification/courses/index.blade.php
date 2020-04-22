@@ -3,22 +3,37 @@
 @section('content')
     <!-- page content -->
     @include('identification.layouts.top-content',['routeText'=>'course.create','btnText'=>'Crear','textTitle'=>'Cursos'])
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'course.index','method'=>'GET'])}}
+{{--                        {{Form::text('institution_id', null,['class'=>'form-control','placeholder'=>'Nombre de la Institución'])}}--}}
                         <div class="input-group">
-                            {{Form::text('institution_id', null,['class'=>'form-control','placeholder'=>'Nombre de la institución'])}}
-                          <span class="input-group-btn">
-                      <button type="submit" class="btn btn-default" >Buscar</button>
-                    </span>
+                                <select class="custom-select custom-select-sm" name="institution_id" id="institution_id">
+                                    <option selected>Lista de Institutciones</option>
+                                    @foreach($institutions as $id =>$name )
+                                            <option value="{{$id}}">
+                                                {{$name}}
+                                            </option>
+                                    @endforeach
+                                </select>
+                            <span class="input-group-btn">
+                      <button type="submit" class="btn btn-xs" > Buscar</button>
+
                         </div>
+
+                    </span>
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of courses')}} {{$courses->fragment('foo')->links()}}</p>
+                    <p>{{__('List of courses')}}
+                        <a href="{{route('course.index')}}"
+                               class="btn btn-link btn-xs">
+                            <i class="fa fa-search"></i>
+                            Buscar Todos
+                        </a> {{$courses->fragment('foo')->links()}}</p>
+
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
