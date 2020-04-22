@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateMesageRequest extends FormRequest
+class InstitutionMesageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,13 +23,12 @@ class CreateMesageRequest extends FormRequest
      */
     public function rules()
     {
-
           return[
                 'INS_NOMBRE'=>'required',
                 'INS_DIRECCION'=>'required',
                 'INS_TELEFONO'=>'required|min:7',
-                'INS_CELULAR'=>'required|min:10'
+                'INS_CELULAR'=>'required|min:10',
+                 'INS_TIPO'=>'required'
             ];
-
     }
 }

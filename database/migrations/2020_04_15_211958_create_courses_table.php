@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInstitutionsTable extends Migration
+class CreateCoursesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,15 @@ class CreateInstitutionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('institutions', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
-//            $table->string('INS_NOMBRE')->unique();
-            $table->string('INS_NOMBRE');
-            $table->text('INS_DIRECCION');
-            $table->string('INS_TELEFONO');
-            $table->string('INS_CELULAR');
+            $table->string('CUR_NOMBRE');
+            $table->string('CUR_PARALELO');
+            $table->foreignId('institution_id')->constrained();
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
-
     /**
      * Reverse the migrations.
      *
@@ -31,6 +29,6 @@ class CreateInstitutionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('institutions');
+        Schema::dropIfExists('courses');
     }
 }

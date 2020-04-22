@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-class InstitutionSeeder extends Seeder
+use Illuminate\Support\Carbon;
+
+
+class CoursesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +13,6 @@ class InstitutionSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Institution::class, 500)->create();
+        factory(App\Course::class, 500)->create();
     }
 }

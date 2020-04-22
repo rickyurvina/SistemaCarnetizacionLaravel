@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateMesageRequest;
+use App\Http\Requests\InstitutionMesageRequest;
 use App\Institution;
 use Illuminate\Http\Request;
+use Monolog\Handler\IFTTTHandler;
 
 class InstitutionsController extends Controller
 {
@@ -13,13 +14,31 @@ class InstitutionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showIE(Request $request){
+
+            $name='Educativa';
+            $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+                ->where('INS_TIPO','LIKE',"% $name%")
+                ->paginate(5);
+            return view('identification.institutions.index',compact('institutions'));
+
+
+    }
+    public function showO(Request $request){
+        $INS_TIPO='Organisación';
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+            ->where('INS_TIPO','LIKE',"%$INS_TIPO%")
+            ->paginate(5);
+        return view('identification.institutions.index',compact('institutions'));
+    }
+
+    public function index(Request $request)
     {
-        $institutions=Institution::paginate(10);
-        return view('identification.institutions.educational.index_educational',[
-            'institutions'=>Institution::paginate()
-        ]);
-        //return view('identification.institutions.educational.index_educational');
+        $INS_NOMBRE=$request->get('INS_NOMBRE');
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+        ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
+        ->paginate(5);
+        return view('identification.institutions.index',compact('institutions'));
     }
 
     /**
@@ -29,25 +48,23 @@ class InstitutionsController extends Controller
      */
     public function create()
     {
-        return view('identification.institutions.educational.create',[
+        return view('identification.institutions.create',[
             'institution'=>new Institution
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateMesageRequest $request)
+    public function store(InstitutionMesageRequest $request)
     {
         Institution::create($request->validated());
         return redirect()
             ->route('institution.index')
-            ->with('info','Institucion registrada exitosamente');
+            ->with('info','Institución registrada exitosamente');
     }
-
     /**
      * Display the specified resource.
      *
@@ -56,12 +73,12 @@ class InstitutionsController extends Controller
      */
     public function show(Institution $institution)
     {
-
-        return view('identification.institutions.educational.show',[
+//        $institution=Institution::findOrFail($institution);
+//        return view('identification.institutions.institutions.show',compact('institutions'));
+        return view('identification.institutions.show',[
             'institution'=>$institution
         ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,11 +87,10 @@ class InstitutionsController extends Controller
      */
     public function edit(Institution $institution)
     {
-        return view('identification.institutions.educational.edit',[
+        return view('identification.institutions.edit',[
             'institution'=>$institution
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -82,24 +98,22 @@ class InstitutionsController extends Controller
      * @param  \App\Institution  $institution
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateMesageRequest $request, Institution $institution)
+    public function update(InstitutionMesageRequest $request, Institution $institution)
     {
-        //
         $institution->update( $request->validated() );
         return redirect()
             ->route('institution.show',$institution)
-            ->with('status','El Proyecto Fue actualizado con exito');
+            ->with('info','Institución actualizada exitosamente');
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Institution  $institution
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Institution $institution)
+    public function destroy($id)
     {
-        $institution->delete();
-        return redirect()->route('institution.index');
+        Institution::findOrFail($id)->delete();
+        return redirect()->route('institution.index')->with('info','Institución eliminada exitosamente');
     }
 }

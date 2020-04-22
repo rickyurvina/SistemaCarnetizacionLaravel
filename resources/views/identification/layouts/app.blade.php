@@ -22,7 +22,6 @@
                     @include('identification.sections.menuprofille')
                     <br />
                     @include('identification.sections.sidebar')
-                    {{--                @include('identification.sections.footeroptions')--}}
                 </div>
             </div>
         @include('identification.sections.topnavigation')

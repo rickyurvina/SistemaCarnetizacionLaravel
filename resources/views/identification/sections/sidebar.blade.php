@@ -1,52 +1,84 @@
 <!-- sidebar menu -->
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
     <div class="menu_section">
-        <h3>General</h3>
+        <h3>{{__('General')}}</h3>
         <ul class="nav side-menu">
-            <li><a><i class="fa fa-home"></i> Inicio <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-home"></i>
+                    {{__('Home')}}
+                    <span
+                        class="fa fa-chevron-down">
+                    </span>
+                </a>
                 <ul class="nav child_menu">
-                    <li><a href="#"> Inicio</a></li>
+                    <li>
+                        <a
+                            href="#">
+                            {{__('Home')}}
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-institution"></i>Registro Instituciones <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-institution"></i>
+                    {{__('Institutions Register')}}
+                    <span
+                        class="fa fa-chevron-down">
+                    </span>
+                </a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('institution.index')}}">Instituciones Educativas</a></li>
-{{--                    <li><a href="{{route('institution.index')}}">Ver Instituciones Educativa</a></li>--}}
-                    <li><a href="#">Organizaciones</a></li>
-{{--                    <li><a href="#">Ver Organizaciones</a></li>--}}
-                    <li><a href="#">Representantes</a></li>
-{{--                    <li><a href="#">Ver Representante</a></li>--}}
+                    <li><a
+                            href="{{route('institution.index')}}">
+                            {{__('Institutions')}}
+                        </a>
+                    </li>
+                    <li><a href="#">
+                            {{__('Representatives')}}
+                        </a>
+                    </li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-sheqel"></i> Instituciones Educativas <span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-sheqel"></i>
+                    {{__('Institutions Educatives')}}
+                    <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#">Registrar Cursos</a></li>
-                    <li><a href="#">Ver Cursos</a></li>
-                    <li><a href="#">Registrar Estudiantes</a></li>
-                    <li><a href="#">Ver Estudiantes</a></li>
+                    <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>
+                    <li><a href="{{route('course.index')}}">{{__('Course')}}</a></li>
+                    <li><a href="#">{{__('Students')}}</a></li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-bar-chart"></i>Organizaciones<span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-bar-chart"></i>
+                    {{__('Organisations')}}
+                    <span
+                        class="fa fa-chevron-down">
+                    </span>
+                </a>
                 <ul class="nav child_menu">
-                    <li><a href="#">Registrar Usuarios</a></li>
-                    <li><a href="#">Ver Usuarios</a></li>
+                    <li>
+                        <a href="{{route('institutionsO')}}">Ver {{__('Organisations')}}</a>
+                        <a href="#">{{__('Users')}}</a>
+                    </li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-users"></i>Registros Generales<span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-users"></i>
+                    {{__('General Records')}}
+                    <span
+                        class="fa fa-chevron-down">
+                    </span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#">Registrar Fondo</a></li>
-                    <li><a href="#">Ver Fondo</a></li>
-                    <li><a href="#">Registrar Logos</a></li>
-                    <li><a href="#">Ver Logos</a></li>
-                    <li><a href="#">Registrar Usuarios</a></li>
-                    <li><a href="#">Ver Uusarios</a></li>
+                    <li><a href="#">{{__('Background')}}</a></li>
+                    <li><a href="#">{{__('Logos')}}</a></li>
+                    <li><a href="#">{{__('System Users')}}</a></li>
                 </ul>
             </li>
-            <li><a><i class="fa fa-print"></i>Imprimir<span class="fa fa-chevron-down"></span></a>
+            <li><a><i class="fa fa-print"></i>
+                    {{__('Print')}}
+                    <span
+                        class="fa fa-chevron-down">
+                    </span>
+                </a>
                 <ul class="nav child_menu">
-                    <li><a href="#">Solicitadas</a></li>
-                    <li><a href="#">Aprobadas</a></li>
-                    <li><a href="#">Sin Solicitar</a></li>
+                    <li><a href="#">{{__('Requested')}}</a></li>
+                    <li><a href="#">{{__('Approved')}}</a></li>
+                    <li><a href="#">{{__('Without Requesting')}}</a></li>
                 </ul>
             </li>
         </ul>

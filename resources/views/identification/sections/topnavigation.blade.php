@@ -18,7 +18,6 @@
                 </li>
 
                 <li role="presentation" class="nav-item dropdown open">
-
                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                         <li class="nav-item">
                             <a class="dropdown-item">
