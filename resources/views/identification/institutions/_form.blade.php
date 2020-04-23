@@ -91,7 +91,7 @@
                             <input type="radio" class="radio-inline"
                                    name="INS_TIPO" id="INS_TIPO"
                                    value="{{__('Organisation')}}"
-                                {{ old('INS_TIPO', $institution->INS_TIPO) == 'Organisación' ? 'checked' : '' }}
+                                {{ old('INS_TIPO', $institution->INS_TIPO) == 'Organización' ? 'checked' : '' }}
                             />
                         </p>
             <span class="fa fa-check form-control-feedback right"

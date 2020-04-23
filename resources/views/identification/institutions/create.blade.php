@@ -1,6 +1,6 @@
 @extends('identification.layouts.app')
 @section('content')
-     @include('identification.layouts.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Crear Nueva Institución Educatviva'])
+     @include('identification.layouts.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Crear Nueva Institución'])
      <div>
         @include('identification.institutions._form',['btnText'=>'Guardar','btnRoute'=>'institution.store'])
      </div>

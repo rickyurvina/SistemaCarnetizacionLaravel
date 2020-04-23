@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InstitutionMesageRequest;
 use App\Institution;
+use App;
 use Illuminate\Http\Request;
 use Monolog\Handler\IFTTTHandler;
 
@@ -25,7 +26,7 @@ class InstitutionsController extends Controller
 
     }
     public function showO(Request $request){
-        $INS_TIPO='Organisación';
+        $INS_TIPO='Organización';
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')
             ->where('INS_TIPO','LIKE',"%$INS_TIPO%")
             ->paginate(5);

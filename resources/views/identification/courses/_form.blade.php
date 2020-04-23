@@ -23,7 +23,7 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Paralelo')}}
+            {{__('Parallel')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
@@ -43,7 +43,8 @@
             {{__('Institution')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                    name="institution_id" id="" required>
                 <option selected></option>
             @foreach($institution as $id =>$name )
                     @if(old('institution', $course->institution_id)==$id)
@@ -58,7 +59,6 @@
                 @endforeach
             </select>
         {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
-
     </div>
     <div class="ln_solid"></div>
     <div class="item form-group">
@@ -70,5 +70,4 @@
             </button>
         </div>
     </div>
-
 </form>

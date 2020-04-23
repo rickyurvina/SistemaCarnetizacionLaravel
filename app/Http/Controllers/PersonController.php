@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\CourseMessageRequest;
-use App\Course;
-use App\Institution;
-use Illuminate\Http\Request;
-use Monolog\Handler\IFTTTHandler;
 
-class CoursesController extends Controller
+use App\Http\Requests\PersonRequest;
+use App\Institution;
+use App\Person;
+use Illuminate\Http\Request;
+
+class PersonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,25 +16,26 @@ class CoursesController extends Controller
      */
     public function index(Request $request)
     {
-        //
         $institutions=Institution::pluck('INS_NOMBRE','id');
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
-            $courses=Course::orderBy('institution_id','DESC')
+            $people=Person::orderBy('institution_id','DESC')
                 ->where('institution_id',$institution_id)
                 ->paginate(10);
         }
         else{
-            $courses=Course::orderBy('institution_id','DESC')
+            $people=Person::orderBy('institution_id','DESC')
                 ->paginate(5);
         }
-        if (empty($courses))
+        if (empty($people))
         {
-            return view('identification.courses.index', compact('courses','institutions'));
+            return view('identification.people.index', compact('people','institutions'));
         }
-        return view('identification.courses.index', compact('courses','institutions'))->with('info','No se encontro esa institutcion');
+        return view('identification.people.index', compact('people','institutions'))->with('info','No se encontro esa persona');
+
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -42,80 +43,81 @@ class CoursesController extends Controller
      */
     public function create()
     {
+        //
         $institutions=Institution::pluck('INS_NOMBRE','id');
-        return view('identification.courses.create',[
-            'course'=>new Course,
+        return view('identification.people.create',[
+            'person'=>new Person,
             'institution'=>$institutions
         ]);
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CourseMessageRequest $request)
+    public function store(PersonRequest $request)
     {
-        Course::create($request->validated());
+        //
+        Person::create($request->validated());
         return redirect()
-            ->route('course.index')
-            ->with('info','Curso registrado exitosamente');
+            ->route('person.index')
+            ->with('info','Usuario registrado exitosamente');
     }
     /**
      * Display the specified resource.
      *
-     * @param Course $course
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show(Person $person)
     {
-        //
-        return view('identification.courses.show',[
-            'course'=>$course
+        return view('identification.people.show',[
+            'person'=>$person
         ]);
     }
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Course $course
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course)
+    public function edit(Person $person)
     {
-     //  $course=Course::findOrFail($course);
-       $institutions=Institution::pluck('INS_NOMBRE','id');
-        return view('identification.courses.edit',[
-            'course'=>$course,
+        $institutions=Institution::pluck('INS_NOMBRE','id');
+        return view('identification.people.edit',[
+            'person'=>$person,
             'institution'=>$institutions
         ]);
     }
+
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Course  $courses
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function update(CourseMessageRequest $request, Course $course)
+    public function update(PersonRequest $request, Person $person)
     {
-//     return $request;
-        $course->update( $request->validated() );
+        //
+        $person->update( $request->validated() );
         return redirect()
-            ->route('course.show',$course)
+            ->route('person.show',$person)
             ->with('info','Curso actualizado exitosamente');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Course  $courses
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
-        Course::findOrFail($id)->delete();
-        return redirect()->route('course.index')->with('info','Curso eliminado exitosamente');
+        Person::findOrFail($id)->delete();
+        return redirect()->route('person.index')->with('info','Usuario eliminado exitosamente');
 
     }
 }

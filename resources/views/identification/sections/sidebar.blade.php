@@ -54,7 +54,7 @@
                 <ul class="nav child_menu">
                     <li>
                         <a href="{{route('institutionsO')}}">Ver {{__('Organisations')}}</a>
-                        <a href="#">{{__('Users')}}</a>
+                        <a href="{{route('person.index')}}">{{__('Users')}}</a>
                     </li>
                 </ul>
             </li>

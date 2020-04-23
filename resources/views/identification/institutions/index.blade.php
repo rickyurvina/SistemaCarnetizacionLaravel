@@ -2,7 +2,7 @@
 @section('title','Institucion Educativa')
 @section('content')
     <!-- page content -->
-    @include('identification.layouts.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organisaciones'])
+    @include('identification.layouts.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organizaciones'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">
@@ -10,9 +10,8 @@
                         {{Form::open(['route'=>'institution.index','method'=>'GET'])}}
                         <div class="input-group">
                             {{Form::text('INS_NOMBRE', null,['class'=>'form-control','placeholder'=>'Nombre de la Institución'])}}
-{{--                            <input type="text" name="INS_NOMBRE" class="form-control" placeholder="Buscar por Nombre...">--}}
                             <span class="input-group-btn">
-                      <button type="submit" class="btn btn-default" >Buscar</button>
+                      <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                     </span>
                         </div>
                     </div>
@@ -24,8 +23,7 @@
                            class="table table-striped projects">
                         <thead>
                         <tr>
-{{--                            <th style="width: 1%">#</th>--}}
-                            <th style="width: 20%">{{__('Name')}}</th>
+                            <th>{{__('Name')}}</th>
                             <th>{{__('Direction')}}</th>
                             <th>{{__('Phone')}}</th>
                             <th>{{__('CellPhone')}}</th>
@@ -36,7 +34,6 @@
                         <tbody>
                         @forelse($institutions as $institution)
                             <tr>
-{{--                                <td>{{$institution->id}}</td>--}}
                                 <td>
                                     <a>{{$institution->INS_NOMBRE}}</a>
                                     <br />

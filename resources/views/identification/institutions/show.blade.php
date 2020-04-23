@@ -7,7 +7,7 @@
                 <p>{{__('Direction')}}: {{$institution->INS_DIRECCION}}</p>
                 <p>{{__('Phone')}}: {{$institution->INS_TELEFONO}}</p>
                 <p>{{__('CellPhone')}}: {{$institution->INS_CELULAR}}</p>
-                   <p>{{__('Type')}}: {{$institution->INS_TIPO}}</p>
+                <p>{{__('Type')}}: {{$institution->INS_TIPO}}</p>
                 <p>{{__('Created_at')}} {{$institution->created_at->format('d/m/Y')}}</p>
                 <p>{{__('Updated_at')}}{{$institution->updated_at->format('d/m/Y')}}</p>
                    <div class="btn-group btn-group-xs">
@@ -21,7 +21,7 @@
                       onclick="document.
                     getElementById('delete-institution').
                        submit()"
-                   ><i class="fa fa-trash-o"></i>{{_('Delete')}}</a>
+                   ><i class="fa fa-trash-o"></i>{{__('Delete')}}</a>
                    <form
                        class="d-none"
                        id="delete-institution"
