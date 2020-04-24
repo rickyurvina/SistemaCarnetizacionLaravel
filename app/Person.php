@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Person extends Model
 {
 
+    protected $dates=['PER_FECHANACIMIENTO'];
     protected $fillable=[
         'PER_CEDULA','PER_NOMBRES','PER_APELLIDOS',
         'PER_SEXO','PER_FECHANACIMIENTO','PER_TIPOSANGRE',

@@ -11,6 +11,8 @@
     "Phone": "Número",
     "Type": "Tipo",
     "Sex": "Sexo",
+    "Area": "Área",
+    "Date Of Birth": "Fecha de Nacimiento",
     "Male": "Masculino",
     "Female": "Femenino",
     "Age": "Edad",

@@ -36,9 +36,7 @@ class PersonController extends Controller
             return view('identification.people.index', compact('people','institutions'));
         }
         return view('identification.people.index', compact('people','institutions'))->with('info','No se encontro esa persona');
-
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -46,7 +44,6 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
         $areas=Area::pluck('ARE_NOMBRE','id');
         $institutions=Institution::pluck('INS_NOMBRE','id');
         return view('identification.people.create',[
@@ -55,7 +52,6 @@ class PersonController extends Controller
             'area'=>$areas,
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -64,9 +60,6 @@ class PersonController extends Controller
      */
     public function store(PersonRequest $request)
     {
-        //
-//        dd($request->PER_FECHANACIMIENTO);
-//        return $request;
         Person::create($request->validated());
         return redirect()
             ->route('person.index')
@@ -100,7 +93,6 @@ class PersonController extends Controller
             'area'=>$areas
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -110,18 +102,11 @@ class PersonController extends Controller
      */
     public function update(PersonRequest $request, Person $person)
     {
-        //
-//        $request->PER_FECHANACIMIENTO=Carbon::$request->PER_FECHANACIMIENTO;
-//       Carbon::parse($request->PER_FECHANACIMIENTO)->format('d/m/Y');
-//     dd($request->PER_FECHANACIMIENTO);
-//        $person->PER_FECHANACIMIENTO=$request->PER_FECHANACIMIENTO;
-//        dd($person);
         $person->update( $request->validated());
         return redirect()
             ->route('person.show',$person)
             ->with('info','Curso actualizado exitosamente');
     }
-
     /**
      * Remove the specified resource from storage.
      *

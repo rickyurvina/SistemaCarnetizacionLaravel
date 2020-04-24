@@ -23,7 +23,7 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Name')}}
+            {{__('Names')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
@@ -40,7 +40,7 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('LastName')}}
+            {{__('LastNames')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
@@ -57,21 +57,17 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Age')}}
+            {{__('Date Of Birth')}}
             <span class="required">*</span>
         </label>
         <div class='col-sm-4'>
             <div class="form-group">
-                <div class='input-group date'
-                     id='myDatepicker'>
-                    <input type='date'
-                           name="PER_FECHANACIMIENTO"
-{{--                           value="{{old(\Carbon\Carbon::parse('d-m-Y','PER_FECHANACIMIENTO'))}}"--}}
-                           idztrell="PER_FECHANACIMIENTO"
-                           class="form-control" />
+                <div class='form-group input-group date'
+                >
+                    {{ Form::date('PER_FECHANACIMIENTO', $person->PER_FECHANACIMIENTO, ['class'=>'form-control']) }}
                     <span class="input-group-addon">
-                               <span class="fa fa-calendar"></span>
-                            </span>
+                       <span class="fa fa-calendar-check-o"></span>
+                    </span>
                     {!! $errors->first('PER_FECHANACIMIENTO','<small class="alert-error">:message</small>')!!}
                 </div>
             </div>
@@ -266,35 +262,4 @@
     </div>
 
 </form>
-<script  type="text/javascript">
-    $(function () {
-        $('#myDatepicker').datetimepicker();
-    });
 
-    $('#myDatepicker2').datetimepicker({
-        format: 'YYYY.MM.DD'
-    });
-
-    $('#myDatepicker3').datetimepicker({
-        format: 'hh:mm A'
-    });
-
-    $('#myDatepicker4').datetimepicker({
-        ignoreReadonly: true,
-        allowInputToggle: true
-    });
-
-    $('#datetimepicker6').datetimepicker();
-
-    $('#datetimepicker7').datetimepicker({
-        useCurrent: false
-    });
-
-    $("#datetimepicker6").on("dp.change", function(e) {
-        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-    });
-
-    $("#datetimepicker7").on("dp.change", function(e) {
-        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-    });
-</script>
