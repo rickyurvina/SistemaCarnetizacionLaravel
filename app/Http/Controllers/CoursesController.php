@@ -23,7 +23,7 @@ class CoursesController extends Controller
         {
             $courses=Course::orderBy('institution_id','DESC')
                 ->where('institution_id',$institution_id)
-                ->paginate(10);
+                ->paginate(count(Institution::get()));
         }
         else{
             $courses=Course::orderBy('institution_id','DESC')

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use App\Http\Requests\PersonRequest;
 use App\Institution;
 use App\Person;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PersonController extends Controller
@@ -20,12 +22,13 @@ class PersonController extends Controller
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
-            $people=Person::orderBy('institution_id','DESC')
+            $people=Person::orderBy('created_at','DESC')
                 ->where('institution_id',$institution_id)
-                ->paginate(10);
+                ->paginate(count(Institution::get()));
         }
-        else{
-            $people=Person::orderBy('institution_id','DESC')
+        else
+        {
+            $people=Person::orderBy('created_at','DESC')
                 ->paginate(5);
         }
         if (empty($people))
@@ -44,10 +47,12 @@ class PersonController extends Controller
     public function create()
     {
         //
+        $areas=Area::pluck('ARE_NOMBRE','id');
         $institutions=Institution::pluck('INS_NOMBRE','id');
         return view('identification.people.create',[
             'person'=>new Person,
-            'institution'=>$institutions
+            'institution'=>$institutions,
+            'area'=>$areas,
         ]);
     }
 
@@ -60,6 +65,8 @@ class PersonController extends Controller
     public function store(PersonRequest $request)
     {
         //
+//        dd($request->PER_FECHANACIMIENTO);
+//        return $request;
         Person::create($request->validated());
         return redirect()
             ->route('person.index')
@@ -86,9 +93,11 @@ class PersonController extends Controller
     public function edit(Person $person)
     {
         $institutions=Institution::pluck('INS_NOMBRE','id');
+        $areas=Area::pluck('ARE_NOMBRE','id');
         return view('identification.people.edit',[
             'person'=>$person,
-            'institution'=>$institutions
+            'institution'=>$institutions,
+            'area'=>$areas
         ]);
     }
 
@@ -102,7 +111,12 @@ class PersonController extends Controller
     public function update(PersonRequest $request, Person $person)
     {
         //
-        $person->update( $request->validated() );
+//        $request->PER_FECHANACIMIENTO=Carbon::$request->PER_FECHANACIMIENTO;
+//       Carbon::parse($request->PER_FECHANACIMIENTO)->format('d/m/Y');
+//     dd($request->PER_FECHANACIMIENTO);
+//        $person->PER_FECHANACIMIENTO=$request->PER_FECHANACIMIENTO;
+//        dd($person);
+        $person->update( $request->validated());
         return redirect()
             ->route('person.show',$person)
             ->with('info','Curso actualizado exitosamente');
@@ -118,6 +132,5 @@ class PersonController extends Controller
     {
         Person::findOrFail($id)->delete();
         return redirect()->route('person.index')->with('info','Usuario eliminado exitosamente');
-
     }
 }

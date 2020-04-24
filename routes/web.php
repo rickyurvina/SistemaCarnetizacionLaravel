@@ -10,6 +10,7 @@ route::view('/','home')->name('home');
 route::resource('/institution','InstitutionsController')->names('institution');
 route::resource('/course','CoursesController')->names('course');
 route::resource('/person','PersonController')->names('person');
+route::resource('/area','AreaController')->names('area');
 
 route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
 route::get('/organisation','InstitutionsController@showO')->name('institutionsO');

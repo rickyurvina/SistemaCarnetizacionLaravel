@@ -18,5 +18,6 @@ $factory->define(Person::class, function (Faker $faker) {
         'PER_NUMERO'=>$faker->numberBetween(1000000,2000000),
         'PER_CELULAR'=>$faker->numberBetween(100000000,200000000),
         'institution_id'=>$faker->numberBetween(1,100),
+        'area_id'=>$faker->numberBetween(1,7),
     ];
 });

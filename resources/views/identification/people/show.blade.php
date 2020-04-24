@@ -14,6 +14,7 @@
                 <p>{{__('Phone')}}: {{$person->PER_NUMERO}}</p>
                 <p>{{__('CellPhone')}}: {{$person->PER_CELULAR}}</p>
                 <p>{{__('Institution')}}:  {{$person->institution->INS_NOMBRE}}</p>
+               <p>{{__('Area')}}:  {{$person->area->ARE_NOMBRE}}</p>
                 <p>{{__('Created_at')}} {{$person->created_at->format('d/m/Y')}}</p>
                 <p>{{__('Updated_at')}}{{$person->updated_at->format('d/m/Y')}}</p>
                    <div class="btn-group btn-group-xs">

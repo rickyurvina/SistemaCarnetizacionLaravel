@@ -35,6 +35,7 @@ class PersonRequest extends FormRequest
             'PER_NUMERO'=>'min:7',
             'PER_CELULAR'=>'min:10',
             'institution_id'=>'required',
+            'area_id'=>'required',
         ];
     }
 }

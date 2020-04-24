@@ -33,7 +33,7 @@
                 required="required"
                 class="form-control"
                 value="{{old('INS_DIRECCION',$institution->INS_DIRECCION)}}">
-            <span class="fa fa-user form-control-feedback right"
+            <span class="fa fa-location-arrow  form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('INS_DIRECCION','<small class="alert-error">:message</small>')!!}
         </div>
@@ -105,6 +105,8 @@
             <button
                 type="submit"
                 class="btn btn-success">
+                <i class="fa fa-upload">
+                </i>
                 {{$btnText}}
             </button>
         </div>

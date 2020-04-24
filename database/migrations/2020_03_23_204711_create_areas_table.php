@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddINSTIPOToInstitutionsTable extends Migration
+class CreateAreasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddINSTIPOToInstitutionsTable extends Migration
      */
     public function up()
     {
-        Schema::table('institutions', function (Blueprint $table) {
-            //
-            $table->string('INS_TIPO')->after('INS_CELULAR');
+        Schema::create('areas', function (Blueprint $table) {
+            $table->id();
+//            $table->string('ARE_NOMBRE')->unique();
+            $table->string('ARE_NOMBRE');
+            $table->string('ARE_DESCRIPCCION')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ class AddINSTIPOToInstitutionsTable extends Migration
      */
     public function down()
     {
-        Schema::table('institutions', function (Blueprint $table) {
-            $table->dropColumn('INS_TIPO');
-        });
+        Schema::dropIfExists('areas');
     }
 }

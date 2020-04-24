@@ -33,7 +33,7 @@
                 required="required"
                 class="form-control"
                 value="{{old('CUR_PARALELO',$course->CUR_PARALELO)}}">
-            <span class="fa fa-user form-control-feedback right"
+            <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('CUR_PARALELO','<small class="alert-error">:message</small>')!!}
         </div>
@@ -43,7 +43,7 @@
             {{__('Institution')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6"
                     name="institution_id" id="" required>
                 <option selected></option>
             @foreach($institution as $id =>$name )
@@ -66,6 +66,8 @@
             <button
                 type="submit"
                 class="btn btn-success">
+                <i class="fa fa-upload">
+                </i>
                 {{$btnText}}
             </button>
         </div>

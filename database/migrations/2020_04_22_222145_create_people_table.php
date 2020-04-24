@@ -19,13 +19,14 @@ class CreatePeopleTable extends Migration
             $table->string('PER_NOMBRES');
             $table->string('PER_APELLIDOS');
             $table->char('PER_SEXO',10);
-            $table->date('PER_FECHANACIMIENTO');
+            $table->timestamp('PER_FECHANACIMIENTO');
             $table->char('PER_TIPOSANGRE',10);
             $table->string('PER_CORREO');
             $table->string('PER_DIRECCION')->nullable();
             $table->string('PER_NUMERO')->nullable();
             $table->string('PER_CELULAR')->nullable();
             $table->foreignId('institution_id')->constrained();
+            $table->foreignId('area_id')->constrained();
             $table->timestamps();
         });
     }

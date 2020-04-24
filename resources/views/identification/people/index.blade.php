@@ -49,6 +49,7 @@
                             <th>{{__('Phone')}}</th>
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Institution')}}</th>
+                            <th>{{__('Area')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
@@ -92,6 +93,11 @@
                                 <td>
                                     <a href="{{route('institution.show',$person->institution_id)}}">
                                         {{$person->institution->INS_NOMBRE}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{route('area.show',$person->area_id)}}">
+                                        {{$person->area->ARE_NOMBRE}}
                                     </a>
                                 </td>
                                 <td>
