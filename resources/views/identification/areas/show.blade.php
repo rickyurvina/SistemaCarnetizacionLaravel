@@ -3,10 +3,34 @@
 @include('identification.layouts.top-content',['routeText'=>'area.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Institución'])
                <div>
                 <br/>
-                <p>{{__('Name')}}: {{$area->ARE_NOMBRE}}</p>
-                <p>{{__('Description')}}: {{$area->ARE_DESCRIPCCION}}</p>
-                <p>{{__('Created_at')}} {{$area->created_at->format('d/m/Y')}}</p>
-                <p>{{__('Updated_at')}}{{$area->updated_at->format('d/m/Y')}}</p>
+                   <table id="datatable"
+                          class="table table-striped projects">
+                       <thead>
+                       <tr>
+                           <th>{{__('Name')}}</th>
+                           <th>{{__('Description')}}</th>
+                           <th>{{__('Created_at')}}</th>
+                           <th>{{__('Updated_at')}}</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr>
+                           <td>
+                             <a>{{$area->ARE_NOMBRE}}</a>
+                           </td>
+                           <td>
+                               <a> {{$area->ARE_DESCRIPCCION}}</a>
+                           </td>
+                           <td>
+                               <a>{{$area->created_at->format('d/m/Y')}}<</a>
+                           </td>
+                           <td>
+                               <a>{{$area->updated_at->format('d/m/Y')}}</a>
+                           </td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('area.edit',$area)}}"
                    class="btn btn-info btn-xs">

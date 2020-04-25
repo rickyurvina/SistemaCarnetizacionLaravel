@@ -9,7 +9,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'area.index','method'=>'GET'])}}
                         <div class="input-group">
-                            {{Form::text('ARE_NOMBRE', null,['class'=>'form-control','placeholder'=>'Nombre de la Institución'])}}
+                            {{Form::text('ARE_NOMBRE', null,['class'=>'form-control','placeholder'=>'Nombre del Área'])}}
                             <span class="input-group-btn">
                       <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                     </span>
