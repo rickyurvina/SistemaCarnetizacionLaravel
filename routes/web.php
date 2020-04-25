@@ -15,4 +15,8 @@ route::resource('/area','AreaController')->names('area');
 route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
 route::get('/organisation','InstitutionsController@showO')->name('institutionsO');
 
+route::get('courses',function (){
+    return \App\Institution::with('course')->where('id','=','1')->get();
+});
+
 

@@ -3,13 +3,74 @@
 @include('identification.layouts.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Institución'])
                <div>
                 <br/>
-                <p>{{__('Name')}}: {{$institution->INS_NOMBRE}}</p>
-                <p>{{__('Direction')}}: {{$institution->INS_DIRECCION}}</p>
-                <p>{{__('Phone')}}: {{$institution->INS_TELEFONO}}</p>
-                <p>{{__('CellPhone')}}: {{$institution->INS_CELULAR}}</p>
-                <p>{{__('Type')}}: {{$institution->INS_TIPO}}</p>
-                <p>{{__('Created_at')}} {{$institution->created_at->format('d/m/Y')}}</p>
-                <p>{{__('Updated_at')}}{{$institution->updated_at->format('d/m/Y')}}</p>
+                   <div class="card-box table-responsive">
+                       <table id="datatable"
+                              class="table table-striped projects">
+                           <thead>
+                           <tr>
+                               <th>{{__('Name')}}</th>
+                               <th>{{__('Direction')}}</th>
+                               <th>{{__('Phone')}}</th>
+                               <th>{{__('CellPhone')}}</th>
+                               <th>{{__('Type')}}</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                      @foreach($courses as $course)
+                       <tr>
+                           <td>
+                               <a>{{$course->INS_NOMBRE}}</a>
+                               <br />
+                               <small>
+                                   {{__('Created_at')}} {{$course->created_at->format('d/m/Y')}}
+                               </small>
+                           </td>
+                           <td>
+                               <a> {{$course->INS_DIRECCION}}</a>
+                           </td>
+                           <td class="project_progress">
+                               <a> {{$course->INS_TELEFONO}}</a>
+                           </td>
+                           <td>
+                               <a> {{$course->INS_CELULAR}}</a>
+                           </td>
+                           <td>
+                               <a> {{$course->INS_TIPO}}</a>
+                           </td>
+                       </tr>
+                      @endforeach
+                       <div class="card-box table-responsive">
+                           <table id="datatable" class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th>
+                                {{__('Name of Course')}}
+                            </th>
+                            <th>
+                                {{__('Parallel of Course')}}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($course->course as $cur)
+                            <tr>
+                                <td>
+                                    <a href="{{route('course.show',$cur)}}">
+                                        {{$cur->CUR_NOMBRE}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a>
+                                        {{$cur->CUR_PARALELO}}
+                                    </a>
+                                </td>
+                            </tr>
+                            @empty
+                            <h1>{{__('There are no registered courses for this institution')}}</h1>
+                        @endforelse
+                        </tbody>
+                    </table>
+                       </div>
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('institution.edit',$institution)}}"
                    class="btn btn-info btn-xs">

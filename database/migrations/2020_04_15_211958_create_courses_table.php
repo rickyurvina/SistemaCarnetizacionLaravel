@@ -17,7 +17,7 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('CUR_NOMBRE');
             $table->string('CUR_PARALELO');
-            $table->foreignId('institution_id')->constrained();
+            $table->foreignId('institution_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
         Schema::enableForeignKeyConstraints();

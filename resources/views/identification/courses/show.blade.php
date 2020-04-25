@@ -8,6 +8,7 @@
                 <p>{{__('Institution')}}:  {{$course->institution->INS_NOMBRE}}</p>
                 <p>{{__('Created_at')}} {{$course->created_at->format('d/m/Y')}}</p>
                 <p>{{__('Updated_at')}}{{$course->updated_at->format('d/m/Y')}}</p>
+
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('course.edit',$course)}}"
                    class="btn btn-info btn-xs">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Http\Requests\InstitutionMesageRequest;
 use App\Institution;
 use App;
@@ -30,16 +31,14 @@ class InstitutionsController extends Controller
             ->paginate(6);
         return view('identification.institutions.index',compact('institutions'));
     }
-
     public function index(Request $request)
     {
         $INS_NOMBRE=$request->get('INS_NOMBRE');
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-        ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
-        ->paginate(6);
+            ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
+            ->paginate(6);
         return view('identification.institutions.index',compact('institutions'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -70,12 +69,15 @@ class InstitutionsController extends Controller
      * @param  \App\Institution  $institution
      * @return \Illuminate\Http\Response
      */
+
     public function show(Institution $institution)
     {
-//        $institution=Institution::findOrFail($institution);
-//        return view('identification.institutions.institutions.show',compact('institutions'));
-        return view('identification.institutions.show',[
-            'institution'=>$institution
+
+     $courses=Institution::with('course')
+         ->where('id','=',$institution->id)->get();
+            return view('identification.institutions.show',[
+            'institution'=>$institution,
+            'courses'=>$courses
         ]);
     }
     /**
@@ -112,7 +114,18 @@ class InstitutionsController extends Controller
      */
     public function destroy($id)
     {
-        Institution::findOrFail($id)->delete();
-        return redirect()->route('institution.index')->with('info','Institución eliminada exitosamente');
-    }
+        $courses = Institution::with('course')
+            ->where('id', '=', $id)->get();
+        foreach ($courses as $course) {
+            foreach ($course->course as $cur) {
+            }
+        }
+        if (Empty($cur)) {
+            Institution::findOrFail($id)->delete();
+            return redirect()->route('institution.index')
+                ->with('info', 'Institución eliminada exitosamente');
+        } else {
+            return back()->with('info', 'No se puede eliminar, contiene cursos asignados');
+        }
+   }
 }
