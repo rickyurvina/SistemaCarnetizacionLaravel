@@ -48,7 +48,6 @@
                 <i class="fa fa-upload">
                 </i>
                 {{$btnText}}
-
             </button>
 
         </div>

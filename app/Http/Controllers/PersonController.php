@@ -45,7 +45,9 @@ class PersonController extends Controller
     public function create()
     {
         $areas=Area::pluck('ARE_NOMBRE','id');
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+//        $institutions=Institution::pluck('INS_NOMBRE','id');
+     $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+          ->where('INS_TIPO','=','Organización')->get();
         return view('identification.people.create',[
             'person'=>new Person,
             'institution'=>$institutions,
@@ -85,7 +87,8 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+            ->where('INS_TIPO','=','Organización')->get();
         $areas=Area::pluck('ARE_NOMBRE','id');
         return view('identification.people.edit',[
             'person'=>$person,
@@ -105,7 +108,7 @@ class PersonController extends Controller
         $person->update( $request->validated());
         return redirect()
             ->route('person.show',$person)
-            ->with('info','Curso actualizado exitosamente');
+            ->with('info','Usuario actualizado exitosamente');
     }
     /**
      * Remove the specified resource from storage.

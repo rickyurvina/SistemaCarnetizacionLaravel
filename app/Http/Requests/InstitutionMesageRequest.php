@@ -28,7 +28,9 @@ class InstitutionMesageRequest extends FormRequest
                 'INS_DIRECCION'=>'required',
                 'INS_TELEFONO'=>'required|min:7',
                 'INS_CELULAR'=>'required|min:10',
-                 'INS_TIPO'=>'required'
+                 'INS_TIPO'=>'required',
+              'INS_MISION'=>'nullable',
+              'INS_VISION'=>'nullable'
             ];
     }
 }

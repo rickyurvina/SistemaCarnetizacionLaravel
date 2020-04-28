@@ -48,7 +48,7 @@
                 name="INS_TELEFONO"
                 class="form-control"
                 type="number"
-                required="required"
+{{--                required="required"--}}
                 value="{{old('INS_TELEFONO',$institution->INS_TELEFONO )}}">
             <span class="fa fa-phone form-control-feedback right"
                   aria-hidden="true"></span>
@@ -97,6 +97,40 @@
             <span class="fa fa-check form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('INS_TIPO','<small class="alert-error">:message</small>')!!}
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Mission')}}
+
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+             <textarea
+                 class="form-control border-0 bg-light shadow-sm"
+                 cols="30"
+                 rows="10"
+                 name="INS_MISION"
+             >{{old('INS_MISION',$institution->INS_MISION)}}</textarea>
+            <span class="fa fa-comments-o form-control-feedback right"
+                  aria-hidden="true"></span>
+            {!! $errors->first('INS_MISION','<small class="alert-error">:message</small>')!!}
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Vision')}}
+
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+             <textarea
+                 class="form-control border-0 bg-light shadow-sm"
+                 cols="30"
+                 rows="10"
+                 name="INS_VISION"
+             >{{old('INS_VISION',$institution->INS_VISION)}}</textarea>
+            <span class="fa fa-comments-o form-control-feedback right"
+                  aria-hidden="true"></span>
+            {!! $errors->first('INS_VISION','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="ln_solid"></div>

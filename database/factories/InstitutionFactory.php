@@ -13,5 +13,7 @@ $factory->define(Institution::class, function (Faker $faker) {
         'INS_TELEFONO'=>$faker->numberBetween(100000000,200000000),
         'INS_CELULAR'=>$faker->numberBetween(1000000000,2000000000),
         'INS_TIPO'=>$faker->randomElement(['Institución Educativa','Organización']),
+        'INS_MISION'=>$faker->text(100),
+        'INS_VISION'=>$faker->text(100)
     ];
 });

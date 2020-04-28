@@ -46,14 +46,14 @@
             <select class="custom-select custom-select-sm col-md-6 col-sm-6"
                     name="institution_id" id="" required>
                 <option selected></option>
-            @foreach($institution as $id =>$name )
-                    @if(old('institution', $course->institution_id)==$id)
-                    <option value="{{$id}}" selected>
-                        {{$name}}
+                @foreach($institution as $ins)
+                    @if(old('institution', $course->institution_id)==$ins->id)
+                    <option value="{{$ins->id}}" selected>
+                        {{$ins->INS_NOMBRE}}
                     </option>
                         @else
-                        <option value="{{$id}}">
-                            {{$name}}
+                        <option value="{{$ins->id}}">
+                            {{$ins->INS_NOMBRE}}
                         </option>
                     @endif
                 @endforeach

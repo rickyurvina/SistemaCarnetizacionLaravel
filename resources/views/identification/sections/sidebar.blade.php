@@ -42,7 +42,7 @@
                 <ul class="nav child_menu">
                     <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>
                     <li><a href="{{route('course.index')}}">{{__('Courses')}}</a></li>
-                    <li><a href="#">{{__('Students')}}</a></li>
+                    <li><a href="{{route('student.index')}}">{{__('Students')}}</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-bar-chart"></i>

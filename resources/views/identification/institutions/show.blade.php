@@ -38,6 +38,38 @@
                                <a> {{$course->INS_TIPO}}</a>
                            </td>
                        </tr>
+                           </tbody>
+                       </table>
+                       <div class="item form-group">
+                           <label class="col-form-label">
+                               {{__('Mission')}}
+                           </label>
+                           <div class="col-md-5 col-sm-5 ">
+                                 <textarea
+                                     readonly
+                                     class="form-control border-0 bg-light shadow-sm"
+                                     cols="30"
+                                     rows="10"
+{{--                                     name="INS_MISION"--}}
+                                 >{{$institution->INS_MISION}}</textarea>
+                               <span class="fa fa-comments-o form-control-feedback right"
+                                     aria-hidden="true"></span>
+                           </div>
+                           <label class="col-form-label">
+                               {{__('Vision')}}
+                           </label>
+                           <div class="col-md-5 col-sm-5 ">
+                                 <textarea
+                                     readonly
+                                     class="form-control border-0 bg-light shadow-sm"
+                                     cols="30"
+                                     rows="10"
+{{--                                     name="INS_MISION"--}}
+                                 >{{$institution->INS_VISION}}</textarea>
+                               <span class="fa fa-comments-o form-control-feedback right"
+                                     aria-hidden="true"></span>
+                           </div>
+                       </div>
                       @endforeach
                        <div class="card-box table-responsive">
                            <table id="datatable" class="table table-striped projects">

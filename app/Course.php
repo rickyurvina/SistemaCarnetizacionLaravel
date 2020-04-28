@@ -12,9 +12,9 @@ class Course extends Model
     public function institution()
     {
         return $this->belongsTo(Institution::class);
-//        return $this->hasMany(Institution::class);
     }
-    public function course(){
 
+    public function student(){
+        return $this->hasOne(Person::class);
     }
 }

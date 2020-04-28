@@ -42,7 +42,9 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+//        $institutions=Institution::pluck('INS_NOMBRE','id');
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+            ->where('INS_TIPO','=','Institución Educativa')->get();
         return view('identification.courses.create',[
             'course'=>new Course,
             'institution'=>$institutions
@@ -83,7 +85,8 @@ class CoursesController extends Controller
     public function edit(Course $course)
     {
      //  $course=Course::findOrFail($course);
-       $institutions=Institution::pluck('INS_NOMBRE','id');
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+            ->where('INS_TIPO','=','Organización')->get();
         return view('identification.courses.edit',[
             'course'=>$course,
             'institution'=>$institutions
