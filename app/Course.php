@@ -15,6 +15,6 @@ class Course extends Model
     }
 
     public function student(){
-        return $this->hasOne(Person::class);
+        return $this->hasMany(Student::class);
     }
 }

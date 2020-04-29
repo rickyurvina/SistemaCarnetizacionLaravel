@@ -69,7 +69,7 @@
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('course.show',$course)}}"
                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-folder"></i>
+                                    <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
                                 <a href="{{route('course.edit',$course)}}"

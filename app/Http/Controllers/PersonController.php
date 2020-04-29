@@ -18,6 +18,7 @@ class PersonController extends Controller
      */
     public function index(Request $request)
     {
+        $person=$request->get('PER_CEDULA');
         $institutions=Institution::pluck('INS_NOMBRE','id');
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
@@ -29,6 +30,7 @@ class PersonController extends Controller
         else
         {
             $people=Person::orderBy('created_at','DESC')
+                ->where('PER_CEDULA','LIKE',"%$person%")
                 ->paginate(5);
         }
         if (empty($people))

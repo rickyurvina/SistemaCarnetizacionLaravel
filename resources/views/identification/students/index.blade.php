@@ -7,7 +7,17 @@
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                    {{Form::open(['route'=>'student.index','method'=>'GET'])}}
+                        <div class="input-group">
+                        {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cedula del estudiante'])}}
+                        <span class="input-group-btn">
+                         <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
+                         </span>
+                    </div>
+                    {{Form::close()}}
                         {{Form::open(['route'=>'student.index','method'=>'GET'])}}
+
+
                         <div class="input-group">
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
@@ -41,23 +51,22 @@
                             <th>{{__('Identification card')}}</th>
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
-                            <th>{{__('Sex')}}</th>
+{{--                            <th>{{__('Sex')}}</th>--}}
                             <th>{{__('Age')}}</th>
-                            <th>{{__('Blood type')}}</th>
+{{--                            <th>{{__('Blood type')}}</th>--}}
                             <th>{{__('Email')}}</th>
-                            <th>{{__('Direction')}}</th>
-                            <th>{{__('Phone')}}</th>
+{{--                            <th>{{__('Direction')}}</th>--}}
+{{--                            <th>{{__('Phone')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
-
                             <th>{{__('Code')}}</th>
-                            <th>{{__('Enrollment')}}</th>
-                            <th>{{__('Signed up')}}</th>
-                            <th>{{__('No Enrollment')}}</th>
-                            <th>{{__('Retired')}}</th>
-                            <th>{{__('Scholarship')}}</th>
+{{--                            <th>{{__('Enrollment')}}</th>--}}
+{{--                            <th>{{__('Signed up')}}</th>--}}
+{{--                            <th>{{__('No Enrollment')}}</th>--}}
+{{--                            <th>{{__('Retired')}}</th>--}}
+{{--                            <th>{{__('Scholarship')}}</th>--}}
 
                             <th>{{__('Institution')}}</th>
-                            <th>{{__('Area')}}</th>
+                            <th>{{__('Course')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
@@ -77,45 +86,45 @@
                                 <td>
                                     <a> {{$student->EST_APELLIDOS}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$student->EST_SEXO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_SEXO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($student->EST_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-                                <td>
-                                    <a> {{$student->EST_TIPOSANGRE}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_TIPOSANGRE}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$student->EST_CORREO}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$student->EST_DIRECCION}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$student->EST_NUMERO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_DIRECCION}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_NUMERO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$student->EST_CELULAR}}</a>
                                 </td>
                                 <td>
                                     <a> {{$student->EST_CODIGO}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$student->EST_MATRICULA}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$student->EST_INSCRITO}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$student->EST_NROMATRICULA}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$student->EST_RETIRADO}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$student->EST_BECA}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_MATRICULA}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_INSCRITO}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_NROMATRICULA}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_RETIRADO}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_BECA}}</a>--}}
+{{--                                </td>--}}
 
                                 <td>
                                     <a href="{{route('institution.show',$student->institution_id)}}">
@@ -131,7 +140,7 @@
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('student.show',$student)}}"
                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-folder"></i>
+                                    <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
                                 <a href="{{route('student.edit',$student)}}"

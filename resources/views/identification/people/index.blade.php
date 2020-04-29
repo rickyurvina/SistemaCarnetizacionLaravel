@@ -9,6 +9,14 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'person.index','method'=>'GET'])}}
                         <div class="input-group">
+                            {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cedula del estudiante'])}}
+                            <span class="input-group-btn">
+                         <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
+                         </span>
+                        </div>
+                        {{Form::close()}}
+                        {{Form::open(['route'=>'person.index','method'=>'GET'])}}
+                        <div class="input-group">
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
@@ -104,7 +112,7 @@
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('person.show',$person)}}"
                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-folder"></i>
+                                    <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
                                 <a href="{{route('person.edit',$person)}}"

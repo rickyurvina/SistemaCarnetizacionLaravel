@@ -73,7 +73,7 @@ class InstitutionsController extends Controller
     public function show(Institution $institution)
     {
 
-     $courses=Institution::with('course')
+         $courses=Institution::with('course')
          ->where('id','=',$institution->id)->get();
             return view('identification.institutions.show',[
             'institution'=>$institution,

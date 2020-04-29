@@ -288,15 +288,15 @@
             {{__('Institution')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "  name="institution_id" id="" required>
                 <option selected></option>
             @foreach($institution as $ins )
                     @if(old('institution', $student->institution_id)==$ins->id)
-                    <option value="{{$ins->id}}" selected>
+                    <option  id="ins_id"  value="{{$ins->id}}" selected>
                         {{$ins->INS_NOMBRE}}
                     </option>
                         @else
-                        <option value="{{$ins->id}}">
+                        <option  id="ins_id"  value="{{$ins->id}}">
                             {{$ins->INS_NOMBRE}}
                         </option>
                     @endif
@@ -306,11 +306,11 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Area')}}
+            {{__('Course')}}
             <span class="required">*</span>
         </label>
         <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
-                name="course_id" id=""
+                name="course_id" id="id"
                 required>
             <option selected></option>
             @foreach($course as $id =>$name )
@@ -326,6 +326,7 @@
             @endforeach
         </select>
         {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
+    </div>
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">

@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Institution;
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class StudentController extends Controller
@@ -20,6 +21,7 @@ class StudentController extends Controller
     {
 
         $institutions=Institution::pluck('INS_NOMBRE','id');
+        $student=$request->get('EST_CEDULA');
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
@@ -30,6 +32,7 @@ class StudentController extends Controller
         else
         {
             $students=Student::orderBy('created_at','DESC')
+                ->where('EST_CEDULA','LIKE',"%$student%")
                 ->paginate(5);
         }
         if (empty($students))
@@ -45,12 +48,14 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        $courses=Course::pluck('CUR_NOMBRE','id');
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')
             ->where('INS_TIPO','=','Institución Educativa')->get();
+        $courses=Course::pluck('CUR_NOMBRE','id');
+//       $courses=Course::with('institution')
+//           ->where('institution_id','=',$ins_id)->get();
         return view('identification.students.create',[
             'student'=>new Student,
             'institution'=>$institutions,

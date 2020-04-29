@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CourseMessageRequest;
 use App\Course;
 use App\Institution;
+use App\Student;
 use Illuminate\Http\Request;
 use Monolog\Handler\IFTTTHandler;
 
@@ -72,8 +73,11 @@ class CoursesController extends Controller
     public function show(Course $course)
     {
         //
+         $students=Course::with('student')
+           ->where('id','=',$course->id)->get();
         return view('identification.courses.show',[
-            'course'=>$course
+            'course'=>$course,
+            'students'=>$students
         ]);
     }
     /**

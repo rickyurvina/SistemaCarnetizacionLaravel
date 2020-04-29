@@ -46,6 +46,54 @@
                            </tr>
                            </tbody>
                        </table>
+                       @foreach($students as $student)
+                           @endforeach
+                       <div class="card-box table-responsive">
+                       <table id="datatable"
+                              class="table table-striped projects">
+                           <thead>
+                           <tr>
+                               <th>{{__('Identification card')}}</th>
+                               <th>{{__('Name')}}</th>
+                               <th>{{__('LastName')}}</th>
+                               <th>{{__('Email')}}</th>
+                               <th>{{__('Code')}}</th>
+                               <th>{{__('Actions')}}</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           @foreach($student->student as $stu)
+                           <tr>
+                               <td>
+                                   <a href="{{route('student.show',$stu->id)}}">
+                                   {{$stu->EST_CEDULA}}
+                                   </a>
+                               </td>
+                               <td>
+                                   {{$stu->EST_NOMBRES}}
+                               </td>
+                               <td>
+                                   {{$stu->EST_APELLIDOS}}
+                               </td>
+                               <td>
+                                   {{$stu->EST_CORREO}}
+                               </td>
+                               <td>
+                                   {{$stu->EST_CODIGO}}
+                               </td>
+                               <td>
+                                   <a href="{{route('student.show',$stu->id)}}"
+                                      class="btn btn-primary btn-xs">
+                                       <i class="fa fa-search"></i>
+                                       {{__('View')}}
+                                   </a>
+                               </td>
+                           @endforeach
+                           </tr>
+                           </tbody>
+                       </table>
+                       </div>
+
                    </div>
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('course.edit',$course)}}"
