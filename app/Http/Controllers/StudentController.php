@@ -54,8 +54,6 @@ class StudentController extends Controller
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')
             ->where('INS_TIPO','=','Institución Educativa')->get();
         $courses=Course::pluck('CUR_NOMBRE','id');
-//       $courses=Course::with('institution')
-//           ->where('institution_id','=',$ins_id)->get();
         return view('identification.students.create',[
             'student'=>new Student,
             'institution'=>$institutions,
@@ -107,10 +105,9 @@ class StudentController extends Controller
         return view('identification.students.edit',[
             'student'=>$student,
             'institution'=>$institutions,
-            'course'=>$courses
+            'course'=>$courses,
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *

@@ -66,7 +66,7 @@
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('institution.show',$institution)}}"
                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-searchr"></i>
+                                    <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
                                 <a href="{{route('institution.edit',$institution)}}"

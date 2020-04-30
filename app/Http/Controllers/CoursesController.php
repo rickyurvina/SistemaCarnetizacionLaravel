@@ -5,11 +5,20 @@ use App\Http\Requests\CourseMessageRequest;
 use App\Course;
 use App\Institution;
 use App\Student;
+use DemeterChain\C;
 use Illuminate\Http\Request;
 use Monolog\Handler\IFTTTHandler;
 
 class CoursesController extends Controller
 {
+    /**
+     * Funcion para cargar los cursos en el select de
+     * estudiantes
+     */
+    public function byInstitution($id)
+    {
+        return Course::where('institution_id',$id)->get();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,7 +52,6 @@ class CoursesController extends Controller
      */
     public function create()
     {
-//        $institutions=Institution::pluck('INS_NOMBRE','id');
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')
             ->where('INS_TIPO','=','Institución Educativa')->get();
         return view('identification.courses.create',[
@@ -88,12 +96,11 @@ class CoursesController extends Controller
      */
     public function edit(Course $course)
     {
-     //  $course=Course::findOrFail($course);
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Organización')->get();
+            ->where('INS_TIPO','=','Institución Educativa')->get();
         return view('identification.courses.edit',[
             'course'=>$course,
-            'institution'=>$institutions
+            'institution'=>$institutions,
         ]);
     }
     /**

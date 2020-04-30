@@ -10,3 +10,5 @@
 <script src="{{asset('gentelella/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
 
 <script src="{{asset('gentelella/build/js/custom.min.js')}}"></script>
+
+<script src="/js/student.js"></script>

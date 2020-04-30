@@ -9,8 +9,7 @@ class Student extends Model
     //
     protected $dates=['EST_FECHANACIMIENTO'];
     protected $fillable=[
-            'EST_CEDULA',
-            'EST_NOMBRES',
+            'EST_CEDULA','EST_NOMBRES',
             'EST_APELLIDOS',
             'EST_SEXO',
             'EST_FECHANACIMIENTO',

@@ -154,8 +154,8 @@
                 name="EST_CODIGO"
                 {{--                required="required"--}}
                 class="form-control"
-                value="{{old('EST_CODIGOR',$student->EST_CODIGO)}}">
-            <span class="fa fa-phone-square form-control-feedback right"
+                value="{{old('EST_CODIGO',$student->EST_CODIGO)}}">
+            <span class="fa fa-codepen form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('EST_CODIGO','<small class="alert-error">:message</small>')!!}
         </div>
@@ -172,7 +172,7 @@
                 {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_MATRICULA',$student->EST_MATRICULA)}}">
-            <span class="fa fa-phone-square form-control-feedback right"
+            <span class="fa fa-check-circle form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('EST_MATRICULA','<small class="alert-error">:message</small>')!!}
         </div>
@@ -189,7 +189,7 @@
                 {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_INSCRITO',$student->EST_INSCRITO)}}">
-            <span class="fa fa-phone-square form-control-feedback right"
+            <span class="fa fa-check-circle form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('EST_INSCRITO','<small class="alert-error">:message</small>')!!}
         </div>
@@ -206,7 +206,7 @@
                 {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_NROMATRICULA',$student->EST_NROMATRICULA)}}">
-            <span class="fa fa-phone-square form-control-feedback right"
+            <span class="fa fa-check-circle form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('EST_MATRICULA','<small class="alert-error">:message</small>')!!}
         </div>
@@ -223,7 +223,7 @@
                 {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_RETIRADO',$student->EST_RETIRADO)}}">
-            <span class="fa fa-phone-square form-control-feedback right"
+            <span class="fa fa-circle-o-notch form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('EST_RETIRADO','<small class="alert-error">:message</small>')!!}
         </div>
@@ -240,7 +240,7 @@
                 {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_BECA',$student->EST_BECA)}}">
-            <span class="fa fa-phone-square form-control-feedback right"
+            <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('EST_BECA','<small class="alert-error">:message</small>')!!}
         </div>
@@ -288,7 +288,9 @@
             {{__('Institution')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "  name="institution_id" id="" required>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                    name="institution_id" id="select-institution"
+                    required>
                 <option selected></option>
             @foreach($institution as $ins )
                     @if(old('institution', $student->institution_id)==$ins->id)
@@ -310,20 +312,16 @@
             <span class="required">*</span>
         </label>
         <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
-                name="course_id" id="id"
+                name="course_id" id="select-course"
                 required>
-            <option selected></option>
             @foreach($course as $id =>$name )
                 @if(old('course', $student->course_id)==$id)
                     <option value="{{$id}}" selected>
                         {{$name}}
                     </option>
-                @else
-                    <option value="{{$id}}">
-                        {{$name}}
-                    </option>
                 @endif
             @endforeach
+            <option value="">Seleccione Curso</option>
         </select>
         {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
     </div>
@@ -365,6 +363,5 @@
             </button>
         </div>
     </div>
-
 </form>
 
