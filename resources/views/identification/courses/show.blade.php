@@ -1,4 +1,5 @@
 @extends('identification.layouts.app')
+@section('title',' Ver Curso')
 @section('content')
 @include('identification.layouts.top-content',['routeText'=>'course.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Curso'])
                <div>
@@ -20,25 +21,21 @@
                            <tr>
                                <td>
                                    <a>{{$course->CUR_NOMBRE}}</a>
-                                   <br />
-                                   <small>
-                                       {{__('Created_at')}} {{$course->created_at->format('d/m/Y')}}
-                                   </small>
                                </td>
                                <td>
                                    <a> {{$course->CUR_PARALELO}}</a>
                                </td>
-                               <td class="project_progress">
+                               <td>
                                    <a href="{{route('institution.show',$course->institution->id)}}">
                                        {{$course->institution->INS_NOMBRE}}
                                    </a>
                                </td>
-                               <td class="project_progress">
+                               <td>
                                    <a>
                                        <p>{{__('Created_at')}} {{$course->created_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
-                               <td class="project_progress">
+                               <td >
                                    <a>
                                        <p>{{__('Updated_at')}}{{$course->updated_at->format('d/m/Y')}}</p>
                                    </a>

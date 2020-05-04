@@ -10,12 +10,7 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li>
-                        <a
-                            href="#">
-                            {{__('Home')}}
-                        </a>
-                    </li>
+                    <li> <a href="#"> {{__('Home')}} </a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-institution"></i>
@@ -25,14 +20,8 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li><a
-                            href="{{route('institution.index')}}">
-                            {{__('Institutions')}}
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            {{__('Representatives')}}
-                        </a>
+                    <li><a href="{{route('institution.index')}}">{{__('Institutions')}}</a>
+{{--                    </li><li><a href="#">{{__('Representatives')}}</a>--}}
                     </li>
                 </ul>
             </li>

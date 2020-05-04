@@ -1,4 +1,5 @@
 @extends('identification.layouts.app')
+@section('title','Editar Institución')
 @section('content')
 @include('identification.layouts.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Editar Institución'])
             <div>

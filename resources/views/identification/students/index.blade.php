@@ -9,21 +9,19 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     {{Form::open(['route'=>'student.index','method'=>'GET'])}}
                         <div class="input-group">
-                        {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cedula del estudiante'])}}
+                        {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
                         <span class="input-group-btn">
                          <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                          </span>
                     </div>
                     {{Form::close()}}
                         {{Form::open(['route'=>'student.index','method'=>'GET'])}}
-
-
                         <div class="input-group">
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
                                     <option
-                                        selected>{{__('Search by Institutions')}}
+                                        selected>{{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $id =>$name )
                                             <option value="{{$id}}">
@@ -51,20 +49,10 @@
                             <th>{{__('Identification card')}}</th>
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
-{{--                            <th>{{__('Sex')}}</th>--}}
                             <th>{{__('Age')}}</th>
-{{--                            <th>{{__('Blood type')}}</th>--}}
                             <th>{{__('Email')}}</th>
-{{--                            <th>{{__('Direction')}}</th>--}}
-{{--                            <th>{{__('Phone')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Code')}}</th>
-{{--                            <th>{{__('Enrollment')}}</th>--}}
-{{--                            <th>{{__('Signed up')}}</th>--}}
-{{--                            <th>{{__('No Enrollment')}}</th>--}}
-{{--                            <th>{{__('Retired')}}</th>--}}
-{{--                            <th>{{__('Scholarship')}}</th>--}}
-
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Course')}}</th>
                             <th>{{__('Actions')}}</th>

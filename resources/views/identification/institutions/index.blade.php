@@ -1,5 +1,5 @@
 @extends('identification.layouts.app')
-@section('title','Institucion Educativa')
+@section('title','Instituciones')
 @section('content')
     <!-- page content -->
     @include('identification.layouts.top-content',['routeText'=>'institution.create','btnText'=>'Crear','textTitle'=>'Instituciones-Organizaciones'])

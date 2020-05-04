@@ -1,4 +1,5 @@
 @extends('identification.layouts.app')
+@section('title','Ver Usuario')
 @section('content')
 @include('identification.layouts.top-content',['routeText'=>'person.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Persona'])
                <div>

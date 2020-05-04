@@ -1,4 +1,5 @@
 @extends('identification.layouts.app')
+@section('title',' Crear Áreas')
 @section('content')
      @include('identification.layouts.top-content',['routeText'=>'area.index','btnText'=>'Panel de Control','textTitle'=>'Crear Nueva Area'])
      <div>

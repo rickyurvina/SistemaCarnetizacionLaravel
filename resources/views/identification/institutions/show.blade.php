@@ -1,4 +1,5 @@
 @extends('identification.layouts.app')
+@section('title','Ver Institución')
 @section('content')
 @include('identification.layouts.top-content',['routeText'=>'institution.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Institución'])
                <div>
@@ -6,7 +7,7 @@
                    <div class="card-box table-responsive">
                        <table id="datatable"
                               class="table table-striped projects">
-                           <thead>
+                           <thead>s
                            <tr>
                                <th>{{__('Name')}}</th>
                                <th>{{__('Direction')}}</th>

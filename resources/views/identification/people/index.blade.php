@@ -9,7 +9,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'person.index','method'=>'GET'])}}
                         <div class="input-group">
-                            {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cedula del estudiante'])}}
+                            {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
                             <span class="input-group-btn">
                          <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                          </span>
