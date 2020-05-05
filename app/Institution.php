@@ -14,6 +14,9 @@ class Institution extends Model
     public function background(){
         return $this->hasOne(Background::class);
     }
+    public function logo(){
+        return $this->hasOne(Logo::class);
+    }
 
     public function person(){
         return $this->hasOne(Person::class);
