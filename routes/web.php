@@ -12,12 +12,15 @@ route::resource('/course','CoursesController')->names('course');
 route::resource('/person','PersonController')->names('person');
 route::resource('/area','AreaController')->names('area');
 route::resource('/student','StudentController')->names('student');
+/**/
+
+route::resource('/background','BackgroundController')->names('background');
+route::resource('/logo','LogoController')->names('logo');
+
 
 route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
 route::get('/organisation','InstitutionsController@showO')->name('institutionsO');
 
-route::get('courses',function (){
-    return \App\Institution::with('course')->where('id','=','1')->get();
-});
+
 
 

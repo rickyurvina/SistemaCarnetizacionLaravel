@@ -49,9 +49,9 @@
                             <th>{{__('Identification card')}}</th>
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
-                            <th>{{__('Sex')}}</th>
+{{--                            <th>{{__('Sex')}}</th>--}}
                             <th>{{__('Age')}}</th>
-                            <th>{{__('Blood type')}}</th>
+{{--                            <th>{{__('Blood type')}}</th>--}}
                             <th>{{__('Email')}}</th>
                             <th>{{__('Direction')}}</th>
                             <th>{{__('Phone')}}</th>
@@ -77,15 +77,15 @@
                                 <td>
                                     <a> {{$person->PER_APELLIDOS}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$person->PER_SEXO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_SEXO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($person->PER_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-                                <td>
-                                    <a> {{$person->PER_TIPOSANGRE}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_TIPOSANGRE}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_CORREO}}</a>
                                 </td>

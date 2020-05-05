@@ -21,7 +21,6 @@
                 </a>
                 <ul class="nav child_menu">
                     <li><a href="{{route('institution.index')}}">{{__('Institutions')}}</a>
-{{--                    </li><li><a href="#">{{__('Representatives')}}</a>--}}
                     </li>
                 </ul>
             </li>
@@ -54,8 +53,8 @@
                         class="fa fa-chevron-down">
                     </span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#">{{__('Background')}}</a></li>
-                    <li><a href="#">{{__('Logos')}}</a></li>
+                    <li><a href="{{route('background.index')}}">{{__('Background')}}</a></li>
+                    <li><a href="{{route('logo.index')}}">{{__('Logos')}}</a></li>
                     <li><a href="#">{{__('System Users')}}</a></li>
                 </ul>
             </li>

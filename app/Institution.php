@@ -11,6 +11,9 @@ class Institution extends Model
     public function course(){
         return $this->hasMany(Course::class);
     }
+    public function background(){
+        return $this->hasOne(Background::class);
+    }
 
     public function person(){
         return $this->hasOne(Person::class);
