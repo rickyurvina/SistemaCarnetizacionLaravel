@@ -11,9 +11,11 @@ class Institution extends Model
     public function course(){
         return $this->hasMany(Course::class);
     }
+
     public function background(){
         return $this->hasOne(Background::class);
     }
+
     public function logo(){
         return $this->hasOne(Logo::class);
     }

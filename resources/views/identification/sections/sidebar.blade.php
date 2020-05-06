@@ -55,6 +55,8 @@
                 <ul class="nav child_menu">
                     <li><a href="{{route('background.index')}}">{{__('Background')}}</a></li>
                     <li><a href="{{route('logo.index')}}">{{__('Logos')}}</a></li>
+                    <li><a href="{{route('photo.index')}}">{{__('Photos of People')}}</a></li>
+                    <li><a href="{{route('picture.index')}}">{{__('Photos Students')}}</a></li>
                     <li><a href="#">{{__('System Users')}}</a></li>
                 </ul>
             </li>

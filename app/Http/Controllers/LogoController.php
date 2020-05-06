@@ -21,20 +21,20 @@ class LogoController extends Controller
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
-            $logos=logo::orderBy('institution_id','DESC')
+            $logos=Logo::orderBy('institution_id','DESC')
                 ->where('institution_id',$institution_id)
                 ->paginate(count(Institution::get()));
         }
         else{
-            $logos=logo::orderBy('institution_id','DESC')
+            $logos=Logo::orderBy('institution_id','DESC')
                 ->paginate(5);
         }
         if (empty($logos))
         {
             return view('identification.logos.index', compact('logos','institutions'));
         }
-        return view('identification.logos.index', compact('logos','institutions'))->with('info','No se encontro esa institutcion');
-
+        return view('identification.logos.index', compact('logos','institutions'))
+            ->with('info','No se encontro esa institutcion');
     }
 
     /**

@@ -21,5 +21,8 @@ class Person extends Model
     {
         return $this->belongsTo(Area::class);
     }
+    public function photo(){
+        return $this->hasMany(Photo::class);
+    }
 
 }
