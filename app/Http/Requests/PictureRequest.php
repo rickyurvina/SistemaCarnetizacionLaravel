@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BackgroundRequest extends FormRequest
+class PictureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,9 @@ class BackgroundRequest extends FormRequest
     {
         return [
             //
-            'FON_NOMBRE'=>'required',
-            'FON_NOMBRE2'=>'required',
-            'FON_TIPO'=>'nullable',
-            'institution_id'=>'required'
-            ];
+            'nombre'=>'required',
+            'tipo'=>'nullable',
+            'student_id'=>'required'
+        ];
     }
 }

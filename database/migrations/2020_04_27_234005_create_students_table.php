@@ -19,40 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('EST_NOMBRES');
             $table->string('EST_APELLIDOS');
             $table->char('EST_SEXO',10);
-            $table->timestamp('EST_FECHANAC
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            IMIENTO');
+            $table->timestamp('EST_FECHANACIMIENTO');
             $table->char('EST_TIPOSANGRE',10);
             $table->string('EST_CORREO');
             $table->string('EST_DIRECCION')->nullable();

@@ -46,6 +46,7 @@ class PhotoController extends Controller
     public function create()
     {
         //
+
         $people=person::orderBy('PER_NOMBRES','ASC')->get();
         return view('identification.photos.create',[
             'photo'=>new photo(),
@@ -62,10 +63,24 @@ class PhotoController extends Controller
     public function store(PhotoRequest $request)
     {
         //
-        photo::create($request->validated());
-        return redirect()
-            ->route('photo.index')
-            ->with('info','Fotoregistrado exitosamente');
+        $id=$request->get('people_id');
+       $person=Photo::with('people')
+            ->where('people_id','=',$id)->get();
+        if (count($person)<=0)
+        {
+            photo::create($request->validated());
+            return redirect()
+                ->route('photo.index')
+                ->with('info','Fotoregistrado exitosamente');
+        }
+        else{
+            return back()->with('info','No se puede agregar, El usuario ya tiene asociada una foto');
+
+        }
+//        photo::create($request->validated());
+//        return redirect()
+//            ->route('photo.index')
+//            ->with('info','Fotoregistrado exitosamente');
 
     }
 
@@ -109,10 +124,25 @@ class PhotoController extends Controller
     public function update(PhotoRequest $request, Photo $photo)
     {
         //
-        $photo->update( $request->validated() );
-        return redirect()
-            ->route('photo.show',$photo)
-            ->with('info','Fondo actualizado exitosamente');
+
+        $id=$request->get('people_id');
+        $person=Photo::with('people')
+            ->where('people_id','=',$id)->get();
+        if (count($person)<=0)
+        {
+            $photo->update( $request->validated() );
+            return redirect()
+                ->route('photo.show',$photo)
+                ->with('info','Fondo actualizado exitosamente');
+        }
+        else{
+            return back()->with('info','No se puede agregar, El usuario ya tiene asociada una foto');
+
+        }
+//        $photo->update( $request->validated() );
+//        return redirect()
+//            ->route('photo.show',$photo)
+//            ->with('info','Fondo actualizado exitosamente');
     }
 
     /**

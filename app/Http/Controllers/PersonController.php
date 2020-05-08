@@ -19,7 +19,8 @@ class PersonController extends Controller
     public function index(Request $request)
     {
         $person=$request->get('PER_CEDULA');
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+            ->where('INS_TIPO','=','Organización')->get();
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
@@ -47,7 +48,6 @@ class PersonController extends Controller
     public function create()
     {
         $areas=Area::pluck('ARE_NOMBRE','id');
-//        $institutions=Institution::pluck('INS_NOMBRE','id');
      $institutions=Institution::orderBy('INS_NOMBRE','ASC')
           ->where('INS_TIPO','=','Organización')->get();
         return view('identification.people.create',[

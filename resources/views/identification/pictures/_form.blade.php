@@ -1,41 +1,24 @@
 <form id="demo-form2"
       data-parsley-validate class="form-horizontal form-label-left"
       method="POST"
-      action="{{route($btnRoute ?? '', $background)}}">
+      action="{{route($btnRoute ?? '', $picture)}}">
     @csrf
     @method($txtMethod??'')
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Fondo Frontal')}}
+            {{__('Name')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="text"
-                name="FON_NOMBRE"
+                name="nombre"
                 required="required"
                 class="form-control"
-                value="{{old('FON_NOMBRE', $background->FON_NOMBRE) }}">
-            <span class="fa fa-picture-o  form-control-feedback right"
+                value="{{old('nombre', $picture->nombre) }}">
+            <span class="fa fa-user form-control-feedback right"
                   aria-hidden="true"></span>
-            {!! $errors->first('FON_NOMBRE','<small class="alert-error">:message</small>')!!}
-        </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Fondo Posterior')}}
-            <span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="FON_NOMBRE2"
-                required="required"
-                class="form-control"
-                value="{{old('FON_NOMBRE2', $background->FON_NOMBRE2)}}">
-            <span class="fa fa-picture-o form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('FON_NOMBRE2','<small class="alert-error">:message</small>')!!}
+            {!! $errors->first('nombre','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
@@ -46,36 +29,36 @@
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="text"
-                name="FON_TIPO"
+                name="tipo"
                 required="required"
                 class="form-control"
-                value="{{old('FON_TIPO',$background->FON_TIPO)}}">
+                value="{{old('tipo',$picture->tipo)}}">
             <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
-            {!! $errors->first('FON_TIPO','<small class="alert-error">:message</small>')!!}
+            {!! $errors->first('tipo','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Institution')}}
+            {{__('Student')}}
             <span class="required">*</span>
         </label>
             <select class="custom-select custom-select-sm col-md-6 col-sm-6"
-                    name="institution_id" id="institution_id" required>
+                    name="student_id" id="student_id" required>
                 <option selected></option>
-                @foreach($institution as $ins)
-                    @if(old('institution', $background->institution_id)==$ins->id)
-                    <option value="{{$ins->id}}" selected>
-                        {{$ins->INS_NOMBRE}}
+                @foreach($students as $student)
+                    @if(old('students', $picture->student_id)==$student->id)
+                    <option value="{{$student->id}}" selected>
+                        {{$student->EST_NOMBRES}}
                     </option>
                         @else
-                        <option value="{{$ins->id}}">
-                            {{$ins->INS_NOMBRE}}
+                        <option value="{{$student->id}}">
+                            {{$student->EST_NOMBRES}} {{$student->EST_APELLIDOS}}
                         </option>
                     @endif
                 @endforeach
             </select>
-        {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
+        {!! $errors->first('student_id','<small class="alert-error">:message</small>')!!}
     </div>
     <div class="ln_solid"></div>
     <div class="item form-group">

@@ -17,7 +17,7 @@ class CreatePicturesTable extends Migration
             $table->id();
             $table->string('nombre');
             $table ->string('tipo')->nullable();
-            $table->foreignId('student_id')->constrained()->onDelete('cascade');
+            $table->foreignId('student_id')->unique()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

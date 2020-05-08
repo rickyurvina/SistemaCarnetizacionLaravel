@@ -17,7 +17,7 @@ class LogoController extends Controller
     public function index(Request $request)
     {
         //
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+        $institutions=logo::with('institution')->get();
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
@@ -61,10 +61,18 @@ class LogoController extends Controller
     public function store(LogoRequest $request)
     {
         //
-        logo::create($request->validated());
-        return redirect()
-            ->route('logo.index')
-            ->with('info','Fondo registrado exitosamente');
+        $id=$request->get('institution_id');
+        $ins=Logo::with('institution')
+            ->where('institution_id','=',$id)->get();
+        if (count($ins)<=0){
+            logo::create($request->validated());
+            return redirect()
+                ->route('logo.index')
+                ->with('info','Fondo registrado exitosamente');
+        }
+        else{
+            return back()->with('info','No se puede agregar, La institución ya tiene asociado un logo');
+        }
     }
 
     /**
@@ -107,10 +115,24 @@ class LogoController extends Controller
     public function update(LogoRequest $request, Logo $logo)
     {
         //
-        $logo->update( $request->validated() );
-        return redirect()
-            ->route('logo.show',$logo)
-            ->with('info','Fondo actualizado exitosamente');
+        $id=$request->get('institution_id');
+//        $institution_id=Logo::orderBy('id','ASC')
+//            ->where('institution_id',$id)->get('institution_id');
+        $ins=Logo::with('institution')
+            ->where('institution_id','=',$id)->get();
+        if (count($ins)<=0){
+            $logo->update( $request->validated() );
+            return redirect()
+                ->route('logo.show',$logo)
+                ->with('info','Fondo actualizado exitosamente');
+        }
+        else{
+            return back()->with('info','No se puede agregar, La institución ya tiene asociado un logo');
+        }
+//        $logo->update( $request->validated() );
+//        return redirect()
+//            ->route('logo.show',$logo)
+//            ->with('info','Fondo actualizado exitosamente');
     }
 
     /**

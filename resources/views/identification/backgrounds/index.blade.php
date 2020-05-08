@@ -15,9 +15,9 @@
                                     <option selected>
                                         {{__('Search by Institution')}}
                                     </option>
-                                    @foreach($institutions as $id =>$name )
-                                            <option value="{{$id}}">
-                                                {{$name}}
+                                    @foreach($institutions as $institution)
+                                            <option value="{{$institution->institution->id}}">
+                                                {{$institution->institution->INS_NOMBRE}}
                                             </option>
                                     @endforeach
                                 </select>
@@ -41,7 +41,8 @@
                            class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th>{{__('Name')}}</th>
+                            <th>{{__('Fondo Frontal')}}</th>
+                            <th>{{__('Fondo Posterior')}}</th>
                             <th>{{__('Type')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>
@@ -56,6 +57,9 @@
                                     <small>
                                         {{__('Created_at')}} {{$background->created_at->format('d/m/Y')}}
                                     </small>
+                                </td>
+                                <td>
+                                    <a> {{$background->FON_NOMBRE2}}</a>
                                 </td>
                                 <td>
                                     <a> {{$background->FON_TIPO}}</a>

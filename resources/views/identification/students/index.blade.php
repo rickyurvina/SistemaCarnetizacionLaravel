@@ -21,11 +21,11 @@
                                         name="institution_id"
                                         id="institution_id">
                                     <option
-                                        selected>{{__('Search by Institution')}}
+                                        selected> {{__('Search by Educative Institution')}}
                                     </option>
-                                    @foreach($institutions as $id =>$name )
-                                            <option value="{{$id}}">
-                                                {{$name}}
+                                    @foreach($institutions as $institution )
+                                            <option value="{{$institution->id}}">
+                                                {{$institution->INS_NOMBRE}}
                                             </option>
                                     @endforeach
                                 </select>

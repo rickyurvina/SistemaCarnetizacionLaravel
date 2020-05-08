@@ -27,7 +27,9 @@ class CoursesController extends Controller
     public function index(Request $request)
     {
         //
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
+            ->where('INS_TIPO','=','Institución Educativa')->get();
+//      $institutions=Course::with('institution')->get();
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {

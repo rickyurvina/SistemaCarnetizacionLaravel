@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Background extends Model
 {
     //
-    protected $fillable=['FON_NOMBRE','FON_TIPO','institution_id'];
+    protected $fillable=['FON_NOMBRE','FON_NOMBRE2','FON_TIPO','institution_id'];
 
     public function institution()
     {

@@ -34,6 +34,9 @@ class Student extends Model
     {
         return $this->belongsTo(Course::class);
     }
+    public function picture(){
+        return $this->hasMany(Picture::class);
+    }
 
 
 }

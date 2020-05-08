@@ -7,7 +7,7 @@
                    <div class="card-box table-responsive">
                        <table id="datatable"
                               class="table table-striped projects">
-                           <thead>s
+                           <thead>
                            <tr>
                                <th>{{__('Name')}}</th>
                                <th>{{__('Direction')}}</th>
@@ -51,7 +51,6 @@
                                      class="form-control border-0 bg-light shadow-sm"
                                      cols="30"
                                      rows="10"
-{{--                                     name="INS_MISION"--}}
                                  >{{$institution->INS_MISION}}</textarea>
                                <span class="fa fa-comments-o form-control-feedback right"
                                      aria-hidden="true"></span>
@@ -65,45 +64,47 @@
                                      class="form-control border-0 bg-light shadow-sm"
                                      cols="30"
                                      rows="10"
-{{--                                     name="INS_MISION"--}}
                                  >{{$institution->INS_VISION}}</textarea>
                                <span class="fa fa-comments-o form-control-feedback right"
                                      aria-hidden="true"></span>
                            </div>
                        </div>
-                      @endforeach
-                       <div class="card-box table-responsive">
-                           <table id="datatable" class="table table-striped projects">
-                        <thead>
-                        <tr>
-                            <th>
-                                {{__('Name of Course')}}
-                            </th>
-                            <th>
-                                {{__('Parallel of Course')}}
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($course->course as $cur)
-                            <tr>
-                                <td>
-                                    <a href="{{route('course.show',$cur)}}">
-                                        {{$cur->CUR_NOMBRE}}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a>
-                                        {{$cur->CUR_PARALELO}}
-                                    </a>
-                                </td>
-                            </tr>
-                            @empty
-                            <h1>{{__('There are no registered courses for this institution')}}</h1>
-                        @endforelse
-                        </tbody>
-                    </table>
-                       </div>
+                       @if($course->INS_TIPO=='Organización')
+                          @else
+                           <div class="card-box table-responsive">
+                               <table id="datatable" class="table table-striped projects">
+                                   <thead>
+                                   <tr>
+                                       <th>
+                                           {{__('Name of Course')}}
+                                       </th>
+                                       <th>
+                                           {{__('Parallel of Course')}}
+                                       </th>
+                                   </tr>
+                                   </thead>
+                                   @forelse($course->course as $cur)
+                                       <tbody>
+                                       <tr>
+                                           <td>
+                                               <a href="{{route('course.show',$cur)}}">
+                                                   {{$cur->CUR_NOMBRE}}
+                                               </a>
+                                           </td>
+                                           <td>
+                                               <a>
+                                                   {{$cur->CUR_PARALELO}}
+                                               </a>
+                                           </td>
+                                       </tr>
+                                       @empty
+                                           <h2>{{__('There are no courses registred')}}</h2>
+                                       @endforelse
+                                       </tbody>
+                               </table>
+                           </div>
+                       @endif
+                       @endforeach
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('institution.edit',$institution)}}"
                    class="btn btn-info btn-xs">

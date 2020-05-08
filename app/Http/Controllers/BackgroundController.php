@@ -6,6 +6,7 @@ use App\Background;
 use App\Http\Requests\BackgroundRequest;
 use App\Institution;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Empty_;
 
 class BackgroundController extends Controller
 {
@@ -16,8 +17,7 @@ class BackgroundController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $institutions=Institution::pluck('INS_NOMBRE','id');
+     $institutions=Background::with('institution')->get();
         $institution_id=$request->get('institution_id');
         if (!empty($institution_id))
         {
@@ -43,7 +43,6 @@ class BackgroundController extends Controller
      */
     public function create()
     {
-        //
         $institutions=Institution::orderBy('INS_NOMBRE','ASC')->get();
         return view('identification.backgrounds.create',[
             'background'=>new Background(),
@@ -60,10 +59,20 @@ class BackgroundController extends Controller
     public function store(BackgroundRequest $request)
     {
         //
-       Background::create($request->validated());
-        return redirect()
-            ->route('background.index')
-            ->with('info','Fondo registrado exitosamente');
+       $id=$request->get('institution_id');
+//     $institution_id=Background::orderBy('id','ASC')
+//           ->where('institution_id',$id)->get('institution_id');
+    $ins=Background::with('institution')
+        ->where('institution_id','=',$id)->get();
+        if (count($ins)<=0){
+            Background::create($request->validated());
+            return redirect()
+                ->route('background.index')
+                ->with('info','Fondo registrado exitosamente');
+        }
+        else{
+            return back()->with('info','No se puede agregar, La institución ya tiene asociado un fondo');
+        }
     }
 
     /**
@@ -105,11 +114,21 @@ class BackgroundController extends Controller
      */
     public function update(BackgroundRequest $request, Background $background)
     {
-        //
-        $background->update( $request->validated() );
-        return redirect()
-            ->route('background.show',$background)
-            ->with('info','Fondo actualizado exitosamente');
+        $id=$request->get('institution_id');
+        $institution_id=Background::orderBy('id','ASC')
+            ->where('institution_id',$id)->get('institution_id');
+        $ins=Background::with('institution')
+            ->where('institution_id','=',$id)->get();
+
+        if (count($ins)<=0){
+            $background->update( $request->validated() );
+            return redirect()
+                ->route('background.show',$background)
+                ->with('info','Fondo actualizado exitosamente');
+        }
+        else{
+            return back()->with('info','No se puede agregar, La institución ya tiene asociado un fondo');
+        }
     }
 
     /**

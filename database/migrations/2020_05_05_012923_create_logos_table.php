@@ -17,7 +17,7 @@ class CreateLogosTable extends Migration
             $table->id();
             $table->string('LOG_NOMBRE');
             $table->string('LOG_TIPO')->nullable();
-            $table->foreignId('institution_id')->constrained()->onDelete('cascade');
+            $table->foreignId('institution_id')->unique()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

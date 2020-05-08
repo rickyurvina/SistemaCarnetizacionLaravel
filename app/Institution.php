@@ -13,7 +13,7 @@ class Institution extends Model
     }
 
     public function background(){
-        return $this->hasOne(Background::class);
+        return $this->hasMany(Background::class);
     }
 
     public function logo(){

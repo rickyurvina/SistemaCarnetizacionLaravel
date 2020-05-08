@@ -6,7 +6,7 @@
     @method($txtMethod??'')
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Name')}}
+            {{__('Logo')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
@@ -44,7 +44,7 @@
             <span class="required">*</span>
         </label>
             <select class="custom-select custom-select-sm col-md-6 col-sm-6"
-                    name="institution_id" id="" required>
+                    name="institution_id" id="instituion_id" required>
                 <option selected></option>
                 @foreach($institution as $ins)
                     @if(old('institution', $logo->institution_id)==$ins->id)

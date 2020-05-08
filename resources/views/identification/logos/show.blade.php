@@ -10,7 +10,7 @@
                               class="table table-striped projects">
                            <thead>
                            <tr>
-                               <th>{{__('Name')}}</th>
+                               <th>{{__('Logo')}}</th>
                                <th>{{__('Type')}}</th>
                                <th>{{__('Institution')}}</th>
                                <th>{{__('Created_at')}}</th>

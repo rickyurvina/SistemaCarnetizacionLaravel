@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use App\Course;
 use App\Http\Requests\InstitutionMesageRequest;
 use App\Institution;
@@ -72,7 +73,6 @@ class InstitutionsController extends Controller
 
     public function show(Institution $institution)
     {
-
          $courses=Institution::with('course')
          ->where('id','=',$institution->id)->get();
             return view('identification.institutions.show',[
@@ -125,7 +125,7 @@ class InstitutionsController extends Controller
             return redirect()->route('institution.index')
                 ->with('info', 'Institución eliminada exitosamente');
         } else {
-            return back()->with('info', 'No se puede eliminar, contiene cursos asignados');
+            return back()->with('info', 'No se puede eliminar, contiene registros asignados');
         }
    }
 }

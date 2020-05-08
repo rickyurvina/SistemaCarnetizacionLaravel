@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PictureRequest;
 use App\Picture;
+use App\Student;
 use Illuminate\Http\Request;
 
 class PictureController extends Controller
@@ -12,9 +14,27 @@ class PictureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $students=Student::pluck('EST_CEDULA','id');
+        $students_id=$request->get('student_id');
+        if (!empty($students_id))
+        {
+            $pictures=picture::orderBy('student_id','DESC')
+                ->where('student_id',$students_id)
+                ->paginate(count(Student::get()));
+        }
+        else{
+            $pictures=picture::orderBy('student_id','DESC')
+                ->paginate(5);
+        }
+        if (empty($pictures))
+        {
+            return view('identification.pictures.index', compact('pictures','students'));
+        }
+        return view('identification.pictures.index', compact('pictures','students'))
+            ->with('info','No se encontro esa Estudiante');
     }
 
     /**
@@ -25,6 +45,11 @@ class PictureController extends Controller
     public function create()
     {
         //
+        $students=student::orderBy('EST_NOMBRES','ASC')->get();
+        return view('identification.pictures.create',[
+            'picture'=>new picture(),
+            'students'=>$students
+        ]);
     }
 
     /**
@@ -33,9 +58,28 @@ class PictureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PictureRequest $request)
     {
-        //
+        $id=$request->get('student_id');
+        $student=Picture::with('student')
+            ->where('student_id','=',$id)->get();
+        if (count($student)<=0)
+        {
+            picture::create($request->validated());
+            return redirect()
+                ->route('picture.index')
+                ->with('info','Foto registrada exitosamente');
+        }
+        else
+        {
+            return back()->with('info','No se puede agregar, El estudiante ya tiene una foto asociada');
+
+        }
+
+//             picture::create($request->validated());
+//                return redirect()
+//                    ->route('picture.index')
+//                    ->with('info','Foto registrada exitosamente');
     }
 
     /**
@@ -47,6 +91,9 @@ class PictureController extends Controller
     public function show(Picture $picture)
     {
         //
+        return view('identification.pictures.show',[
+            'picture'=>$picture,
+        ]);
     }
 
     /**
@@ -58,6 +105,11 @@ class PictureController extends Controller
     public function edit(Picture $picture)
     {
         //
+        $students=student::orderBy('EST_NOMBRES','ASC')->get();
+        return view('identification.pictures.edit',[
+            'picture'=>$picture,
+            'students'=>$students,
+        ]);
     }
 
     /**
@@ -67,9 +119,28 @@ class PictureController extends Controller
      * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Picture $picture)
+    public function update(PictureRequest $request, Picture $picture)
     {
         //
+        $id=$request->get('student_id');
+        $student=Picture::with('student')
+            ->where('student_id','=',$id)->get();
+        if (count($student)<=0)
+        {
+            $picture->update( $request->validated() );
+            return redirect()
+                ->route('picture.show',$picture)
+                ->with('info','Fondo actualizado exitosamente');
+        }
+        else
+        {
+            return back()->with('info','No se puede agregar, El estudiante ya tiene una foto asociada');
+
+        }
+//        $picture->update( $request->validated() );
+//        return redirect()
+//            ->route('picture.show',$picture)
+//            ->with('info','Fondo actualizado exitosamente');
     }
 
     /**
@@ -78,8 +149,12 @@ class PictureController extends Controller
      * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Picture $picture)
+    public function destroy($id)
     {
         //
+        picture::findOrFail($id)->delete();
+        return redirect()->route('picture.index')
+            ->with('info','Foto eliminado exitosamente');
+
     }
 }

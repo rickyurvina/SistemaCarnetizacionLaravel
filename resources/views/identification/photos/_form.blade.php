@@ -44,21 +44,8 @@
             <span class="required">*</span>
         </label>
             <select class="custom-select custom-select-sm col-md-6 col-sm-6"
-                    name="people_id" id="" required>
+                    name="people_id" id="people_id" required>
                 <option selected></option>
-{{--                @foreach($photos as $photo)--}}
-{{--                    @if(old('people', $photo->people_id)==$photo->people_id)--}}
-{{--                        <option value="{{$photo->people_id}}" selected>--}}
-{{--                            {{$photo->people->PER_NOMBRES}} {{$photo->people->PER_APELLIDOS}}--}}
-
-{{--                        </option>--}}
-{{--                    @else--}}
-{{--                        <option value="{{$photo->people_id}}">--}}
-{{--                            {{$photo->people->PER_NOMBRES}} {{$photo->people->PER_APELLIDOS}}--}}
-
-{{--                        </option>--}}
-{{--                    @endif--}}
-{{--                    @endforeach--}}
                 @foreach($people as $person)
                     @if(old('people', $photo->people_id)==$person->id)
                     <option value="{{$person->id}}" selected>

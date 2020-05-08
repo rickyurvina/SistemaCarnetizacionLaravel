@@ -1,26 +1,15 @@
 @extends('identification.layouts.app')
-@section('title','Logos')
+@section('title','pictures')
 @section('content')
     <!-- page content -->
-    @include('identification.layouts.top-content',['routeText'=>'logo.create','btnText'=>'Crear','textTitle'=>'Logos'])
+    @include('identification.layouts.top-content',['routeText'=>'picture.create','btnText'=>'Crear','textTitle'=>'Fotos Estudiantes'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                        {{Form::open(['route'=>'logo.index','method'=>'GET'])}}
+                        {{Form::open(['route'=>'picture.index','method'=>'GET'])}}
                         <div class="input-group">
-                                <select class="custom-select custom-select-sm"
-                                        name="institution_id"
-                                        id="institution_id">
-                                    <option selected>
-                                        {{__('Search by Institution')}}
-                                    </option>
-                                    @foreach($institutions as $institution)
-                                        <option value="{{$institution->institution->id}}">
-                                            {{$institution->institution->INS_NOMBRE}}
-                                        </option>
-                                    @endforeach
-                                </select>
+                            {{Form::text('student_id', null,['class'=>'form-control','placeholder'=>'Cedula del Estudiante'])}}
                     <span class="input-group-btn">
                           <button
                               type="submit"
@@ -30,56 +19,51 @@
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of logos')}}
-                        <a href="{{route('logo.index')}}"
-                               class="btn btn-link btn-xs">
-                            <i class="fa fa-search"></i>
-                            {{__('Search All')}}
-                        </a> {{$logos->fragment('foo')->links()}}</p>
+                    <p>{{__('List of pictures')}}
+                   {{$pictures->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th>{{__('Logo')}}</th>
+                            <th>{{__('Name')}}</th>
                             <th>{{__('Type')}}</th>
-                            <th>{{__('Institution')}}</th>
+                            <th>{{__('Student')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($logos as $logo)
+                        @forelse($pictures as $picture)
                             <tr>
                                 <td>
-                                    <a>{{$logo->LOG_NOMBRE}}</a>
+                                    <a>{{$picture->nombre}}</a>
                                     <br />
                                     <small>
-                                        {{__('Created_at')}} {{$logo->created_at->format('d/m/Y')}}
+                                        {{__('Created_at')}} {{$picture->created_at->format('d/m/Y')}}
                                     </small>
                                 </td>
                                 <td>
-                                    <a> {{$logo->LOG_TIPO}}</a>
+                                    <a> {{$picture->tipo}}</a>
                                 </td>
                                 <td class="project_progress">
-                                    <a href="{{route('institution.show',$logo->institution->id)}}">
-{{--                                        {{$logo}}--}}
-                                     {{$logo->institution->INS_NOMBRE}}
+                                    <a href="{{route('student.show',$picture->student_id)}}">
+                                        {{$picture->student->EST_NOMBRES}} {{$picture->student->EST_APELLIDOS}}
                                     </a>
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                <a href="{{route('logo.show',$logo)}}"
+                                <a href="{{route('picture.show',$picture)}}"
                                    class="btn btn-primary btn-xs">
                                     <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
-                                <a href="{{route('logo.edit',$logo)}}"
+                                <a href="{{route('picture.edit',$picture)}}"
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
-                                    <form action="{{route('logo.destroy',$logo->id)}}" method="POST">
+                                    <form action="{{route('picture.destroy',$picture->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">
@@ -91,7 +75,7 @@
                                 </td>
                             </tr>
                         @empty
-                          <h1>{{__('There are no registered logos')}}</h1>
+                          <h1>{{__('There are no registered pictures')}}</h1>
                         @endforelse
                         </tbody>
                     </table>

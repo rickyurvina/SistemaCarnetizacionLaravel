@@ -2,14 +2,14 @@
 @section('title','Usuarios Organizaciones')
 @section('content')
     <!-- page content -->
-    @include('identification.layouts.top-content',['routeText'=>'person.create','btnText'=>'Crear','textTitle'=>'Personas'])
+    @include('identification.layouts.top-content',['routeText'=>'person.create','btnText'=>'Crear','textTitle'=>'Usuarios Organizaciones'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'person.index','method'=>'GET'])}}
                         <div class="input-group">
-                            {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
+                            {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del Usuario'])}}
                             <span class="input-group-btn">
                          <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                          </span>
@@ -21,11 +21,11 @@
                                         name="institution_id"
                                         id="institution_id">
                                     <option
-                                        selected>{{__('List of institutions')}}
+                                        selected> {{__('Search by Organization')}}
                                     </option>
-                                    @foreach($institutions as $id =>$name )
-                                            <option value="{{$id}}">
-                                                {{$name}}
+                                    @foreach($institutions as $institution )
+                                            <option value="{{$institution->id}}">
+                                                {{$institution->INS_NOMBRE}}
                                             </option>
                                     @endforeach
                                 </select>
