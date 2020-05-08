@@ -17,12 +17,17 @@ class PictureController extends Controller
     public function index(Request $request)
     {
         //
-        $students=Student::pluck('EST_CEDULA','id');
         $students_id=$request->get('student_id');
         if (!empty($students_id))
         {
+            $stu=Student::orderBy('created_at','asc')
+                ->where('EST_CEDULA','LIKE',"%$students_id%")
+                ->get('id');
+            foreach($stu as $st){
+                $stu_id=$st->id;
+            }
             $pictures=picture::orderBy('student_id','DESC')
-                ->where('student_id',$students_id)
+                ->where('student_id',$stu_id)
                 ->paginate(count(Student::get()));
         }
         else{
@@ -31,10 +36,10 @@ class PictureController extends Controller
         }
         if (empty($pictures))
         {
-            return view('identification.pictures.index', compact('pictures','students'));
+            return view('identification.pictures.index', compact('pictures'));
         }
-        return view('identification.pictures.index', compact('pictures','students'))
-            ->with('info','No se encontro esa Estudiante');
+        return view('identification.pictures.index', compact('pictures'))
+            ->with('info','No se encontro ese Estudiante');
     }
 
     /**
@@ -75,11 +80,6 @@ class PictureController extends Controller
             return back()->with('info','No se puede agregar, El estudiante ya tiene una foto asociada');
 
         }
-
-//             picture::create($request->validated());
-//                return redirect()
-//                    ->route('picture.index')
-//                    ->with('info','Foto registrada exitosamente');
     }
 
     /**

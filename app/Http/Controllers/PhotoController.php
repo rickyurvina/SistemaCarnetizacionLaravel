@@ -16,14 +16,20 @@ class PhotoController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $people=Person::pluck('PER_CEDULA','id');
+
         $people_id=$request->get('people_id');
         if (!empty($people_id))
         {
+            $person=Person::orderby('created_at','asc')
+                ->where('PER_CEDULA','LIKE',"%$people_id%")
+                ->get('id');
+            foreach ($person as $per) {
+               $person_id= $per->id;
+            }
             $photos=Photo::orderBy('people_id','DESC')
-                ->where('people_id',$people_id)
+                ->where('people_id',$person_id)
                 ->paginate(count(Person::get()));
+
         }
         else{
             $photos=Photo::orderBy('people_id','DESC')
@@ -31,9 +37,9 @@ class PhotoController extends Controller
         }
         if (empty($photos))
         {
-            return view('identification.photos.index', compact('photos','people'));
+            return view('identification.photos.index', compact('photos'));
         }
-        return view('identification.photos.index', compact('photos','people'))
+        return view('identification.photos.index', compact('photos'))
             ->with('info','No se encontro esa persona');
 
     }
@@ -77,11 +83,6 @@ class PhotoController extends Controller
             return back()->with('info','No se puede agregar, El usuario ya tiene asociada una foto');
 
         }
-//        photo::create($request->validated());
-//        return redirect()
-//            ->route('photo.index')
-//            ->with('info','Fotoregistrado exitosamente');
-
     }
 
     /**
@@ -139,10 +140,6 @@ class PhotoController extends Controller
             return back()->with('info','No se puede agregar, El usuario ya tiene asociada una foto');
 
         }
-//        $photo->update( $request->validated() );
-//        return redirect()
-//            ->route('photo.show',$photo)
-//            ->with('info','Fondo actualizado exitosamente');
     }
 
     /**

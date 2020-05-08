@@ -28,7 +28,7 @@
                         <tr>
                             <th>{{__('Name')}}</th>
                             <th>{{__('Type')}}</th>
-                            <th>{{__('person')}}</th>
+                            <th>{{__('User')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
