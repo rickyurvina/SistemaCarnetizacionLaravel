@@ -19,4 +19,8 @@ class Area extends Model
     {
         return $query->pluck('ARE_NOMBRE','id');
     }
+    public function scopeOrder($query)
+    {
+        return $query->orderBy('ARE_NOMBRE','ASC');
+    }
 }

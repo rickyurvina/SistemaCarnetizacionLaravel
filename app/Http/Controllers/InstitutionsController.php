@@ -25,7 +25,7 @@ class InstitutionsController extends Controller
                 compact('institutions'));
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -39,7 +39,7 @@ class InstitutionsController extends Controller
                 compact('institutions'));
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -54,7 +54,7 @@ class InstitutionsController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -71,7 +71,7 @@ class InstitutionsController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -87,11 +87,11 @@ class InstitutionsController extends Controller
             Institution::create($request->validated());
             return redirect()
                 ->route('institution.index')
-                ->with('info','Institución registrada exitosamente');
+                ->with('success','Institución registrada exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -114,7 +114,7 @@ class InstitutionsController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -133,7 +133,7 @@ class InstitutionsController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -150,11 +150,11 @@ class InstitutionsController extends Controller
             $institution->update( $request->validated() );
             return redirect()
                 ->route('institution.show',$institution)
-                ->with('info','Institución actualizada exitosamente');
+                ->with('success','Institución actualizada exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -169,10 +169,10 @@ class InstitutionsController extends Controller
         try{
             Institution::findOrFail($id)->delete();
             return redirect()->route('institution.index')
-                ->with('info', 'Institución eliminada exitosamente');
+                ->with('delete', 'Institución eliminada exitosamente');
         }catch(\Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode().
+            return back()->with('error','Error: '.$e->getCode().
                 ' No se puede eliminar, contiene registros asignados');
         }
    }

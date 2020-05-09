@@ -18,14 +18,14 @@ class AreaController extends Controller
     {
         try{
             $ARE_NOMBRE=$request->get('ARE_NOMBRE');
-            $areas=Area::orderBy('ARE_NOMBRE','ASC')
+            $areas=Area::Order()
                 ->name($ARE_NOMBRE)
                 ->paginate(6);
             return view('identification.areas.index',compact('areas'));
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -42,7 +42,7 @@ class AreaController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -58,10 +58,10 @@ class AreaController extends Controller
             Area::create($request->validated());
             return redirect()
                 ->route('area.index')
-                ->with('info','Area registrada exitosamente');
+                ->with('success','Area registrada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -78,7 +78,7 @@ class AreaController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -96,7 +96,7 @@ class AreaController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -113,10 +113,10 @@ class AreaController extends Controller
             $area->update( $request->validated() );
             return redirect()
                 ->route('area.show',$area)
-                ->with('info','Area actualizada exitosamente');
+                ->with('success','Area actualizada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -131,10 +131,11 @@ class AreaController extends Controller
         try{
             Area::findOrFail($id)->delete();
             return redirect()->route('area.index')
-                ->with('info','Area eliminada exitosamente');
+                ->with('delete','Area eliminada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().
+                ' No se puede eliminar, contiene registros asociados');
         }
     }
 }

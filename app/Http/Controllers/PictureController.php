@@ -37,11 +37,11 @@ class PictureController extends Controller
                 return view('identification.pictures.index', compact('pictures'));
             }
             return view('identification.pictures.index', compact('pictures'))
-                ->with('info','No se encontro ese Estudiante');
+                ->with('error','No se encontro ese Estudiante');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -61,7 +61,7 @@ class PictureController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -77,10 +77,10 @@ class PictureController extends Controller
             picture::create($request->validated());
             return redirect()
                 ->route('picture.index')
-                ->with('info','Foto registrada exitosamente');
+                ->with('success','Foto registrada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode().
+            return back()->with('error','Error: '.$e->getCode().
                 'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
     }
@@ -99,7 +99,7 @@ class PictureController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -121,7 +121,7 @@ class PictureController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -138,10 +138,10 @@ class PictureController extends Controller
             $picture->update( $request->validated() );
             return redirect()
                 ->route('picture.show',$picture)
-                ->with('info','Fondo actualizado exitosamente');
+                ->with('success','Fondo actualizado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode().
+            return back()->with('error','Error: '.$e->getCode().
                 'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
     }
@@ -156,11 +156,11 @@ class PictureController extends Controller
         try{
             picture::findOrFail($id)->delete();
             return redirect()->route('picture.index')
-                ->with('info','Foto eliminado exitosamente');
+                ->with('delete','Foto eliminado exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }

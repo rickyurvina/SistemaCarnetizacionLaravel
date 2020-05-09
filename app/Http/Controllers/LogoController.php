@@ -26,10 +26,10 @@ class LogoController extends Controller
                 ->paginate(5);
             return view('identification.logos.index',
                 compact('logos','institutions'))
-                ->with('info','No se encontro esa institutcion');
+                ->with('error','No se encontro esa institutcion');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -49,7 +49,7 @@ class LogoController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -67,9 +67,9 @@ class LogoController extends Controller
             logo::create($request->validated());
             return redirect()
                 ->route('logo.index')
-                ->with('info','Fondo registrado exitosamente');
+                ->with('success','Fondo registrado exitosamente');
         }catch(Throwable $e){
-            return back()->with('info','Error'.$e->getCode().' No se puede agregar, La institución  '
+            return back()->with('error','Error'.$e->getCode().' No se puede agregar, La institución  '
                 .$request->institution_id.' ya tiene asociado un logo');
         }
     }
@@ -89,7 +89,7 @@ class LogoController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -103,14 +103,14 @@ class LogoController extends Controller
     {
         //
         try{
-            $institutions=Institution::orderBy('INS_NOMBRE','ASC')->get();
+            $institutions=Institution::OrderCreate()->get();
             return view('identification.logos.edit',[
                 'logo'=>$logo,
                 'institution'=>$institutions,
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -127,9 +127,9 @@ class LogoController extends Controller
             $logo->update( $request->validated() );
             return redirect()
                 ->route('logo.show',$logo)
-                ->with('info','Fondo actualizado exitosamente');
+                ->with('success','Fondo actualizado exitosamente');
         }catch(Throwable $e){
-            return back()->with('info','Error: '.$e->getCode().' No se puede agregar, La institución  '
+            return back()->with('error','Error: '.$e->getCode().' No se puede agregar, La institución  '
                 .$request->institution_id.' ya tiene asociado un logo');
         }
     }
@@ -145,10 +145,10 @@ class LogoController extends Controller
         try{
             logo::findOrFail($id)->delete();
             return redirect()->route('logo.index')
-                ->with('info','Fondo eliminado exitosamente');
+                ->with('delete','Fondo eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 }

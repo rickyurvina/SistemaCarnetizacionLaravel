@@ -19,7 +19,7 @@ class CoursesController extends Controller
             return Course::CourseIns($id)->get();
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -38,11 +38,11 @@ class CoursesController extends Controller
                 ->CourseIns($institution_id)->paginate(5);
             return view('identification.courses.index',
                 compact('courses','institutions'))
-                ->with('info','No se encontro esa institutcion');
+                ->with('error','No se encontro esa institutcion');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -62,7 +62,7 @@ class CoursesController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -78,10 +78,10 @@ class CoursesController extends Controller
             Course::create($request->validated());
             return redirect()
                 ->route('course.index')
-                ->with('info','Curso registrado exitosamente');
+                ->with('success','Curso registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -102,7 +102,7 @@ class CoursesController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -123,7 +123,7 @@ class CoursesController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -140,11 +140,11 @@ class CoursesController extends Controller
             $course->update( $request->validated() );
             return redirect()
                 ->route('course.show',$course)
-                ->with('info','Curso actualizado exitosamente');
+                ->with('success','Curso actualizado exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -161,11 +161,11 @@ class CoursesController extends Controller
         try{
             Course::findOrFail($id)->delete();
             return redirect()->route('course.index')
-                ->with('info','Curso eliminado exitosamente');
+                ->with('delete','Curso eliminado exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
 

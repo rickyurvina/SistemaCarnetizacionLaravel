@@ -29,11 +29,10 @@ class StudentController extends Controller
                 ->paginate(10);
             return view('identification.students.index',
                 compact('students','institutions'))
-                ->with('info','No se encontro ese estudiante');
-
+                ->with('error','No se encontro ese estudiante');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -55,7 +54,7 @@ class StudentController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -71,13 +70,12 @@ class StudentController extends Controller
             Student::create($request->validated());
             return redirect()
                 ->route('student.index')
-                ->with('info','Estudiante registrado exitosamente');
+                ->with('success','Estudiante registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -93,7 +91,7 @@ class StudentController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -105,8 +103,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
-        try{
+          try{
             $type='Institución Educativa';
             $institutions=Institution::OrderCreate()->type($type)->get();
             $courses=Course::PluckName();
@@ -117,7 +114,7 @@ class StudentController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -133,10 +130,10 @@ class StudentController extends Controller
             $student->update( $request->validated());
             return redirect()
                 ->route('student.show',$student)
-                ->with('info','Estudiante actualizado exitosamente');
+                ->with('success','Estudiante actualizado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 
@@ -151,11 +148,11 @@ class StudentController extends Controller
         try{
             Student::findOrFail($id)->delete();
             return redirect()->route('student.index')
-                ->with('info','Estudiante eliminado exitosamente');
+                ->with('delete','Estudiante eliminado exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 }

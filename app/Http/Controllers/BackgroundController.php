@@ -25,10 +25,10 @@ class BackgroundController extends Controller
                 ->paginate(5);
             return view('identification.backgrounds.index',
                 compact('backgrounds','institutions'))
-                ->with('info','No se encontro esa institutcion');
+                ->with('error','No se encontro esa institutcion');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -46,7 +46,7 @@ class BackgroundController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -62,12 +62,12 @@ class BackgroundController extends Controller
             Background::create($request->validated());
             return redirect()
                 ->route('background.index')
-                ->with('info','Fondo registrado exitosamente');
+                ->with('success','Fondo registrado exitosamente');
 
         }catch(Throwable $e)
         {
             return back()
-                ->with('info','Error: '.$e->getCode().' No se puede agregar, La institución '
+                ->with('error','Error: '.$e->getCode().' No se puede agregar, La institución '
                     .$request->institution_id.' ya tiene asociado un fondo');
         }
     }
@@ -87,7 +87,7 @@ class BackgroundController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -107,7 +107,7 @@ class BackgroundController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -124,10 +124,10 @@ class BackgroundController extends Controller
             $background->update( $request->validated());
             return redirect()
                 ->route('background.show',$background)
-                ->with('info','Fondo actualizado exitosamente');
+                ->with('success','Fondo actualizado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error'.$e->getCode().
+            return back()->with('error','Error'.$e->getCode().
                 ' No se puede agregar, La institución '
                 .$request->institution_id.' ya tiene asociado un fondo');
         }
@@ -144,11 +144,11 @@ class BackgroundController extends Controller
             Background::findOrFail($id)->delete();
             return redirect()
                 ->route('background.index')
-                ->with('info','Fondo eliminado exitosamente');
+                ->with('delete','Fondo eliminado exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }

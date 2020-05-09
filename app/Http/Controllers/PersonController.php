@@ -39,11 +39,11 @@ class PersonController extends Controller
             }
             return view('identification.people.index',
                 compact('people','institutions'))
-                ->with('info','No se encontro esa persona');
+                ->with('error','No se encontro esa persona');
 
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -65,7 +65,7 @@ class PersonController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -81,10 +81,10 @@ class PersonController extends Controller
             Person::create($request->validated());
             return redirect()
                 ->route('person.index')
-                ->with('info','Usuario registrado exitosamente');
+                ->with('success','Usuario registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -101,7 +101,7 @@ class PersonController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
     /**
@@ -123,7 +123,7 @@ class PersonController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -140,11 +140,10 @@ class PersonController extends Controller
             $person->update( $request->validated());
             return redirect()
                 ->route('person.show',$person)
-                ->with('info','Usuario actualizado exitosamente');
-
+                ->with('success','Usuario actualizado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
 
     }
@@ -159,10 +158,10 @@ class PersonController extends Controller
         try{
             Person::findOrFail($id)->delete();
             return redirect()->route('person.index')
-                ->with('info','Usuario eliminado exitosamente');
+                ->with('delete','Usuario eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('info','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode());
         }
     }
 }
