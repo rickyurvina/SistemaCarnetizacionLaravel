@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Area;
-use App\Course;
 use App\Http\Requests\InstitutionMesageRequest;
-use App\Institution;
+use App\Models\Institution;
 use App;
 use Illuminate\Http\Request;
-use Monolog\Handler\IFTTTHandler;
+use Throwable;
 
 class InstitutionsController extends Controller
 {
@@ -18,27 +16,47 @@ class InstitutionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showIE(Request $request){
+        try{
             $name='Educativa';
-            $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-                ->where('INS_TIPO','LIKE',"% $name%")
+            $institutions=Institution::OrderCreate()
+                ->Type($name)
                 ->paginate(6);
-            return view('identification.institutions.index',compact('institutions'));
-    }
+            return view('identification.institutions.index',
+                compact('institutions'));
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
 
+    }
     public function showO(Request $request){
-        $INS_TIPO='Organización';
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','LIKE',"%$INS_TIPO%")
-            ->paginate(6);
-        return view('identification.institutions.index',compact('institutions'));
+        try{
+            $name='Organización';
+            $institutions=Institution::OrderCreate()
+                ->Type($name)
+                ->paginate(6);
+            return view('identification.institutions.index',
+                compact('institutions'));
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     public function index(Request $request)
     {
-        $INS_NOMBRE=$request->get('INS_NOMBRE');
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_NOMBRE','LIKE',"%$INS_NOMBRE%")
-            ->paginate(6);
-        return view('identification.institutions.index',compact('institutions'));
+        try{
+            $INS_NOMBRE=$request->get('INS_NOMBRE');
+            $institutions=Institution::OrderCreate()
+                ->Name($INS_NOMBRE)
+                ->paginate(6);
+            return view('identification.institutions.index',compact('institutions'));
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Show the form for creating a new resource.
@@ -47,9 +65,15 @@ class InstitutionsController extends Controller
      */
     public function create()
     {
-        return view('identification.institutions.create',[
-            'institution'=>new Institution
-        ]);
+        try{
+            return view('identification.institutions.create',[
+                'institution'=>new Institution
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Store a newly created resource in storage.
@@ -59,10 +83,17 @@ class InstitutionsController extends Controller
      */
     public function store(InstitutionMesageRequest $request)
     {
-        Institution::create($request->validated());
-        return redirect()
-            ->route('institution.index')
-            ->with('info','Institución registrada exitosamente');
+        try{
+            Institution::create($request->validated());
+            return redirect()
+                ->route('institution.index')
+                ->with('info','Institución registrada exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Display the specified resource.
@@ -73,12 +104,19 @@ class InstitutionsController extends Controller
 
     public function show(Institution $institution)
     {
-         $courses=Institution::with('course')
-         ->where('id','=',$institution->id)->get();
+        try{
+            $courses=Institution::WithCourse()
+                ->CourseID($institution->id);
             return view('identification.institutions.show',[
-            'institution'=>$institution,
-            'courses'=>$courses
-        ]);
+                'institution'=>$institution,
+                'courses'=>$courses
+            ]);
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Show the form for editing the specified resource.
@@ -88,9 +126,16 @@ class InstitutionsController extends Controller
      */
     public function edit(Institution $institution)
     {
-        return view('identification.institutions.edit',[
-            'institution'=>$institution
-        ]);
+        try{
+            return view('identification.institutions.edit',[
+                'institution'=>$institution
+            ]);
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Update the specified resource in storage.
@@ -101,10 +146,17 @@ class InstitutionsController extends Controller
      */
     public function update(InstitutionMesageRequest $request, Institution $institution)
     {
-        $institution->update( $request->validated() );
-        return redirect()
-            ->route('institution.show',$institution)
-            ->with('info','Institución actualizada exitosamente');
+        try{
+            $institution->update( $request->validated() );
+            return redirect()
+                ->route('institution.show',$institution)
+                ->with('info','Institución actualizada exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Remove the specified resource from storage.
@@ -114,18 +166,14 @@ class InstitutionsController extends Controller
      */
     public function destroy($id)
     {
-        $courses = Institution::with('course')
-            ->where('id', '=', $id)->get();
-        foreach ($courses as $course) {
-            foreach ($course->course as $cur) {
-            }
-        }
-        if (Empty($cur)) {
+        try{
             Institution::findOrFail($id)->delete();
             return redirect()->route('institution.index')
                 ->with('info', 'Institución eliminada exitosamente');
-        } else {
-            return back()->with('info', 'No se puede eliminar, contiene registros asignados');
+        }catch(\Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode().
+                ' No se puede eliminar, contiene registros asignados');
         }
    }
 }

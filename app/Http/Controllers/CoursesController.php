@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\CourseMessageRequest;
-use App\Course;
-use App\Institution;
-use App\Student;
-use DemeterChain\C;
+use App\Models\Course;
+use App\Models\Institution;
 use Illuminate\Http\Request;
-use Monolog\Handler\IFTTTHandler;
+use Throwable;
 
 class CoursesController extends Controller
 {
@@ -17,7 +15,13 @@ class CoursesController extends Controller
      */
     public function byInstitution($id)
     {
-        return Course::where('institution_id',$id)->get();
+        try{
+            return Course::CourseIns($id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Display a listing of the resource.
@@ -26,26 +30,21 @@ class CoursesController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Institución Educativa')->get();
-//      $institutions=Course::with('institution')->get();
-        $institution_id=$request->get('institution_id');
-        if (!empty($institution_id))
-        {
+        try{
+            $type='Institución Educativa';
+            $institutions=Institution::OrderCreate()->Type($type)->get();
+            $institution_id=$request->get('institution_id');
             $courses=Course::orderBy('institution_id','DESC')
-                ->where('institution_id',$institution_id)
-                ->paginate(count(Institution::get()));
-        }
-        else{
-            $courses=Course::orderBy('institution_id','DESC')
-                ->paginate(5);
-        }
-        if (empty($courses))
+                ->CourseIns($institution_id)->paginate(5);
+            return view('identification.courses.index',
+                compact('courses','institutions'))
+                ->with('info','No se encontro esa institutcion');
+
+        }catch(Throwable $e)
         {
-            return view('identification.courses.index', compact('courses','institutions'));
+            return back()->with('info','Error: '.$e->getCode());
         }
-        return view('identification.courses.index', compact('courses','institutions'))->with('info','No se encontro esa institutcion');
+
     }
     /**
      * Show the form for creating a new resource.
@@ -54,12 +53,18 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Institución Educativa')->get();
-        return view('identification.courses.create',[
-            'course'=>new Course,
-            'institution'=>$institutions
-        ]);
+        try{
+            $type='Institución Educativa';
+            $institutions=Institution::OrderCreate()->Type($type)->get();
+            return view('identification.courses.create',[
+                'course'=>new Course,
+                'institution'=>$institutions
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Store a newly created resource in storage.
@@ -69,10 +74,16 @@ class CoursesController extends Controller
      */
     public function store(CourseMessageRequest $request)
     {
-        Course::create($request->validated());
-        return redirect()
-            ->route('course.index')
-            ->with('info','Curso registrado exitosamente');
+        try{
+            Course::create($request->validated());
+            return redirect()
+                ->route('course.index')
+                ->with('info','Curso registrado exitosamente');
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Display the specified resource.
@@ -83,12 +94,17 @@ class CoursesController extends Controller
     public function show(Course $course)
     {
         //
-         $students=Course::with('student')
-           ->where('id','=',$course->id)->get();
-        return view('identification.courses.show',[
-            'course'=>$course,
-            'students'=>$students
-        ]);
+        try{
+            $students=Course::WithStudent()->CourseID($course->id);
+            return view('identification.courses.show',[
+                'course'=>$course,
+                'students'=>$students
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Show the form for editing the specified resource.
@@ -98,12 +114,18 @@ class CoursesController extends Controller
      */
     public function edit(Course $course)
     {
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Institución Educativa')->get();
-        return view('identification.courses.edit',[
-            'course'=>$course,
-            'institution'=>$institutions,
-        ]);
+        try{
+            $type='Institución Educativa';
+            $institutions=Institution::OrderCreate()->Type($type)->get();
+            return view('identification.courses.edit',[
+                'course'=>$course,
+                'institution'=>$institutions,
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
     /**
      * Update the specified resource in storage.
@@ -114,11 +136,17 @@ class CoursesController extends Controller
      */
     public function update(CourseMessageRequest $request, Course $course)
     {
-//     return $request;
-        $course->update( $request->validated() );
-        return redirect()
-            ->route('course.show',$course)
-            ->with('info','Curso actualizado exitosamente');
+        try{
+            $course->update( $request->validated() );
+            return redirect()
+                ->route('course.show',$course)
+                ->with('info','Curso actualizado exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
 
     /**
@@ -130,8 +158,16 @@ class CoursesController extends Controller
     public function destroy($id)
     {
         //
-        Course::findOrFail($id)->delete();
-        return redirect()->route('course.index')->with('info','Curso eliminado exitosamente');
+        try{
+            Course::findOrFail($id)->delete();
+            return redirect()->route('course.index')
+                ->with('info','Curso eliminado exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
 
     }
 }

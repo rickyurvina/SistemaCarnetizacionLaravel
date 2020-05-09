@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,6 +37,25 @@ class Student extends Model
     public function picture(){
         return $this->hasMany(Picture::class);
     }
+    public function scopeOrderCreated($query)
+    {
+        return $query->orderBy('created_at','DESC');
+    }
+    public function scopeId($query,$students_id)
+    {
+        if ($students_id)
+            return $query->where('EST_CEDULA','LIKE',"%$students_id%");
+    }
+    public function scopeOrder($query)
+    {
+        return $query->orderBy('EST_NOMBRES','ASC');
+    }
+    public function scopeInstitutionId($query,$institution_id)
+    {
+        if ($institution_id)
+            return $query->where('EST_CEDULA','LIKE',"%$institution_id%");
+    }
+
 
 
 }

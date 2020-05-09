@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PictureRequest;
-use App\Picture;
-use App\Student;
+use App\Models\Picture;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Throwable;
 
 class PictureController extends Controller
 {
@@ -16,30 +17,32 @@ class PictureController extends Controller
      */
     public function index(Request $request)
     {
-        //
-        $students_id=$request->get('student_id');
-        if (!empty($students_id))
-        {
-            $stu=Student::orderBy('created_at','asc')
-                ->where('EST_CEDULA','LIKE',"%$students_id%")
-                ->get('id');
-            foreach($stu as $st){
-                $stu_id=$st->id;
+        try{
+            $students_id=$request->get('student_id');
+            if (!empty($students_id))
+            {
+                $stu=Student::OrderCreated()->Id($students_id)->get('id');
+                foreach($stu as $st){
+                    $stu_id=$st->id;
+                }
+                $pictures=picture::Order()
+                    ->Id($stu_id)
+                    ->paginate(count(Student::get()));
             }
-            $pictures=picture::orderBy('student_id','DESC')
-                ->where('student_id',$stu_id)
-                ->paginate(count(Student::get()));
-        }
-        else{
-            $pictures=picture::orderBy('student_id','DESC')
-                ->paginate(5);
-        }
-        if (empty($pictures))
+            else{
+                $pictures=picture::orderBy('student_id','DESC')->paginate(5);
+            }
+            if (empty($pictures))
+            {
+                return view('identification.pictures.index', compact('pictures'));
+            }
+            return view('identification.pictures.index', compact('pictures'))
+                ->with('info','No se encontro ese Estudiante');
+
+        }catch(Throwable $e)
         {
-            return view('identification.pictures.index', compact('pictures'));
+            return back()->with('info','Error: '.$e->getCode());
         }
-        return view('identification.pictures.index', compact('pictures'))
-            ->with('info','No se encontro ese Estudiante');
     }
 
     /**
@@ -50,11 +53,16 @@ class PictureController extends Controller
     public function create()
     {
         //
-        $students=student::orderBy('EST_NOMBRES','ASC')->get();
-        return view('identification.pictures.create',[
-            'picture'=>new picture(),
-            'students'=>$students
-        ]);
+        try{
+            $students=student::Order()->get();
+            return view('identification.pictures.create',[
+                'picture'=>new picture(),
+                'students'=>$students
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -65,20 +73,15 @@ class PictureController extends Controller
      */
     public function store(PictureRequest $request)
     {
-        $id=$request->get('student_id');
-        $student=Picture::with('student')
-            ->where('student_id','=',$id)->get();
-        if (count($student)<=0)
-        {
+        try{
             picture::create($request->validated());
             return redirect()
                 ->route('picture.index')
                 ->with('info','Foto registrada exitosamente');
-        }
-        else
+        }catch(Throwable $e)
         {
-            return back()->with('info','No se puede agregar, El estudiante ya tiene una foto asociada');
-
+            return back()->with('info','Error: '.$e->getCode().
+                'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
     }
 
@@ -90,10 +93,15 @@ class PictureController extends Controller
      */
     public function show(Picture $picture)
     {
-        //
-        return view('identification.pictures.show',[
-            'picture'=>$picture,
-        ]);
+        try{
+            return view('identification.pictures.show',[
+                'picture'=>$picture,
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
+
     }
 
     /**
@@ -105,11 +113,16 @@ class PictureController extends Controller
     public function edit(Picture $picture)
     {
         //
-        $students=student::orderBy('EST_NOMBRES','ASC')->get();
-        return view('identification.pictures.edit',[
-            'picture'=>$picture,
-            'students'=>$students,
-        ]);
+        try{
+            $students=student::Order()->get();
+            return view('identification.pictures.edit',[
+                'picture'=>$picture,
+                'students'=>$students,
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -121,28 +134,17 @@ class PictureController extends Controller
      */
     public function update(PictureRequest $request, Picture $picture)
     {
-        //
-        $id=$request->get('student_id');
-        $student=Picture::with('student')
-            ->where('student_id','=',$id)->get();
-        if (count($student)<=0)
-        {
+        try{
             $picture->update( $request->validated() );
             return redirect()
                 ->route('picture.show',$picture)
                 ->with('info','Fondo actualizado exitosamente');
-        }
-        else
+        }catch(Throwable $e)
         {
-            return back()->with('info','No se puede agregar, El estudiante ya tiene una foto asociada');
-
+            return back()->with('info','Error: '.$e->getCode().
+                'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
-//        $picture->update( $request->validated() );
-//        return redirect()
-//            ->route('picture.show',$picture)
-//            ->with('info','Fondo actualizado exitosamente');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -151,10 +153,15 @@ class PictureController extends Controller
      */
     public function destroy($id)
     {
-        //
-        picture::findOrFail($id)->delete();
-        return redirect()->route('picture.index')
-            ->with('info','Foto eliminado exitosamente');
+        try{
+            picture::findOrFail($id)->delete();
+            return redirect()->route('picture.index')
+                ->with('info','Foto eliminado exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
 
     }
 }

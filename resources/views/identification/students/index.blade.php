@@ -8,20 +8,13 @@
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     {{Form::open(['route'=>'student.index','method'=>'GET'])}}
-                        <div class="input-group">
-                        {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
-                        <span class="input-group-btn">
-                         <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
-                         </span>
-                    </div>
-                    {{Form::close()}}
-                        {{Form::open(['route'=>'student.index','method'=>'GET'])}}
-                        <div class="input-group">
+                         <div class="input-group">
+                             {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
-                                    <option
-                                        selected> {{__('Search by Educative Institution')}}
+                                    <option value=""
+                                        selected> {{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $institution )
                                             <option value="{{$institution->id}}">
@@ -33,13 +26,12 @@
                               <button type="submit" class="btn btn-xs" >{{__('Search')}}</button>
                             </span>
                          </div>
+                    </div>
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of students')}}
                         <a href="{{route('student.index')}}"
                                class="btn btn-link btn-xs">
-                            <i class="fa fa-search"></i>
-                            {{__('Search All')}}
                         </a> {{$students->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"

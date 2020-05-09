@@ -65,7 +65,7 @@
                 <option selected></option>
                 @foreach($institution as $ins)
                     @if(old('institution', $background->institution_id)==$ins->id)
-                    <option value="{{$ins->id}}" selected>
+                    <option id="ins" value="{{$ins->id}}" selected>
                         {{$ins->INS_NOMBRE}}
                     </option>
                         @else

@@ -10,17 +10,10 @@
                         {{Form::open(['route'=>'person.index','method'=>'GET'])}}
                         <div class="input-group">
                             {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del Usuario'])}}
-                            <span class="input-group-btn">
-                         <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
-                         </span>
-                        </div>
-                        {{Form::close()}}
-                        {{Form::open(['route'=>'person.index','method'=>'GET'])}}
-                        <div class="input-group">
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
-                                    <option
+                                    <option value=""
                                         selected> {{__('Search by Organization')}}
                                     </option>
                                     @foreach($institutions as $institution )
@@ -32,14 +25,12 @@
                             <span class="input-group-btn">
                               <button type="submit" class="btn btn-xs" >{{__('Search')}}</button>
                             </span>
-                         </div>
+                        </div>
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of people')}}
                         <a href="{{route('person.index')}}"
                                class="btn btn-link btn-xs">
-                            <i class="fa fa-search"></i>
-                            {{__('Search All')}}
                         </a> {{$people->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
@@ -49,11 +40,9 @@
                             <th>{{__('Identification card')}}</th>
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
-{{--                            <th>{{__('Sex')}}</th>--}}
                             <th>{{__('Age')}}</th>
-{{--                            <th>{{__('Blood type')}}</th>--}}
                             <th>{{__('Email')}}</th>
-                            <th>{{__('Direction')}}</th>
+{{--                            <th>{{__('Direction')}}</th>--}}
                             <th>{{__('Phone')}}</th>
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Institution')}}</th>
@@ -77,21 +66,15 @@
                                 <td>
                                     <a> {{$person->PER_APELLIDOS}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$person->PER_SEXO}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($person->PER_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$person->PER_TIPOSANGRE}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_CORREO}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$person->PER_DIRECCION}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_DIRECCION}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_NUMERO}}</a>
                                 </td>

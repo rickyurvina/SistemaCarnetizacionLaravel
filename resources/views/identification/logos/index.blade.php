@@ -12,7 +12,7 @@
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
-                                    <option selected>
+                                    <option value"" selected>
                                         {{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $institution)
@@ -33,8 +33,6 @@
                     <p>{{__('List of logos')}}
                         <a href="{{route('logo.index')}}"
                                class="btn btn-link btn-xs">
-                            <i class="fa fa-search"></i>
-                            {{__('Search All')}}
                         </a> {{$logos->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoRequest;
-use App\Person;
-use App\Photo;
+use App\Models\Person;
+use App\Models\Photo;
 use Illuminate\Http\Request;
+use Throwable;
 
 class PhotoController extends Controller
 {
@@ -16,32 +17,31 @@ class PhotoController extends Controller
      */
     public function index(Request $request)
     {
-
-        $people_id=$request->get('people_id');
-        if (!empty($people_id))
-        {
-            $person=Person::orderby('created_at','asc')
-                ->where('PER_CEDULA','LIKE',"%$people_id%")
-                ->get('id');
-            foreach ($person as $per) {
-               $person_id= $per->id;
+        try{
+            $people_id=$request->get('people_id');
+            if (!empty($people_id))
+            {
+                $person=Person::Order()->Id($people_id)->get('id');
+                foreach ($person as $per) {
+                    $person_id= $per->id;
+                }
+                $photos=Photo::Order()->Id($person_id)->paginate(count(Person::get()));
             }
-            $photos=Photo::orderBy('people_id','DESC')
-                ->where('people_id',$person_id)
-                ->paginate(count(Person::get()));
+            else{
+                $photos=Photo::Order()
+                    ->paginate(5);
+            }
+            if (empty($photos))
+            {
+                return view('identification.photos.index', compact('photos'));
+            }
+            return view('identification.photos.index', compact('photos'))
+                ->with('info','No se encontro esa persona');
 
-        }
-        else{
-            $photos=Photo::orderBy('people_id','DESC')
-                ->paginate(5);
-        }
-        if (empty($photos))
+        }catch(Throwable $e)
         {
-            return view('identification.photos.index', compact('photos'));
+            return back()->with('info','Error: '.$e->getCode());
         }
-        return view('identification.photos.index', compact('photos'))
-            ->with('info','No se encontro esa persona');
-
     }
 
     /**
@@ -51,13 +51,16 @@ class PhotoController extends Controller
      */
     public function create()
     {
-        //
-
-        $people=person::orderBy('PER_NOMBRES','ASC')->get();
-        return view('identification.photos.create',[
-            'photo'=>new photo(),
-            'people'=>$people
-        ]);
+        try{
+            $people=person::OrderName()->get();
+            return view('identification.photos.create',[
+                'photo'=>new photo(),
+                'people'=>$people
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -69,19 +72,16 @@ class PhotoController extends Controller
     public function store(PhotoRequest $request)
     {
         //
-        $id=$request->get('people_id');
-       $person=Photo::with('people')
-            ->where('people_id','=',$id)->get();
-        if (count($person)<=0)
-        {
+        try{
             photo::create($request->validated());
             return redirect()
                 ->route('photo.index')
                 ->with('info','Fotoregistrado exitosamente');
-        }
-        else{
-            return back()->with('info','No se puede agregar, El usuario ya tiene asociada una foto');
-
+        }catch(Throwable $e)
+        {
+            return back()
+                ->with('info','Error: '.$e->getCode().
+                    ' No se puede agregar, El usuario ya tiene asociada una foto');
         }
     }
 
@@ -94,9 +94,15 @@ class PhotoController extends Controller
     public function show(Photo $photo)
     {
         //
-        return view('identification.photos.show',[
-            'photo'=>$photo,
-        ]);
+        try{
+            return view('identification.photos.show',[
+                'photo'=>$photo,
+            ]);
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -108,11 +114,16 @@ class PhotoController extends Controller
     public function edit(Photo $photo)
     {
         //
-        $people=person::orderBy('PER_NOMBRES','ASC')->get();
-        return view('identification.photos.edit',[
-            'photo'=>$photo,
-            'people'=>$people,
-        ]);
+        try{
+            $people=person::orderBy('PER_NOMBRES','ASC')->get();
+            return view('identification.photos.edit',[
+                'photo'=>$photo,
+                'people'=>$people,
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -124,21 +135,17 @@ class PhotoController extends Controller
      */
     public function update(PhotoRequest $request, Photo $photo)
     {
-        //
 
-        $id=$request->get('people_id');
-        $person=Photo::with('people')
-            ->where('people_id','=',$id)->get();
-        if (count($person)<=0)
-        {
+        try{
             $photo->update( $request->validated() );
             return redirect()
                 ->route('photo.show',$photo)
                 ->with('info','Fondo actualizado exitosamente');
-        }
-        else{
-            return back()->with('info','No se puede agregar, El usuario ya tiene asociada una foto');
-
+        }catch(Throwable $e)
+        {
+            return back()
+                ->with('info','Error: '.$e->getCode().
+                    ' No se puede agregar, El usuario ya tiene asociada una foto');
         }
     }
 
@@ -150,10 +157,14 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
-        photo::findOrFail($id)->delete();
-        return redirect()->route('photo.index')
-            ->with('info','Foto eliminado exitosamente');
+        try{
+            photo::findOrFail($id)->delete();
+            return redirect()->route('photo.index')
+                ->with('info','Foto eliminado exitosamente');
 
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 }

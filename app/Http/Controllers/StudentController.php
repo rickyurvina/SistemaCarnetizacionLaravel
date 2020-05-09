@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
+use App\Models\Course;
 use App\Http\Requests\StudentRequest;
-use App\Institution;
-use App\Student;
+use App\Models\Institution;
+use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\In;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Throwable;
 
 class StudentController extends Controller
 {
@@ -19,29 +18,23 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
+        try{
+            $type='Institución Educativa';
+            $institutions=Institution::OrderCreate()->type($type)->get();
+            $student=$request->get('EST_CEDULA');
+            $institution_id=$request->get('institution_id');
+            $students=Student::OrderCreated()
+                ->InstitutionId($institution_id)
+                ->Id($student)
+                ->paginate(10);
+            return view('identification.students.index',
+                compact('students','institutions'))
+                ->with('info','No se encontro ese estudiante');
 
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Institución Educativa')->get();
-        $student=$request->get('EST_CEDULA');
-        $institution_id=$request->get('institution_id');
-        if (!empty($institution_id))
+        }catch(Throwable $e)
         {
-            $students=Student::orderBy('created_at','DESC')
-                ->where('institution_id',$institution_id)
-                ->paginate(count(Institution::get()));
+            return back()->with('info','Error: '.$e->getCode());
         }
-        else
-        {
-            $students=Student::orderBy('created_at','DESC')
-                ->where('EST_CEDULA','LIKE',"%$student%")
-                ->paginate(5);
-        }
-        if (empty($students))
-        {
-            return view('identification.students.index', compact('students','institutions'));
-        }
-        return view('identification.students.index', compact('students','institutions'))->with('info','No se encontro ese estudiante');
-
     }
 
     /**
@@ -51,15 +44,19 @@ class StudentController extends Controller
      */
     public function create(Request $request)
     {
-        //
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Institución Educativa')->get();
-        $courses=Course::pluck('CUR_NOMBRE','id');
-        return view('identification.students.create',[
-            'student'=>new Student,
-            'institution'=>$institutions,
-            'course'=>$courses,
-        ]);
+        try{
+            $type='Institución Educativa';
+            $institutions=Institution::OrderCreate()->type($type)->get();
+            $courses=Course::PluckName();
+            return view('identification.students.create',[
+                'student'=>new Student,
+                'institution'=>$institutions,
+                'course'=>$courses,
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -70,11 +67,15 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
-        //
-        Student::create($request->validated());
-        return redirect()
-            ->route('student.index')
-            ->with('info','Estudiante registrado exitosamente');
+        try{
+            Student::create($request->validated());
+            return redirect()
+                ->route('student.index')
+                ->with('info','Estudiante registrado exitosamente');
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -86,9 +87,14 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         //
-        return view('identification.students.show',[
-            'student'=>$student
-        ]);
+        try{
+            return view('identification.students.show',[
+                'student'=>$student
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -100,14 +106,19 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         //
-        $institutions=Institution::orderBy('INS_NOMBRE','ASC')
-            ->where('INS_TIPO','=','Institución Educativa')->get();
-        $courses=Course::pluck('CUR_NOMBRE','id');
-        return view('identification.students.edit',[
-            'student'=>$student,
-            'institution'=>$institutions,
-            'course'=>$courses,
-        ]);
+        try{
+            $type='Institución Educativa';
+            $institutions=Institution::OrderCreate()->type($type)->get();
+            $courses=Course::PluckName();
+            return view('identification.students.edit',[
+                'student'=>$student,
+                'institution'=>$institutions,
+                'course'=>$courses,
+            ]);
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
     /**
      * Update the specified resource in storage.
@@ -118,11 +129,15 @@ class StudentController extends Controller
      */
     public function update(StudentRequest $request, Student $student)
     {
-        //
-        $student->update( $request->validated());
-        return redirect()
-            ->route('student.show',$student)
-            ->with('info','Estudiante actualizado exitosamente');
+        try{
+            $student->update( $request->validated());
+            return redirect()
+                ->route('student.show',$student)
+                ->with('info','Estudiante actualizado exitosamente');
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 
     /**
@@ -133,8 +148,14 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
-        Student::findOrFail($id)->delete();
-        return redirect()->route('student.index')->with('info','Estudiante eliminado exitosamente');
+        try{
+            Student::findOrFail($id)->delete();
+            return redirect()->route('student.index')
+                ->with('info','Estudiante eliminado exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('info','Error: '.$e->getCode());
+        }
     }
 }
