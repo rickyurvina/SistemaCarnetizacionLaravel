@@ -66,46 +66,18 @@
                                 <td>
                                     <a> {{$student->EST_APELLIDOS}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_SEXO}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($student->EST_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_TIPOSANGRE}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a> {{$student->EST_CORREO}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_DIRECCION}}</a>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_NUMERO}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a> {{$student->EST_CELULAR}}</a>
                                 </td>
                                 <td>
                                     <a> {{$student->EST_CODIGO}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_MATRICULA}}</a>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_INSCRITO}}</a>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_NROMATRICULA}}</a>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_RETIRADO}}</a>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_BECA}}</a>--}}
-{{--                                </td>--}}
-
                                 <td>
                                     <a href="{{route('institution.show',$student->institution_id)}}">
                                         {{$student->institution->INS_NOMBRE}}

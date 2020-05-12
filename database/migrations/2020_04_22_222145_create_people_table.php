@@ -15,8 +15,8 @@ class CreatePeopleTable extends Migration
     {
         Schema::create('people', function (Blueprint $table) {
             $table->id();
-//            $table->integer('PER_CEDULA')->unique();
-            $table->integer('PER_CEDULA');
+            $table->integer('PER_CEDULA')->unique();
+//            $table->integer('PER_CEDULA');
             $table->string('PER_NOMBRES');
             $table->string('PER_APELLIDOS');
             $table->char('PER_SEXO',10);

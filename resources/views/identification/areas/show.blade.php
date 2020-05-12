@@ -23,7 +23,7 @@
                                <a> {{$area->ARE_DESCRIPCCION}}</a>
                            </td>
                            <td>
-                               <a>{{$area->created_at->format('d/m/Y')}}<</a>
+                               <a>{{$area->created_at->format('d/m/Y')}}</a>
                            </td>
                            <td>
                                <a>{{$area->updated_at->format('d/m/Y')}}</a>

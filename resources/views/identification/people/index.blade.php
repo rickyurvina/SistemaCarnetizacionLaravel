@@ -14,7 +14,7 @@
                                         name="institution_id"
                                         id="institution_id">
                                     <option value=""
-                                        selected> {{__('Search by Organization')}}
+                                        selected> {{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $institution )
                                             <option value="{{$institution->id}}">
@@ -42,7 +42,6 @@
                             <th>{{__('LastName')}}</th>
                             <th>{{__('Age')}}</th>
                             <th>{{__('Email')}}</th>
-{{--                            <th>{{__('Direction')}}</th>--}}
                             <th>{{__('Phone')}}</th>
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Institution')}}</th>
@@ -72,9 +71,6 @@
                                 <td>
                                     <a> {{$person->PER_CORREO}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$person->PER_DIRECCION}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_NUMERO}}</a>
                                 </td>

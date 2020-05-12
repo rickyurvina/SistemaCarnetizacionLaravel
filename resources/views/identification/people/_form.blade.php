@@ -256,6 +256,8 @@
             <button
                 type="submit"
                 class="btn btn-success">
+                <i class="fa fa-upload">
+                </i>
                 {{$btnText}}
             </button>
         </div>

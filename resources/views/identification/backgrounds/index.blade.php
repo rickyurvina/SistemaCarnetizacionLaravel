@@ -31,16 +31,14 @@
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of backgrounds')}}
-                        <a href="{{route('background.index')}}"
-                               class="btn btn-link btn-xs">
-                        </a> {{$backgrounds->fragment('foo')->links()}}</p>
+                        {{$backgrounds->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th>{{__('Fondo Frontal')}}</th>
-                            <th>{{__('Fondo Posterior')}}</th>
+                            <th>{{__('Front Background')}}</th>
+                            <th>{{__('Back Background')}}</th>
                             <th>{{__('Type')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>

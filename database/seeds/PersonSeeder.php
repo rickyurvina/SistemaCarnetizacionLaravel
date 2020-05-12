@@ -12,6 +12,6 @@ class PersonSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Person::class, 500)->create();
+        factory(App\Models\Person::class, 100)->create();
     }
 }

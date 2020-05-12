@@ -17,12 +17,14 @@ route::resource('/picture','PictureController')->names('picture');
 route::resource('/background','BackgroundController')->names('background');
 route::resource('/logo','LogoController')->names('logo');
 
+
 /**/
 
 
 
 route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
 route::get('/organisation','InstitutionsController@showO')->name('institutionsO');
+
 
 
 

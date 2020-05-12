@@ -12,7 +12,7 @@
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
-                                    <option value"" selected>
+                                    <option value="" selected>
                                         {{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $institution)

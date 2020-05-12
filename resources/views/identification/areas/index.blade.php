@@ -2,7 +2,7 @@
 @section('title','Áreas')
 @section('content')
     <!-- page content -->
-    @include('identification.layouts.top-content',['routeText'=>'area.create','btnText'=>'Crear','textTitle'=>'Areas-Organizaciones'])
+    @include('identification.layouts.top-content',['routeText'=>'area.create','btnText'=>'Crear','textTitle'=>'Áreas-Organizaciones'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">
@@ -17,7 +17,8 @@
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of areas')}} {{$areas->fragment('foo')->links()}}</p>
+                    <p>{{__('List of areas')}}
+                        {{$areas->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

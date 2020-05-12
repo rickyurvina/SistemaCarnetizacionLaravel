@@ -6,7 +6,9 @@ use App\Http\Requests\PictureRequest;
 use App\Models\Picture;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\PostDec;
 use Throwable;
+use Illuminate\Support\Facades\Storage;
 
 class PictureController extends Controller
 {
@@ -74,10 +76,24 @@ class PictureController extends Controller
     public function store(PictureRequest $request)
     {
         try{
-            picture::create($request->validated());
-            return redirect()
-                ->route('picture.index')
-                ->with('success','Foto registrada exitosamente');
+            if (!$request->nombre)
+            {
+                return back()->with('error','No selecciono ninguna imagen');
+            }
+            else{
+                $post= picture::create($request->validated());
+
+                if ($request->hasFile('nombre'))
+                {
+                    $path=Storage::disk('public')
+                        ->put('StudentsPhotos',$request->file('nombre'));
+                    $post->fill(['nombre'=>$path])->save();
+                }
+                return redirect()
+                    ->route('picture.index')
+                    ->with('success','Foto registrada exitosamente');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().
@@ -113,6 +129,7 @@ class PictureController extends Controller
     public function edit(Picture $picture)
     {
         //
+//        return $picture->nombre;
         try{
             $students=student::Order()->get();
             return view('identification.pictures.edit',[
@@ -134,15 +151,24 @@ class PictureController extends Controller
      */
     public function update(PictureRequest $request, Picture $picture)
     {
-        try{
-            $picture->update( $request->validated() );
+        try
+        {
+            $post=Picture::find($picture->id);
+            $post->fill($request->validated())->save();
+            if ($request->hasFile('nombre'))
+            {
+                $path=Storage::disk('public')
+                    ->put('StudentsPhotos',$request->file('nombre'));
+                $post->fill(['nombre'=>$path])->save();
+            }
             return redirect()
                 ->route('picture.show',$picture)
-                ->with('success','Fondo actualizado exitosamente');
+                ->with('success','Foto actualizado exitosamente');
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().
-                'No se puede agregar, El estudiante ya tiene una foto asociada');
+                'No se puede modificar, El estudiante ya tiene una foto asociada');
         }
     }
     /**

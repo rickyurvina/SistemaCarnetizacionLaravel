@@ -1,25 +1,28 @@
 <form id="demo-form2"
       data-parsley-validate class="form-horizontal form-label-left"
       method="POST"
+      enctype="multipart/form-data"
       action="{{route($btnRoute ?? '', $picture)}}">
     @csrf
     @method($txtMethod??'')
     <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
+        <label class="col-form-label col-md-3 col-sm-3 label-align" for="nombre">
             {{__('Name')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
+            @if($picture->nombre)
+                <img width="100px" src="{{Storage::url($picture->nombre)}}">
+            @endif
             <input
-                type="text"
+                type="file"
                 name="nombre"
-                required="required"
-                class="form-control"
-                value="{{old('nombre', $picture->nombre) }}">
-            <span class="fa fa-user form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('nombre','<small class="alert-error">:message</small>')!!}
+              >
+                <span class="fa fa-book form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('nombre','<small class="alert-error">:message</small>')!!}
         </div>
+
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">

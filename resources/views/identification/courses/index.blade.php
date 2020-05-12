@@ -13,7 +13,7 @@
                                         name="institution_id"
                                         id="institution_id">
                                     <option value="" selected>
-                                        {{__('Search by Educative Institution')}}
+                                        {{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $institution )
                                             <option value="{{$institution->id}}">

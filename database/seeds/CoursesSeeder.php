@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
@@ -13,6 +14,6 @@ class CoursesSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Course::class, 500)->create();
+        factory(Course::class, 50)->create();
     }
 }

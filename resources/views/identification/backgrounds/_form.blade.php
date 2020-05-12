@@ -6,7 +6,7 @@
     @method($txtMethod??'')
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Fondo Frontal')}}
+            {{__('Front Background')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
@@ -23,7 +23,7 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Fondo Posterior')}}
+            {{__('Back Background')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">

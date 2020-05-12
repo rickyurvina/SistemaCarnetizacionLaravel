@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Person;
+use App\Models\Person;
 use Faker\Generator as Faker;
 
 $factory->define(Person::class, function (Faker $faker) {
@@ -17,7 +17,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'PER_DIRECCION'=>$faker->city(),
         'PER_NUMERO'=>$faker->numberBetween(100000000,200000000),
         'PER_CELULAR'=>$faker->numberBetween(1000000000,2000000000),
-        'institution_id'=>$faker->numberBetween(1,100),
-        'area_id'=>$faker->numberBetween(1,7),
+        'institution_id'=>$faker->randomElement([2,4,5,6,7,9,10,13,14]),
+        'area_id'=>$faker->randomElement([1,2,3,4,5,6]),
     ];
 });

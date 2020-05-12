@@ -10,6 +10,19 @@
                         {{Form::open(['route'=>'institution.index','method'=>'GET'])}}
                         <div class="input-group">
                             {{Form::text('INS_NOMBRE', null,['class'=>'form-control','placeholder'=>'Nombre de la Institución'])}}
+                            <select class="custom-select custom-select-sm"
+                                    name="institution_id"
+                                    id="institution_id">
+                                <option value="" selected>
+                                    Seleccione
+                                </option>
+                                <option value="Institución Educativa">
+                                    Institución Educativa
+                                </option>
+                                <option value="Organización">
+                                    Organización
+                                </option>
+                            </select>
                             <span class="input-group-btn">
                       <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                     </span>

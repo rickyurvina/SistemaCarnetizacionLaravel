@@ -20,7 +20,9 @@
                            <tbody>
                            <tr>
                                <td>
-                                   <a>{{$picture->nombre}}</a>
+{{--                                   <a>{{$picture->nombre}}</a>--}}
+{{--                                   <img width="100px" src="/storage/{{$picture->nombre}}" alt="image">--}}
+                                   <img width="100px" src="{{Storage::url($picture->nombre)}}">
                                </td>
                                <td>
                                    <a> {{$picture->tipo}}</a>

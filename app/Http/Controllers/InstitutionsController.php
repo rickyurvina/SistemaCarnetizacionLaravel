@@ -15,40 +15,14 @@ class InstitutionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showIE(Request $request){
-        try{
-            $name='Educativa';
-            $institutions=Institution::OrderCreate()
-                ->Type($name)
-                ->paginate(6);
-            return view('identification.institutions.index',
-                compact('institutions'));
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode());
-        }
-
-    }
-    public function showO(Request $request){
-        try{
-            $name='Organización';
-            $institutions=Institution::OrderCreate()
-                ->Type($name)
-                ->paginate(6);
-            return view('identification.institutions.index',
-                compact('institutions'));
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode());
-        }
-
-    }
-    public function index(Request $request)
+        public function index(Request $request)
     {
         try{
             $INS_NOMBRE=$request->get('INS_NOMBRE');
+            $type=$request->get('institution_id');
             $institutions=Institution::OrderCreate()
                 ->Name($INS_NOMBRE)
+                ->where('INS_TIPO','LIKE',"%$type%")
                 ->paginate(6);
             return view('identification.institutions.index',compact('institutions'));
 

@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of pictures')}}
+                    <p>{{__('List of Photos')}}
                    {{$pictures->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
@@ -36,7 +36,9 @@
                         @forelse($pictures as $picture)
                             <tr>
                                 <td>
-                                    <a>{{$picture->nombre}}</a>
+{{--                                    <a>{{$picture->nombre}}</a>--}}
+                                    <img width="100px" src="{{Storage::url($picture->nombre)}}">
+{{--                                    <img width="100px" src="/storage/{{$picture->nombre}}" alt="image">--}}
                                     <br />
                                     <small>
                                         {{__('Created_at')}} {{$picture->created_at->format('d/m/Y')}}
@@ -75,7 +77,7 @@
                                 </td>
                             </tr>
                         @empty
-                          <h1>{{__('There are no registered pictures')}}</h1>
+                          <h1>{{__('There are no registered photos')}}</h1>
                         @endforelse
                         </tbody>
                     </table>

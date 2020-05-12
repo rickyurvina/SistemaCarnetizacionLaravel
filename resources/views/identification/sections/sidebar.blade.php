@@ -28,7 +28,7 @@
                     {{__('Institutions Educatives')}}
                     <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>
+{{--                    <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>--}}
                     <li><a href="{{route('course.index')}}">{{__('Courses')}}</a></li>
                     <li><a href="{{route('student.index')}}">{{__('Students')}}</a></li>
                 </ul>
@@ -41,7 +41,7 @@
                 </a>
                 <ul class="nav child_menu">
                     <li>
-                        <a href="{{route('institutionsO')}}">{{__('Show Organisations')}}</a>
+{{--                        <a href="{{route('institutionsO')}}">{{__('Show Organisations')}}</a>--}}
                         <a href="{{route('area.index')}}">{{__('Work Area')}}</a>
                         <a href="{{route('person.index')}}">{{__('Users')}}</a>
                     </li>
