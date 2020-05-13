@@ -11,7 +11,6 @@
                            <thead>
                            <tr>
                                <th>{{__('Name')}}</th>
-                               <th>{{__('Type')}}</th>
                                <th>{{__('Student')}}</th>
                                <th>{{__('Created_at')}}</th>
                                <th>{{__('Updated_at')}}</th>
@@ -20,13 +19,9 @@
                            <tbody>
                            <tr>
                                <td>
-{{--                                   <a>{{$picture->nombre}}</a>--}}
-{{--                                   <img width="100px" src="/storage/{{$picture->nombre}}" alt="image">--}}
-                                   <img width="100px" src="{{Storage::url($picture->nombre)}}">
+                             <img width="100px" src="{{asset('images/StudentsPhotos/'.$picture->nombre)}}">
                                </td>
-                               <td>
-                                   <a> {{$picture->tipo}}</a>
-                               </td>
+
                                <td>
                                    <a href="{{route('student.show',$picture->student->id)}}">
                                        {{$picture->student->EST_NOMBRES}} {{$picture->student->EST_APELLIDOS}}

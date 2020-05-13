@@ -7,12 +7,12 @@
     @method($txtMethod??'')
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align" for="nombre">
-            {{__('Name')}}
+            {{__('Photo')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             @if($picture->nombre)
-                <img width="100px" src="{{Storage::url($picture->nombre)}}">
+                <img width="100px" src="{{asset('images/StudentsPhotos/'.$picture->nombre)}}">
             @endif
             <input
                 type="file"
@@ -26,23 +26,6 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Type')}}
-            <span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="tipo"
-                required="required"
-                class="form-control"
-                value="{{old('tipo',$picture->tipo)}}">
-            <span class="fa fa-book form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('tipo','<small class="alert-error">:message</small>')!!}
-        </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Student')}}
             <span class="required">*</span>
         </label>
@@ -52,7 +35,7 @@
                 @foreach($students as $student)
                     @if(old('students', $picture->student_id)==$student->id)
                     <option value="{{$student->id}}" selected>
-                        {{$student->EST_NOMBRES}}
+                        {{$student->EST_NOMBRES}} {{$student->EST_APELLIDOS}}
                     </option>
                         @else
                         <option value="{{$student->id}}">

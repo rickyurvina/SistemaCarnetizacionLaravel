@@ -2,7 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Area;
+
+use App\Models\Area;
 use Faker\Generator as Faker;
 
 $factory->define(Area::class, function (Faker $faker) {
@@ -14,7 +15,7 @@ $factory->define(Area::class, function (Faker $faker) {
             'Publicidad y Promoción',
             'Investigación de Mercados',
             'Nuevos Mercados','Distribución']),
-        'ARE_DESCRIPCCION'=>$faker->text(100),
+        'ARE_DESCRIPCCION'=>$faker->text(10),
 
     ];
 });

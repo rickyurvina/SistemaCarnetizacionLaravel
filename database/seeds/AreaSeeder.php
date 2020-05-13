@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Area;
 use Illuminate\Database\Seeder;
 
 class AreaSeeder extends Seeder
@@ -11,6 +12,6 @@ class AreaSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Area::class, 50)->create();
+        factory(Area::class, 50)->create();
     }
 }

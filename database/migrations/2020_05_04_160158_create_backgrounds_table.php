@@ -17,7 +17,7 @@ class CreateBackgroundsTable extends Migration
             $table->id();
             $table->string('FON_NOMBRE');
             $table->string('FON_NOMBRE2');
-            $table->string('FON_TIPO')->nullable();
+//            $table->string('FON_TIPO')->nullable();
             $table->foreignId('institution_id')->unique()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

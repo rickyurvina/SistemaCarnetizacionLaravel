@@ -35,7 +35,7 @@ class Student extends Model
         return $this->belongsTo(Course::class);
     }
     public function picture(){
-        return $this->hasMany(Picture::class);
+        return $this->hasOne(Picture::class);
     }
     public function scopeOrderCreated($query)
     {

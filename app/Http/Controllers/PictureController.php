@@ -6,6 +6,7 @@ use App\Http\Requests\PictureRequest;
 use App\Models\Picture;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use PhpParser\Node\Expr\PostDec;
 use Throwable;
 use Illuminate\Support\Facades\Storage;
@@ -85,9 +86,20 @@ class PictureController extends Controller
 
                 if ($request->hasFile('nombre'))
                 {
-                    $path=Storage::disk('public')
-                        ->put('StudentsPhotos',$request->file('nombre'));
-                    $post->fill(['nombre'=>$path])->save();
+                    $extension=$request->file('nombre')->getClientOriginalExtension();
+                    $student_id=$request->student_id;
+                    $cedula=Student::with('picture')
+                        ->where('id','=',$student_id)->get('EST_CEDULA');
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->EST_CEDULA;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('nombre'))
+                        ->resize(144,144)
+                        ->save('images/StudentsPhotos/'.$file_name);
+                    $post->nombre=$file_name;
+                    $post->save();
                 }
                 return redirect()
                     ->route('picture.index')
@@ -99,6 +111,7 @@ class PictureController extends Controller
             return back()->with('error','Error: '.$e->getCode().
                 'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
+
     }
 
     /**
@@ -128,8 +141,7 @@ class PictureController extends Controller
      */
     public function edit(Picture $picture)
     {
-        //
-//        return $picture->nombre;
+
         try{
             $students=student::Order()->get();
             return view('identification.pictures.edit',[
@@ -157,9 +169,20 @@ class PictureController extends Controller
             $post->fill($request->validated())->save();
             if ($request->hasFile('nombre'))
             {
-                $path=Storage::disk('public')
-                    ->put('StudentsPhotos',$request->file('nombre'));
-                $post->fill(['nombre'=>$path])->save();
+                $extension=$request->file('nombre')->getClientOriginalExtension();
+                $student_id=$request->student_id;
+                $cedula=Student::with('picture')
+                    ->where('id','=',$student_id)->get('EST_CEDULA');
+                foreach ($cedula as $ced)
+                {
+                    $cedula_stu=$ced->EST_CEDULA;
+                }
+                $file_name=$cedula_stu.'.'.$extension;
+                Image::make($request->file('nombre'))
+                    ->resize(144,144)
+                    ->save('images/StudentsPhotos/'.$file_name);
+                $post->nombre=$file_name;
+                $post->save();
             }
             return redirect()
                 ->route('picture.show',$picture)

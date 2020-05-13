@@ -27,7 +27,6 @@
                         <thead>
                         <tr>
                             <th>{{__('Name')}}</th>
-                            <th>{{__('Type')}}</th>
                             <th>{{__('Student')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
@@ -36,16 +35,11 @@
                         @forelse($pictures as $picture)
                             <tr>
                                 <td>
-{{--                                    <a>{{$picture->nombre}}</a>--}}
-                                    <img width="100px" src="{{Storage::url($picture->nombre)}}">
-{{--                                    <img width="100px" src="/storage/{{$picture->nombre}}" alt="image">--}}
+                                    <img width="100px" src="{{asset('images/StudentsPhotos/'.$picture->nombre)}}">
                                     <br />
                                     <small>
                                         {{__('Created_at')}} {{$picture->created_at->format('d/m/Y')}}
                                     </small>
-                                </td>
-                                <td>
-                                    <a> {{$picture->tipo}}</a>
                                 </td>
                                 <td class="project_progress">
                                     <a href="{{route('student.show',$picture->student_id)}}">
