@@ -35,4 +35,10 @@ class Background extends Model
     {
         return $query->with('institution');
     }
+    public function scopeWithInstitutionBack($query,$institution_id)
+    {
+        if ($institution_id)
+            return $query->with('institution')
+                ->where('institution_id','=',$institution_id)->get();
+    }
 }

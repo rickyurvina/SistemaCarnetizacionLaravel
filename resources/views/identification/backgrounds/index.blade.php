@@ -39,7 +39,6 @@
                         <tr>
                             <th>{{__('Front Background')}}</th>
                             <th>{{__('Back Background')}}</th>
-                            <th>{{__('Type')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
@@ -48,17 +47,16 @@
                         @forelse($backgrounds as $background)
                             <tr>
                                 <td>
-                                    <a>{{$background->FON_NOMBRE}}</a>
+                                    <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
+
                                     <br />
                                     <small>
                                         {{__('Created_at')}} {{$background->created_at->format('d/m/Y')}}
                                     </small>
                                 </td>
                                 <td>
-                                    <a> {{$background->FON_NOMBRE2}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$background->FON_TIPO}}</a>
+                                    <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+
                                 </td>
                                 <td class="project_progress">
                                     <a href="{{route('institution.show',$background->institution->id)}}">

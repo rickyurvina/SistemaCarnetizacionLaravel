@@ -7,9 +7,8 @@ use App\Models\Picture;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use PhpParser\Node\Expr\PostDec;
 use Throwable;
-use Illuminate\Support\Facades\Storage;
+
 
 class PictureController extends Controller
 {
@@ -88,15 +87,14 @@ class PictureController extends Controller
                 {
                     $extension=$request->file('nombre')->getClientOriginalExtension();
                     $student_id=$request->student_id;
-                    $cedula=Student::with('picture')
-                        ->where('id','=',$student_id)->get('EST_CEDULA');
+                    $cedula=Student::WithPicture($student_id);
                     foreach ($cedula as $ced)
                     {
                         $cedula_stu=$ced->EST_CEDULA;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
                     Image::make($request->file('nombre'))
-                        ->resize(144,144)
+                        ->resize(375,508)
                         ->save('images/StudentsPhotos/'.$file_name);
                     $post->nombre=$file_name;
                     $post->save();
@@ -122,6 +120,7 @@ class PictureController extends Controller
      */
     public function show(Picture $picture)
     {
+
         try{
             return view('identification.pictures.show',[
                 'picture'=>$picture,
@@ -141,9 +140,9 @@ class PictureController extends Controller
      */
     public function edit(Picture $picture)
     {
-
+        $student_id=$picture->student_id;
         try{
-            $students=student::Order()->get();
+            $students=student::StudentID($student_id);
             return view('identification.pictures.edit',[
                 'picture'=>$picture,
                 'students'=>$students,
@@ -171,15 +170,14 @@ class PictureController extends Controller
             {
                 $extension=$request->file('nombre')->getClientOriginalExtension();
                 $student_id=$request->student_id;
-                $cedula=Student::with('picture')
-                    ->where('id','=',$student_id)->get('EST_CEDULA');
+                $cedula=Student::WithPicture($student_id);
                 foreach ($cedula as $ced)
                 {
                     $cedula_stu=$ced->EST_CEDULA;
                 }
                 $file_name=$cedula_stu.'.'.$extension;
                 Image::make($request->file('nombre'))
-                    ->resize(144,144)
+                    ->resize(375,508)
                     ->save('images/StudentsPhotos/'.$file_name);
                 $post->nombre=$file_name;
                 $post->save();

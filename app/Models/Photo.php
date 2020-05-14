@@ -22,6 +22,12 @@ class Photo extends Model
         if ($person_id)
             return $query->where('people_id',$person_id);
     }
+    public function scopeWithPerson($query,$person_id)
+    {
+        if ($person_id)
+            return $query->with('people')
+                ->where('people_id','=',$person_id)->get();
+    }
 
 
 }

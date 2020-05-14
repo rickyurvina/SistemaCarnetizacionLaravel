@@ -40,7 +40,6 @@
                         <thead>
                         <tr>
                             <th>{{__('Logo')}}</th>
-                            <th>{{__('Type')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
@@ -49,14 +48,11 @@
                         @forelse($logos as $logo)
                             <tr>
                                 <td>
-                                    <a>{{$logo->LOG_NOMBRE}}</a>
+                                    <img width="100px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
                                     <br />
                                     <small>
                                         {{__('Created_at')}} {{$logo->created_at->format('d/m/Y')}}
                                     </small>
-                                </td>
-                                <td>
-                                    <a> {{$logo->LOG_TIPO}}</a>
                                 </td>
                                 <td class="project_progress">
                                     <a href="{{route('institution.show',$logo->institution->id)}}">

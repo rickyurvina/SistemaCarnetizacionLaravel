@@ -11,7 +11,6 @@
                            <thead>
                            <tr>
                                <th>{{__('Logo')}}</th>
-                               <th>{{__('Type')}}</th>
                                <th>{{__('Institution')}}</th>
                                <th>{{__('Created_at')}}</th>
                                <th>{{__('Updated_at')}}</th>
@@ -20,10 +19,7 @@
                            <tbody>
                            <tr>
                                <td>
-                                   <a>{{$logo->LOG_NOMBRE}}</a>
-                               </td>
-                               <td>
-                                   <a> {{$logo->LOG_TIPO}}</a>
+                                   <img width="100px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
                                </td>
                                <td>
                                    <a href="{{route('institution.show',$logo->institution->id)}}">

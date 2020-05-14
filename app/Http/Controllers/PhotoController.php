@@ -6,6 +6,7 @@ use App\Http\Requests\PhotoRequest;
 use App\Models\Person;
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Throwable;
 
 class PhotoController extends Controller
@@ -73,16 +74,39 @@ class PhotoController extends Controller
     {
         //
         try{
-            photo::create($request->validated());
-            return redirect()
-                ->route('photo.index')
-                ->with('success','Foto registrada exitosamente');
+            if (!$request->nombre)
+            {
+                return back()->with('error','No selecciono ninguna imagen');
+            }
+            else{
+                $post= photo::create($request->validated());
+
+                if ($request->hasFile('nombre'))
+                {
+                    $extension=$request->file('nombre')->getClientOriginalExtension();
+                      $people_id=$request->people_id;
+                    $cedula=Person::PeopleId($people_id);
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->PER_CEDULA;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('nombre'))
+                        ->resize(375,508)
+                        ->save('images/PeoplePhotos/'.$file_name);
+                    $post->nombre=$file_name;
+                    $post->save();
+                }
+                return redirect()
+                    ->route('photo.index')
+                    ->with('success','Foto registrada exitosamente');
+            }
         }catch(Throwable $e)
         {
-            return back()
-                ->with('error','Error: '.$e->getCode().
-                    ' No se puede agregar, El usuario ya tiene asociada una foto');
+            return back()->with('error','Error: '.$e->getCode().
+                'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
+
     }
 
     /**
@@ -114,8 +138,9 @@ class PhotoController extends Controller
     public function edit(Photo $photo)
     {
         //
+        $people_id=$photo->people_id;
         try{
-            $people=person::OrderName()->get();
+            $people=person::PersonId($people_id);
             return view('identification.photos.edit',[
                 'photo'=>$photo,
                 'people'=>$people,
@@ -135,17 +160,34 @@ class PhotoController extends Controller
      */
     public function update(PhotoRequest $request, Photo $photo)
     {
-
-        try{
-            $photo->update( $request->validated() );
+        try
+        {
+            $post=Photo::find($photo->id);
+            $post->fill($request->validated())->save();
+            if ($request->hasFile('nombre'))
+            {
+                $extension=$request->file('nombre')->getClientOriginalExtension();
+                $people_id=$request->people_id;
+                $cedula=Person::PeopleId($people_id);
+                foreach ($cedula as $ced)
+                {
+                    $cedula_stu=$ced->PER_CEDULA;
+                }
+                $file_name=$cedula_stu.'.'.$extension;
+                Image::make($request->file('nombre'))
+                    ->resize(375,508)
+                    ->save('images/PeoplePhotos/'.$file_name);
+                $post->nombre=$file_name;
+                $post->save();
+            }
             return redirect()
                 ->route('photo.show',$photo)
-                ->with('success','Fondo actualizado exitosamente');
+                ->with('success','Foto actualizado exitosamente');
+
         }catch(Throwable $e)
         {
-            return back()
-                ->with('error','Error: '.$e->getCode().
-                    ' No se puede agregar, El usuario ya tiene asociada una foto');
+            return back()->with('error','Error: '.$e->getCode().
+                'No se puede modificar, El usuario ya tiene una foto asociada');
         }
     }
 

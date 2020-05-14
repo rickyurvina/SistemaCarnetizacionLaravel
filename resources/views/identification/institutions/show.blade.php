@@ -5,6 +5,33 @@
                <div>
                 <br/>
                    <div class="card-box table-responsive">
+                       <h1>Fondo</h1>
+                       @foreach($logos as $logo)
+                        @endforeach
+                       @foreach($backgrounds as $background)
+                       @endforeach
+                       <table id="datatable" class="table table-striped projects">
+                           <thead>
+                           <tr>
+                               <th>{{__('Logo')}}</th>
+                               <th>{{__('Front Background')}}</th>
+                               <th>{{__('Back Background')}}</th>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <tr>
+                               <td>
+                                   <img width="100px" src="{{asset('images/logosPhotos/'.$logo->LOG_NOMBRE)}}">
+                               </td>
+                               <td>
+                                   <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
+                               </td>
+                               <td>
+                                   <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+                               </td>
+                           </tr>
+                           </tbody>
+                       </table>
                        <table id="datatable"
                               class="table table-striped projects">
                            <thead>

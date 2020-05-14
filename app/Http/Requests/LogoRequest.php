@@ -25,8 +25,7 @@ class LogoRequest extends FormRequest
     {
         return [
             //
-            'LOG_NOMBRE'=>'required',
-            'LOG_TIPO'=>'nullable',
+            'LOG_NOMBRE'=>'nullable',
             'institution_id'=>'required'
         ];
     }

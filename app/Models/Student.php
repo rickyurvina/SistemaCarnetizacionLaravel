@@ -50,10 +50,24 @@ class Student extends Model
     {
         return $query->orderBy('EST_NOMBRES','ASC');
     }
+    public function scopeWithPicture($query,$student_id)
+    {
+        if ($student_id)
+        return $query->with('picture')
+            ->where('id','=',$student_id)->get('EST_CEDULA');
+    }
     public function scopeInstitutionId($query,$institution_id)
     {
         if ($institution_id)
-            return $query->where('EST_CEDULA','LIKE',"%$institution_id%");
+            return $query->where('institution_id','LIKE',"%$institution_id%");
+    }
+    public function scopeStudentID($query, $student_id)
+    {
+        if ($student_id)
+        {
+            return $query->where('id','=',$student_id)->get();
+        }
+
     }
 
 

@@ -4,6 +4,10 @@
 @include('identification.layouts.top-content',['routeText'=>'person.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Persona'])
                <div>
                 <br/>
+                   <h1>Foto</h1>
+                   @foreach($photos as $photo)
+                   <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
+                   @endforeach
                    <table id="datatable"
                           class="table table-striped projects">
                        <thead>

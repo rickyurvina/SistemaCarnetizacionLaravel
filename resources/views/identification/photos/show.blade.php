@@ -11,7 +11,6 @@
                            <thead>
                            <tr>
                                <th>{{__('Name')}}</th>
-                               <th>{{__('Type')}}</th>
                                <th>{{__('User')}}</th>
                                <th>{{__('Created_at')}}</th>
                                <th>{{__('Updated_at')}}</th>
@@ -20,11 +19,9 @@
                            <tbody>
                            <tr>
                                <td>
-                                   <a>{{$photo->nombre}}</a>
+                                   <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
                                </td>
-                               <td>
-                                   <a> {{$photo->tipo}}</a>
-                               </td>
+
                                <td>
                                    <a href="{{route('person.show',$photo->people->id)}}">
                                        {{$photo->people->PER_NOMBRES}} {{$photo->people->PER_APELLIDOS}}

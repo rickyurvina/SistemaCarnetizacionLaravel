@@ -27,7 +27,6 @@
                         <thead>
                         <tr>
                             <th>{{__('Name')}}</th>
-                            <th>{{__('Type')}}</th>
                             <th>{{__('User')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
@@ -36,15 +35,13 @@
                         @forelse($photos as $photo)
                             <tr>
                                 <td>
-                                    <a>{{$photo->nombre}}</a>
+                                    <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
                                     <br />
                                     <small>
                                         {{__('Created_at')}} {{$photo->created_at->format('d/m/Y')}}
                                     </small>
                                 </td>
-                                <td>
-                                    <a> {{$photo->tipo}}</a>
-                                </td>
+
                                 <td class="project_progress">
                                     <a href="{{route('person.show',$photo->people_id)}}">
                                         {{$photo->people->PER_NOMBRES}} {{$photo->people->PER_APELLIDOS}}

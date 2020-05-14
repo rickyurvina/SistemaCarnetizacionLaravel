@@ -6,6 +6,8 @@ use App\Http\Requests\LogoRequest;
 use App\Models\Institution;
 use App\Models\Logo;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\In;
+use Intervention\Image\Facades\Image;
 use Throwable;
 
 class LogoController extends Controller
@@ -62,15 +64,40 @@ class LogoController extends Controller
      */
     public function store(LogoRequest $request)
     {
-        //
+
         try{
-            logo::create($request->validated());
-            return redirect()
-                ->route('logo.index')
-                ->with('success','Fondo registrado exitosamente');
-        }catch(Throwable $e){
-            return back()->with('error','Error'.$e->getCode().' No se puede agregar, La institución  '
-                .$request->institution_id.' ya tiene asociado un logo');
+            if (!$request->LOG_NOMBRE)
+            {
+                return back()->with('error','No selecciono ninguna imagen');
+            }
+            else{
+                $post= logo::create($request->validated());
+
+                if ($request->hasFile('LOG_NOMBRE'))
+                {
+                    $extension=$request->file('LOG_NOMBRE')->getClientOriginalExtension();
+                    $institution_id=$request->institution_id;
+                    $cedula=Institution::InstitutionId($institution_id);
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->INS_NOMBRE;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('LOG_NOMBRE'))
+                        ->resize(354,213)
+                        ->save('images/LogosPhotos/'.$file_name);
+                    $post->LOG_NOMBRE=$file_name;
+                    $post->save();
+                }
+                return redirect()
+                    ->route('logo.index')
+                    ->with('success','Foto registrada exitosamente');
+            }
+
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().
+                'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
     }
 
@@ -102,8 +129,9 @@ class LogoController extends Controller
     public function edit(Logo $logo)
     {
         //
+     $institution_id=$logo->institution_id;
         try{
-            $institutions=Institution::OrderCreate()->get();
+            $institutions=Institution::InsId($institution_id);
             return view('identification.logos.edit',[
                 'logo'=>$logo,
                 'institution'=>$institutions,
@@ -123,14 +151,34 @@ class LogoController extends Controller
      */
     public function update(LogoRequest $request, Logo $logo)
     {
-        try{
-            $logo->update( $request->validated() );
+        try
+        {
+            $post=logo::find($logo->id);
+            $post->fill($request->validated())->save();
+            if ($request->hasFile('LOG_NOMBRE'))
+            {
+                $extension=$request->file('LOG_NOMBRE')->getClientOriginalExtension();
+                $institution_id=$request->institution_id;
+                $cedula=Institution::InstitutionId($institution_id);
+                foreach ($cedula as $ced)
+                {
+                    $cedula_stu=$ced->INS_NOMBRE;
+                }
+                $file_name=$cedula_stu.'.'.$extension;
+                Image::make($request->file('LOG_NOMBRE'))
+                    ->resize(354,213)
+                    ->save('images/LogosPhotos/'.$file_name);
+                $post->LOG_NOMBRE=$file_name;
+                $post->save();
+            }
             return redirect()
                 ->route('logo.show',$logo)
-                ->with('success','Fondo actualizado exitosamente');
-        }catch(Throwable $e){
-            return back()->with('error','Error: '.$e->getCode().' No se puede agregar, La institución  '
-                .$request->institution_id.' ya tiene asociado un logo');
+                ->with('success','Logo actualizado exitosamente');
+
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().
+                'No se puede modificar, El logo ya tiene una foto asociada');
         }
     }
 

@@ -25,8 +25,7 @@ class PhotoRequest extends FormRequest
     {
         return [
             //
-            'nombre'=>'required',
-            'tipo'=>'nullable',
+            'nombre'=>'nullable',
             'people_id'=>'required'
         ];
     }

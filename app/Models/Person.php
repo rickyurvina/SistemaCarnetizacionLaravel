@@ -22,7 +22,7 @@ class Person extends Model
         return $this->belongsTo(Area::class);
     }
     public function photo(){
-        return $this->hasMany(Photo::class);
+        return $this->hasOne(Photo::class);
     }
     public function scopeOrder($query)
     {
@@ -41,6 +41,17 @@ class Person extends Model
     public function scopeOrderName($query)
     {
         return $query->orderBy('PER_NOMBRES','ASC');
+    }
+    public function scopePeopleId($query,$people_id)
+    {
+        if ($people_id)
+            return $query->where('id','=',$people_id)
+                ->get('PER_CEDULA');
+    }
+    public function scopePersonId($query,$people_id)
+    {
+        if ($people_id)
+            return $query->where('id','=',$people_id)->get();
     }
 
 

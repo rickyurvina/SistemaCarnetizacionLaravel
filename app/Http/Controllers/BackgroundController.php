@@ -6,6 +6,7 @@ use App\Models\Background;
 use App\Http\Requests\BackgroundRequest;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Throwable;
 
 class BackgroundController extends Controller
@@ -59,16 +60,53 @@ class BackgroundController extends Controller
     {
         //
         try{
-            Background::create($request->validated());
-            return redirect()
-                ->route('background.index')
-                ->with('success','Fondo registrado exitosamente');
+            if (!$request->FON_NOMBRE)
+            {
+                return back()->with('error','No selecciono ninguna imagen');
+            }
+            else{
+                $post= background::create($request->validated());
+                if ($request->hasFile('FON_NOMBRE'))
+                {
+                    $extension=$request->file('FON_NOMBRE')->getClientOriginalExtension();
+                    $institution_id=$request->institution_id;
+                    $cedula=Institution::InstitutionId($institution_id);
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->INS_NOMBRE;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('FON_NOMBRE'))
+                        ->resize(354,213)
+                        ->save('images/BackgroundsPhotos/'.'frontal'.$file_name);
+                    $post->FON_NOMBRE='frontal'.$file_name;
+                    $post->save();
+                }
+                if ($request->hasFile('FON_NOMBRE2'))
+                {
+                    $extension=$request->file('FON_NOMBRE2')->getClientOriginalExtension();
+                    $institution_id=$request->institution_id;
+                    $cedula=Institution::InstitutionId($institution_id);
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->INS_NOMBRE;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('FON_NOMBRE2'))
+                        ->resize(354,213)
+                        ->save('images/BackgroundsPhotos/'.'posterior'.$file_name);
+                    $post->FON_NOMBRE2='posterior'.$file_name;
+                    $post->save();
+                }
+                return redirect()
+                    ->route('background.index')
+                    ->with('success','Foto registrada exitosamente');
+            }
 
         }catch(Throwable $e)
         {
-            return back()
-                ->with('error','Error: '.$e->getCode().' No se puede agregar, La institución '
-                    .$request->institution_id.' ya tiene asociado un fondo');
+            return back()->with('error','Error: '.$e->getCode().
+                'No se puede agregar, El estudiante ya tiene una foto asociada');
         }
     }
 
@@ -98,8 +136,9 @@ class BackgroundController extends Controller
      */
     public function edit(Background $background)
     {
+        $institution_id=$background->institution_id;
         try{
-            $institutions=Institution::OrderCreate()->get();
+            $institutions=Institution::InsId($institution_id);
             return view('identification.backgrounds.edit',[
                 'background'=>$background,
                 'institution'=>$institutions,
@@ -120,16 +159,50 @@ class BackgroundController extends Controller
      */
     public function update(BackgroundRequest $request, Background $background)
     {
-        try{
-            $background->update( $request->validated());
+        try
+        {
+            $post=background::find($background->id);
+            $post->fill($request->validated())->save();
+            if ($request->hasFile('FON_NOMBRE'))
+            {
+                $extension=$request->file('FON_NOMBRE')->getClientOriginalExtension();
+                $institution_id=$request->institution_id;
+                $cedula=Institution::InstitutionId($institution_id);
+                foreach ($cedula as $ced)
+                {
+                    $cedula_stu=$ced->INS_NOMBRE;
+                }
+                $file_name=$cedula_stu.'.'.$extension;
+                Image::make($request->file('FON_NOMBRE'))
+                    ->resize(354,213)
+                    ->save('images/BackgroundsPhotos/'.'frontal'.$file_name);
+                $post->FON_NOMBRE='frontal'.$file_name;
+                $post->save();
+            }
+            if ($request->hasFile('FON_NOMBRE2'))
+            {
+                $extension=$request->file('FON_NOMBRE2')->getClientOriginalExtension();
+                $institution_id=$request->institution_id;
+                $cedula=Institution::InstitutionId($institution_id);
+                foreach ($cedula as $ced)
+                {
+                    $cedula_stu=$ced->INS_NOMBRE;
+                }
+                $file_name=$cedula_stu.'.'.$extension;
+                Image::make($request->file('FON_NOMBRE2'))
+                    ->resize(354,213)
+                    ->save('images/BackgroundsPhotos/'.'posterior'.$file_name);
+                $post->FON_NOMBRE2='posterior'.$file_name;
+                $post->save();
+            }
             return redirect()
                 ->route('background.show',$background)
-                ->with('success','Fondo actualizado exitosamente');
+                ->with('success','Logo actualizado exitosamente');
+
         }catch(Throwable $e)
         {
-            return back()->with('error','Error'.$e->getCode().
-                ' No se puede agregar, La institución '
-                .$request->institution_id.' ya tiene asociado un fondo');
+            return back()->with('error','Error: '.$e->getCode().
+                'No se puede modificar, El background ya tiene una foto asociada');
         }
     }
     /**

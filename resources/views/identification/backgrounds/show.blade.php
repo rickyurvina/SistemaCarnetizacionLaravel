@@ -12,7 +12,7 @@
                            <tr>
                                <th>{{__('Fondo Frontal')}}</th>
                                <th>{{__('Fondo Posterior')}}</th>
-                               <th>{{__('Type')}}</th>
+                               <th>{{__('Institution')}}</th>
                                <th>{{__('Created_at')}}</th>
                                <th>{{__('Updated_at')}}</th>
                            </tr>
@@ -20,13 +20,12 @@
                            <tbody>
                            <tr>
                                <td>
-                                   <a>{{$background->FON_NOMBRE}}</a>
+                                   <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
+
                                </td>
                                <td>
-                                   <a> {{$background->FON_NOMBRE2}}</a>
-                               </td>
-                               <td>
-                                   <a> {{$background->FON_TIPO}}</a>
+                                   <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+
                                </td>
                                <td>
                                    <a href="{{route('institution.show',$background->institution->id)}}">

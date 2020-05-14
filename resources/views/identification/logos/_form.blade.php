@@ -1,41 +1,26 @@
 <form id="demo-form2"
       data-parsley-validate class="form-horizontal form-label-left"
       method="POST"
+      enctype="multipart/form-data"
       action="{{route($btnRoute ?? '', $logo)}}">
     @csrf
     @method($txtMethod??'')
     <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Logo')}}
+        <label class="col-form-label col-md-3 col-sm-3 label-align" for="nombre">
+            {{__('Photo')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
+            @if($logo->LOG_NOMBRE)
+                <img width="100px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
+            @endif
             <input
-                type="text"
+                type="file"
                 name="LOG_NOMBRE"
-                required="required"
-                class="form-control"
-                value="{{old('LOG_NOMBRE', $logo->LOG_NOMBRE) }}">
-            <span class="fa fa-user form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('LOG_NOMBRE','<small class="alert-error">:message</small>')!!}
-        </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Type')}}
-            <span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="LOG_TIPO"
-                required="required"
-                class="form-control"
-                value="{{old('LOG_TIPO',$logo->LOG_TIPO)}}">
+            >
             <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
-            {!! $errors->first('LOG_TIPO','<small class="alert-error">:message</small>')!!}
+            {!! $errors->first('LOG_NOMBRE','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">

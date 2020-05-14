@@ -23,5 +23,11 @@ class Picture extends Model
         if ($stu_id)
             return $query->where('student_id',$stu_id);
     }
+    public function scopeWithStudent($query,$student_id)
+    {
+        if ($student_id)
+            return $query->with('student')
+                ->where('student_id','=',$student_id)->get();
+    }
 
 }

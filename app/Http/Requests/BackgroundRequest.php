@@ -25,9 +25,8 @@ class BackgroundRequest extends FormRequest
     {
         return [
             //
-            'FON_NOMBRE'=>'required',
-            'FON_NOMBRE2'=>'required',
-            'FON_TIPO'=>'nullable',
+            'FON_NOMBRE'=>'nullable',
+            'FON_NOMBRE2'=>'nullable',
             'institution_id'=>'required'
             ];
     }

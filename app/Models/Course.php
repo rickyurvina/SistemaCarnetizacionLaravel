@@ -39,4 +39,8 @@ class Course extends Model
     {
         return $query->pluck('CUR_NOMBRE','id');
     }
+    public function scopeOrder($query)
+    {
+        return $query->orderBy('institution_id','DESC');
+    }
 }

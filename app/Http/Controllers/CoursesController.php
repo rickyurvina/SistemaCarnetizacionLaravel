@@ -32,10 +32,19 @@ class CoursesController extends Controller
     {
         try{
             $type='Institución Educativa';
-            $institutions=Institution::OrderCreate()->Type($type)->get();
             $institution_id=$request->get('institution_id');
-            $courses=Course::orderBy('institution_id','DESC')
-                ->CourseIns($institution_id)->paginate(5);
+            if (!empty($institution_id)||!Empty($type))
+            {
+                $institutions=Institution::OrderCreate()->Type($type)->get();
+                $courses=Course::Order()
+                    ->CourseIns($institution_id)
+                    ->paginate(count(Institution::get()));
+            }
+            else{
+                $courses=Course::Order()
+                    ->paginate(5);
+            }
+
             return view('identification.courses.index',
                 compact('courses','institutions'))
                 ->with('error','No se encontro esa institutcion');

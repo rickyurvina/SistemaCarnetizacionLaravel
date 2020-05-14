@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Http\Requests\PersonRequest;
 use App\Models\Institution;
 use App\Models\Person;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -96,8 +97,11 @@ class PersonController extends Controller
     public function show(Person $person)
     {
         try{
+            $person_id=$person->id;
+            $photo=Photo::WithPerson($person_id);
             return view('identification.people.show',[
-                'person'=>$person
+                'person'=>$person,
+                'photos'=>$photo
             ]);
         }catch(Throwable $e)
         {

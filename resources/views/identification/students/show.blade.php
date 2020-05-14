@@ -4,6 +4,12 @@
 @include('identification.layouts.top-content',['routeText'=>'student.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Estudiante'])
                <div>
                 <br/>
+                   <div>
+                       <h1>Foto</h1>
+                       @foreach($picture as $pic)
+                           <img width="100px" src="{{asset('images/StudentsPhotos/'.$pic->nombre)}}">
+                       @endforeach
+                   </div>
                    <table id="datatable"
                           class="table table-striped projects">
                        <thead>

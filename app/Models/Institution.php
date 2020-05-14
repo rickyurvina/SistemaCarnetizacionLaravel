@@ -54,6 +54,18 @@ class Institution extends Model
             return $query->where('id','=',$id)->get();
         }
     }
+    public function scopeInstitutionId($query,$institution_id)
+    {
+        if ($institution_id)
+            return $query->where('id','=',$institution_id)->get('INS_NOMBRE');
+    }
+    public function scopeInsId($query,$institution_id)
+    {
+        if ($institution_id)
+        {
+            return $query->where('id','=',$institution_id)->get();
+        }
+    }
 
 
 }

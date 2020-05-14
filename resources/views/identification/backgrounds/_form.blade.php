@@ -1,59 +1,47 @@
 <form id="demo-form2"
       data-parsley-validate class="form-horizontal form-label-left"
       method="POST"
+      enctype="multipart/form-data"
       action="{{route($btnRoute ?? '', $background)}}">
     @csrf
     @method($txtMethod??'')
     <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
+        <label class="col-form-label col-md-3 col-sm-3 label-align" for="nombre">
             {{__('Front Background')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
+            @if($background->FON_NOMBRE)
+                <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
+            @endif
             <input
-                type="text"
+                type="file"
                 name="FON_NOMBRE"
-                required="required"
-                class="form-control"
-                value="{{old('FON_NOMBRE', $background->FON_NOMBRE) }}">
-            <span class="fa fa-picture-o  form-control-feedback right"
+            >
+            <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('FON_NOMBRE','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
     <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
+        <label class="col-form-label col-md-3 col-sm-3 label-align" for="nombre">
             {{__('Back Background')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
+            @if($background->FON_NOMBRE2)
+                <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+            @endif
             <input
-                type="text"
+                type="file"
                 name="FON_NOMBRE2"
-                required="required"
-                class="form-control"
-                value="{{old('FON_NOMBRE2', $background->FON_NOMBRE2)}}">
-            <span class="fa fa-picture-o form-control-feedback right"
+            >
+            <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('FON_NOMBRE2','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Type')}}
-            <span class="required">*</span>
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="FON_TIPO"
-                required="required"
-                class="form-control"
-                value="{{old('FON_TIPO',$background->FON_TIPO)}}">
-            <span class="fa fa-book form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('FON_TIPO','<small class="alert-error">:message</small>')!!}
-        </div>
+
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">

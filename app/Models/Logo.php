@@ -26,4 +26,10 @@ class Logo extends Model
     {
         return $query->orderBy('institution_id','DESC');
     }
+    public function scopeWithInstitutionLogo($query,$institution_id)
+    {
+        if ($institution_id)
+            return $query->with('institution')
+                ->where('institution_id','=',$institution_id)->get();
+    }
 }

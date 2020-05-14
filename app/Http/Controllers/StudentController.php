@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
+use App\Models\Picture;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use Throwable;
@@ -23,10 +24,16 @@ class StudentController extends Controller
             $institutions=Institution::OrderCreate()->type($type)->get();
             $student=$request->get('EST_CEDULA');
             $institution_id=$request->get('institution_id');
-            $students=Student::OrderCreated()
-                ->InstitutionId($institution_id)
-                ->Id($student)
-                ->paginate(10);
+            if (!Empty($institution_id)||!Empty($type)||!Empty($student))
+            {
+                $students=Student::OrderCreated()
+                    ->InstitutionId($institution_id)
+                    ->Id($student)
+                    ->paginate(count(Institution::get()));
+            }else{
+                $students=Student::OrderCreated()
+                    ->paginate(10);
+            }
             return view('identification.students.index',
                 compact('students','institutions'))
                 ->with('error','No se encontro ese estudiante');
@@ -86,8 +93,11 @@ class StudentController extends Controller
     {
         //
         try{
+            $student_id=$student->id;
+            $picture=Picture::WithStudent($student_id);
             return view('identification.students.show',[
-                'student'=>$student
+                'student'=>$student,
+                'picture'=>$picture
             ]);
         }catch(Throwable $e)
         {

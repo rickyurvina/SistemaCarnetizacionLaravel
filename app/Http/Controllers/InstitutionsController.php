@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InstitutionMesageRequest;
+use App\Models\Background;
 use App\Models\Institution;
 use App;
+use App\Models\Logo;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -79,11 +81,15 @@ class InstitutionsController extends Controller
     public function show(Institution $institution)
     {
         try{
-            $courses=Institution::WithCourse()
-                ->CourseID($institution->id);
+            $institution_id=$institution->id;
+            $logo=Logo::WithInstitutionLogo($institution_id);
+            $background=Background::WithInstitutionBack($institution_id);
+            $courses=Institution::WithCourse()->CourseID($institution->id);
             return view('identification.institutions.show',[
                 'institution'=>$institution,
-                'courses'=>$courses
+                'courses'=>$courses,
+                'logos'=>$logo,
+                'backgrounds'=>$background
             ]);
 
         }catch(Throwable $e)
