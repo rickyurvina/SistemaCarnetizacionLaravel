@@ -2,7 +2,8 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Course;
+
+use App\Models\Course;
 use Faker\Generator as Faker;
 
 $factory->define(Course::class, function (Faker $faker) {
@@ -10,6 +11,6 @@ $factory->define(Course::class, function (Faker $faker) {
         //
         'CUR_NOMBRE'=>$faker->name,
         'CUR_PARALELO'=>$faker->userName,
-        'institution_id'=>$faker->numberBetween(1,100)
+        'institution_id'=>$faker->randomElement([2,6,7,8,9,12,15]),
     ];
 });

@@ -1,4 +1,6 @@
-<h3>Panel de Control</h3>
+<div>
+    <h3>Panel de Control</h3>
+</div>
 </div>
 <div class="title_right">
     <a href="{{route($routeText ?? '')}}"
@@ -15,6 +17,9 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>{{$textTitle}}</h2>
+                <input type="button" onclick="history.back()"
+                       class="btn btn-outline-primary col-sm-pull-1"
+                       name="Volver atrás" value="Volver atrás">
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link">

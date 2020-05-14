@@ -20,6 +20,9 @@ class CreateInstitutionsTable extends Migration
             $table->text('INS_DIRECCION');
             $table->string('INS_TELEFONO');
             $table->string('INS_CELULAR');
+            $table->string('INS_TIPO');
+            $table->text('INS_MISION')->nullable();
+            $table->text('INS_VISION')->nullable();
             $table->timestamps();
         });
     }

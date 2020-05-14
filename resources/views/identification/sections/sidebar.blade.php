@@ -10,12 +10,7 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li>
-                        <a
-                            href="#">
-                            {{__('Home')}}
-                        </a>
-                    </li>
+                    <li> <a href="#"> {{__('Home')}} </a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-institution"></i>
@@ -25,14 +20,7 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li><a
-                            href="{{route('institution.index')}}">
-                            {{__('Institutions')}}
-                        </a>
-                    </li>
-                    <li><a href="#">
-                            {{__('Representatives')}}
-                        </a>
+                    <li><a href="{{route('institution.index')}}">{{__('Institutions')}}</a>
                     </li>
                 </ul>
             </li>
@@ -40,9 +28,9 @@
                     {{__('Institutions Educatives')}}
                     <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>
-                    <li><a href="{{route('course.index')}}">{{__('Course')}}</a></li>
-                    <li><a href="#">{{__('Students')}}</a></li>
+{{--                    <li><a href="{{route('institutionsE')}}">Ver {{__('Institutions Educatives')}}</a></li>--}}
+                    <li><a href="{{route('course.index')}}">{{__('Courses')}}</a></li>
+                    <li><a href="{{route('student.index')}}">{{__('Students')}}</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-bar-chart"></i>
@@ -53,8 +41,9 @@
                 </a>
                 <ul class="nav child_menu">
                     <li>
-                        <a href="{{route('institutionsO')}}">Ver {{__('Organisations')}}</a>
-                        <a href="#">{{__('Users')}}</a>
+{{--                        <a href="{{route('institutionsO')}}">{{__('Show Organisations')}}</a>--}}
+                        <a href="{{route('area.index')}}">{{__('Work Area')}}</a>
+                        <a href="{{route('person.index')}}">{{__('Users')}}</a>
                     </li>
                 </ul>
             </li>
@@ -64,8 +53,10 @@
                         class="fa fa-chevron-down">
                     </span></a>
                 <ul class="nav child_menu">
-                    <li><a href="#">{{__('Background')}}</a></li>
-                    <li><a href="#">{{__('Logos')}}</a></li>
+                    <li><a href="{{route('background.index')}}">{{__('Background')}}</a></li>
+                    <li><a href="{{route('logo.index')}}">{{__('Logos')}}</a></li>
+                    <li><a href="{{route('photo.index')}}">{{__('Photos of People')}}</a></li>
+                    <li><a href="{{route('picture.index')}}">{{__('Photos Students')}}</a></li>
                     <li><a href="#">{{__('System Users')}}</a></li>
                 </ul>
             </li>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Institution;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 class InstitutionSeeder extends Seeder
@@ -11,6 +12,6 @@ class InstitutionSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Institution::class, 500)->create();
+        factory(Institution::class, 15)->create();
     }
 }
