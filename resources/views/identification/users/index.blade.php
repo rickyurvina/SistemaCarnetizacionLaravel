@@ -1,82 +1,89 @@
 @extends('identification.layouts.app')
-@section('title','pictures')
+@section('title','Users')
 @section('content')
     <!-- page content -->
-    @include('identification.layouts.top-content',['routeText'=>'picture.create','btnText'=>'Crear','textTitle'=>'Fotos Estudiantes'])
+    @include('identification.layouts.top-content',['routeText'=>'user.create','btnText'=>'Crear','textTitle'=>'Usuarios del Sistema'])
         <div class="row">
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                        {{Form::open(['route'=>'picture.index','method'=>'GET'])}}
+                        {{Form::open(['route'=>'user.index','method'=>'GET'])}}
                         <div class="input-group">
-                            @if(auth()->user()->hasRoles(['admin']))
-
-                            {{Form::text('student_id', null,['class'=>'form-control','placeholder'=>'Cedula del Estudiante'])}}
-                    <span class="input-group-btn">
-                          <button
-                              type="submit"
-                              class="btn btn-xs" >{{__('Search')}}
-                          </button>
+                            {{Form::text('name', null,['class'=>'form-control','placeholder'=>'Nombre del Usuario'])}}
+                            <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                     </span>
-                                @endif()
+                        </div>
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of Photos')}}
-                   {{$pictures->fragment('foo')->links()}}</p>
+                    <p>{{__('List of users')}}
+                        {{$users->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
                         <thead>
                         <tr>
+                            <th>{{__('ID')}}</th>
                             <th>{{__('Name')}}</th>
-                            <th>{{__('Student')}}</th>
+                            <th>{{__('Email')}}</th>
+                            <th>{{__('Role')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($pictures as $picture)
+                        @forelse($users as $user)
                             <tr>
                                 <td>
-                                    <img width="100px" src="{{asset('images/StudentsPhotos/'.$picture->nombre)}}">
+                                    <a>{{$user->id}}</a>
                                     <br />
                                     <small>
-                                        {{__('Created_at')}} {{$picture->created_at->format('d/m/Y')}}
+                                        {{__('Created_at')}} {{$user->created_at->format('d/m/Y')}}
                                     </small>
                                 </td>
-                                <td class="project_progress">
-                                    <a href="{{route('student.show',$picture->student_id)}}">
-                                        {{$picture->student->EST_NOMBRES}} {{$picture->student->EST_APELLIDOS}}
-                                    </a>
+                                <td>
+                                    <a> {{$user->name}}</a>
                                 </td>
                                 <td>
+                                    <a> {{$user->email}}</a>
+                                </td>
+                                <td>
+                                @foreach($user->roles as $role)
+                                     {{$role->display_name}}
+                                @endforeach
+                                </td>
+                                <td>
+                                    @auth
+                                        @if(auth()->user()->hasRoles(['estudiante','admin']))
                                     <div class="btn-group btn-group-sm">
-                                <a href="{{route('picture.show',$picture)}}"
+                                <a href="{{route('user.show',$user)}}"
                                    class="btn btn-primary btn-xs">
                                     <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
-                                        <a href="{{route('picture.edit',$picture)}}"
+                                <a href="{{route('user.edit',$user)}}"
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
+                                    @endif
                                     {{Form::close()}}
+                                    @endauth
                                 </a>
                                         @if(auth()->user()->hasRoles(['admin']))
-                                        <form action="{{route('picture.destroy',$picture->id)}}" method="POST">
+                                    <form action="{{route('user.destroy',$user->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
+                                        <button type="sumbit" class="btn btn-danger btn-sm">
                                             <i class="fa fa-trash-o"></i>
                                             {{__('Delete')}}
                                         </button>
                                     </form>
-                                            @endif()
+                                            @endif
                                     </div>
                                 </td>
                             </tr>
                         @empty
-                          <h1>{{__('There are no registered photos')}}</h1>
+                          <h1>{{__('There are no registered users')}}</h1>
                         @endforelse
                         </tbody>
                     </table>
@@ -84,7 +91,7 @@
             </div>
         </div>
         <!-- end project list -->
-{{--    </div>--}}
+    </div>
 </div>
 </div>
 </div>

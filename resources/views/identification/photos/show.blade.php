@@ -47,6 +47,7 @@
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
+                       @if(auth()->user()->hasRoles(['admin']))
                    <a href="#"
                       class="btn btn-danger btn-xs"
                       onclick="document.
@@ -60,6 +61,7 @@
                        action="{{route('photo.destroy',$photo)}}">
                        @csrf @method('DELETE')
                    </form>
+                           @endif()
                    </div>
                </div>
         </div>

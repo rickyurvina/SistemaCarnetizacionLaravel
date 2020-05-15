@@ -17,6 +17,11 @@ class PersonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('roles:admin,usuario');
+    }
     public function index(Request $request)
     {
         try{

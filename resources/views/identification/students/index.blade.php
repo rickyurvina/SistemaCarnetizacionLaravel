@@ -7,7 +7,8 @@
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
-                    {{Form::open(['route'=>'student.index','method'=>'GET'])}}
+                        @if(auth()->user()->hasRoles(['admin']))
+                        {{Form::open(['route'=>'student.index','method'=>'GET'])}}
                          <div class="input-group">
                              {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
                                 <select class="custom-select custom-select-sm"
@@ -25,6 +26,7 @@
                             <span class="input-group-btn">
                               <button type="submit" class="btn btn-xs" >{{__('Search')}}</button>
                             </span>
+                             @endif()
                          </div>
                     </div>
                 </div>
@@ -101,7 +103,8 @@
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
-                                    <form action="{{route('student.destroy',$student->id)}}" method="POST">
+                                        @if(auth()->user()->hasRoles(['admin']))
+                                        <form action="{{route('student.destroy',$student->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="sumbit" class="btn btn-danger btn-sm">
@@ -109,6 +112,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+                                            @endif()
                                     </div>
                                 </td>
                             </tr>

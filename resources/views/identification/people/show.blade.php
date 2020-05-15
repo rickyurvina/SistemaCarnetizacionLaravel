@@ -89,12 +89,14 @@
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
+                    @if(auth()->user()->hasRoles(['admin']))
                    <a href="#"
                       class="btn btn-danger btn-xs"
                       onclick="document.
                     getElementById('delete-person').
                        submit()"
                    ><i class="fa fa-trash-o"></i>{{__('Delete')}}</a>
+
                    <form
                        class="d-none"
                        id="delete-person"
@@ -102,6 +104,7 @@
                        action="{{route('person.destroy',$person)}}">
                        @csrf @method('DELETE')
                    </form>
+                        @endif()
                    </div>
                </div>
         </div>

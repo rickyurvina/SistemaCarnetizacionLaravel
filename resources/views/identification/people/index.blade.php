@@ -88,6 +88,7 @@
                                     </a>
                                 </td>
                                 <td>
+
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('person.show',$person)}}"
                                    class="btn btn-primary btn-xs">
@@ -100,6 +101,7 @@
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
+                                        @if(auth()->user()->hasRoles(['admin']))
                                     <form action="{{route('person.destroy',$person->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -108,6 +110,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+                                            @endif()
                                     </div>
                                 </td>
                             </tr>

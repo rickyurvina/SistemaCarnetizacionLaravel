@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Area;
-use App\Http\Requests\AreaRequest;
+use App\Http\Requests\UserRequest;
+use App\User;
 use Illuminate\Http\Request;
 use Throwable;
 
-class AreaController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,15 +20,14 @@ class AreaController extends Controller
         $this->middleware('roles:admin');
 
     }
-
-    public function index(Request $request)
+    public function index(Request $request  )
     {
         try{
-            $ARE_NOMBRE=$request->get('ARE_NOMBRE');
-            $areas=Area::Order()
-                ->name($ARE_NOMBRE)
-                ->paginate(6);
-            return view('identification.areas.index',compact('areas'));
+            $name=$request->get('name');
+            $users=User::orderBy('id','asc')
+                ->where('name','LIKE',"%$name%")
+                ->paginate(5);
+            return view('identification.users.index',compact('users'));
 
         }catch(Throwable $e)
         {
@@ -43,9 +42,11 @@ class AreaController extends Controller
      */
     public function create()
     {
+        //
         try{
-            return view('identification.areas.create',[
-                'area'=>new Area
+            $user=new User;
+            return view('identification.users.create',[
+                'user'=>$user
             ]);
         }catch(Throwable $e)
         {
@@ -59,29 +60,32 @@ class AreaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AreaRequest $request)
+    public function store(UserRequest $request)
     {
+        //
         try{
-            Area::create($request->validated());
+            User::create($request->validated());
             return redirect()
-                ->route('area.index')
-                ->with('success','Area registrada exitosamente');
+                ->route('user.index')
+                ->with('success','Usuario registrada exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
         }
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Area  $area
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Area $area)
+    public function show(User $user)
     {
+        //
         try{
-            return view('identification.areas.show',[
-                'area'=>$area
+            return view('identification.users.show',[
+                'user'=>$user
             ]);
         }catch(Throwable $e)
         {
@@ -92,14 +96,17 @@ class AreaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Area  $area
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Area $area)
+    public function edit($id)
     {
+
         try{
-            return view('identification.areas.edit',[
-                'area'=>$area
+            $user=User::findOrFail($id);
+//             $this->authorize($user);
+            return view('identification.users.edit',[
+                'user'=>$user
             ]);
         }catch(Throwable $e)
         {
@@ -111,16 +118,20 @@ class AreaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Area  $area
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AreaRequest $request, Area $area)
+    public function update(UserRequest $request, $id)
     {
+        //
+//        return $request;
         try{
-            $area->update( $request->validated() );
+            $user=User::findOrFail($id);
+            $user->update($request->all());
+//            $id->update( $request->validated());
             return redirect()
-                ->route('area.show',$area)
-                ->with('success','Area actualizada exitosamente');
+                ->route('user.show',$id)
+                ->with('success','User actualizada exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -130,15 +141,16 @@ class AreaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Area  $area
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
+        //
         try{
-            Area::findOrFail($id)->delete();
-            return redirect()->route('area.index')
-                ->with('delete','Area eliminada exitosamente');
+            User::findOrFail($id)->delete();
+            return redirect()->route('user.index')
+                ->with('delete','User eliminada exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().

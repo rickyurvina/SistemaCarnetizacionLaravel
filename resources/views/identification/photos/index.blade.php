@@ -7,8 +7,10 @@
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
                         {{Form::open(['route'=>'photo.index','method'=>'GET'])}}
                         <div class="input-group">
+                            @if(auth()->user()->hasRoles(['admin']))
                             {{Form::text('people_id', null,['class'=>'form-control','placeholder'=>'Cedula del usuario'])}}
                     <span class="input-group-btn">
                           <button
@@ -16,6 +18,7 @@
                               class="btn btn-xs" >{{__('Search')}}
                           </button>
                     </span>
+                            @endif()
                     </div>
                 </div>
                 <div class="card-box table-responsive">
@@ -60,6 +63,7 @@
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
+                                        @if(auth()->user()->hasRoles(['admin']))
                                     <form action="{{route('photo.destroy',$photo->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -68,6 +72,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+                                        @endif()
                                     </div>
                                 </td>
                             </tr>

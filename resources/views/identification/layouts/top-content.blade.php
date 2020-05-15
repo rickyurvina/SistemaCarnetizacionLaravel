@@ -2,6 +2,7 @@
     <h3>Panel de Control</h3>
 </div>
 </div>
+@if(auth()->user()->hasRoles(['admin']))
 <div class="title_right">
     <a href="{{route($routeText ?? '')}}"
        class="btn btn-success btn-xs pull-right">
@@ -10,6 +11,7 @@
         {{$btnText}}
     </a>
 </div>
+@endif())
 </div>
 <div class="clearfix"></div>
 <div class="row">

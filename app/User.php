@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -36,4 +36,25 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'assigned_roles');
+    }
+    public function hasRoles(array $roles)
+    {
+
+        foreach ($roles as $role)
+        {
+            foreach ($this->roles as $userRole)
+            {
+                if ($userRole->name===$role)
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
 }

@@ -1,9 +1,12 @@
 <?php
+
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 App::setlocale('es');
-//Auth::routes();
-route::view('/','home')->name('home');
+Auth::routes();
+route::get('/','HomeController@index')->name('home');
 /*
  * all rest routes for institutions-institutions
  */
@@ -16,15 +19,11 @@ route::resource('/photo','PhotoController')->names('photo');
 route::resource('/picture','PictureController')->names('picture');
 route::resource('/background','BackgroundController')->names('background');
 route::resource('/logo','LogoController')->names('logo');
+route::resource('/user','UserController')->names('user');
 
 
 /**/
-
-
-
-route::get('/institutionEducative','InstitutionsController@showIE')->name('institutionsE');
-route::get('/organisation','InstitutionsController@showO')->name('institutionsO');
-
+//route::get('login','Auth\AuthController@showLoginForm');
 
 
 

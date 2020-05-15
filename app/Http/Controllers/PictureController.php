@@ -17,6 +17,11 @@ class PictureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('roles:admin,estudiante');
+    }
     public function index(Request $request)
     {
         try{

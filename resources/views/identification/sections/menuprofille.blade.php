@@ -6,8 +6,11 @@
     </div>
     <div class="profile_info">
         <span>{{__('Welcome')}}</span>
-        <h2>Admin</h2>
-{{--        Nombre desde la persona que este Logeado--}}
+        <h2>
+            @auth
+            {{auth()->user()->name}}
+        @endauth
+        </h2>
     </div>
 </div>
 <!-- /menu profile quick info -->
