@@ -38,26 +38,23 @@
             {!! $errors->first('email','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
-{{--    <div class="item form-group">--}}
-{{--        <label class="col-form-label col-md-3 col-sm-3 label-align">--}}
-{{--            {{__('Roles')}}--}}
-{{--            <span class="required">*</span>--}}
-{{--        </label>--}}
-{{--        @foreach($user->roles as $role)--}}
-{{--        @endforeach--}}
-{{--        <div class="col-md-6 col-sm-6 ">--}}
-{{--            <input--}}
-{{--                type="text"--}}
-{{--                name="roles"--}}
-{{--                required="required"--}}
-{{--                class="form-control"--}}
-{{--                value="{{old('roles',$role->name)}}">--}}
-{{--            <span class="fa fa-user form-control-feedback right"--}}
-{{--                  aria-hidden="true"></span>--}}
-{{--            {!! $errors->first('name','<small class="alert-error">:message</small>')!!}--}}
-{{--        </div>--}}
-{{--        @endforeach--}}
-{{--    </div>--}}
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Cedula')}}
+            <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+            <input
+                type="number"
+                name="cedula"
+                required="required"
+                class="form-control"
+                value="{{old('cedula', $user->cedula) }}">
+            <span class="fa fa-user form-control-feedback right"
+                  aria-hidden="true"></span>
+            {!! $errors->first('cedula','<small class="alert-error">:message</small>')!!}
+        </div>
+    </div>
 
     <div class="ln_solid"></div>
     <div class="item form-group">

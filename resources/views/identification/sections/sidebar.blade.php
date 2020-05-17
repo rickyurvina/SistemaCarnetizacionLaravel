@@ -12,7 +12,7 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li> <a href="#"> {{__('Home')}} </a></li>
+                    <li> <a href="/"> {{__('Home')}} </a></li>
                 </ul>
             @endif()
 {{--            Registro Institutciones--}}

@@ -7,7 +7,7 @@
                    class="table table-striped projects">
                 <thead>
                 <tr>
-{{--                    <th>{{__('ID')}}</th>--}}
+
                     <th>{{__('Name')}}</th>
                     <th>{{__('Email')}}</th>
                     <th>{{__('Role')}}</th>

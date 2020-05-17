@@ -9,6 +9,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'person.index','method'=>'GET'])}}
                         <div class="input-group">
+                            @if(auth()->user()->hasRoles(['admin']))
                             {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del Usuario'])}}
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
@@ -25,6 +26,7 @@
                             <span class="input-group-btn">
                               <button type="submit" class="btn btn-xs" >{{__('Search')}}</button>
                             </span>
+                                @endif()
                         </div>
                 </div>
                 <div class="card-box table-responsive">

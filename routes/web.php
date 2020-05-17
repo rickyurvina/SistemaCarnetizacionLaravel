@@ -8,7 +8,7 @@ App::setlocale('es');
 Auth::routes();
 route::get('/','HomeController@index')->name('home');
 /*
- * all rest routes for institutions-institutions
+ * all rest routes for
  */
 route::resource('/institution','InstitutionsController')->names('institution');
 route::resource('/course','CoursesController')->names('course');
@@ -22,8 +22,6 @@ route::resource('/logo','LogoController')->names('logo');
 route::resource('/user','UserController')->names('user');
 
 
-/**/
-//route::get('login','Auth\AuthController@showLoginForm');
 
 
 

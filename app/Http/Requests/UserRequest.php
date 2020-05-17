@@ -27,7 +27,8 @@ class UserRequest extends FormRequest
         return [
             //
             'name'=>'required',
-            'email'=>'required|unique:users,email,'.$this->route('user')
+            'email'=>'required|unique:users,email,'.$this->route('user'),
+            'cedula'=>'required|unique:users,cedula,'.$this->route('user'),
         ];
     }
 }

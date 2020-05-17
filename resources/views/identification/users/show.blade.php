@@ -12,6 +12,7 @@
                            <th>{{__('Name')}}</th>
                            <th>{{__('Email')}}</th>
                            <th>{{__('Role')}}</th>
+                           <th>{{__('Cedula')}}</th>
                        </tr>
                        </thead>
                        <tbody>
@@ -34,6 +35,9 @@
                                    @foreach($user->roles as $role)
                                        {{$role->display_name}}
                                    @endforeach
+                               </td>
+                               <td>
+                                   <a> {{$user->cedula}}</a>
                                </td>
                            </tr>
                        </tbody>
