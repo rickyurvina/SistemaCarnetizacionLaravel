@@ -113,7 +113,7 @@ class UserController extends Controller
     public function edit($id)
     {
         try{
-            $user=User::findOrFail($id);
+            return $user=User::findOrFail($id);
              $this->authorize($user);
              $roles=Role::pluck('display_name','id');
             return view('identification.users.edit',[
