@@ -11,7 +11,7 @@
         {{$btnText}}
     </a>
 </div>
-@endif())
+@endif()
 </div>
 <div class="clearfix"></div>
 <div class="row">

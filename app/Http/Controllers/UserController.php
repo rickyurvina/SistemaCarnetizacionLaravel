@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UserRequest;
+use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class UserController extends Controller
@@ -17,21 +20,23 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('roles:admin');
+        $this->middleware('roles:admin,usuario',['except'=>['edit','show','update','destroy']]);
 
     }
     public function index(Request $request  )
     {
         try{
+//            $ci=auth()->user()->cedula;
             $name=$request->get('name');
-            $users=User::orderBy('id','asc')
+            $users=User::with('roles')
                 ->where('name','LIKE',"%$name%")
+//                ->where('cedula',$ci)
                 ->paginate(5);
             return view('identification.users.index',compact('users'));
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().$e->getMessage());
         }
     }
 
@@ -44,9 +49,11 @@ class UserController extends Controller
     {
         //
         try{
+            $roles=Role::pluck('display_name','id');
             $user=new User;
             return view('identification.users.create',[
-                'user'=>$user
+                'user'=>$user,
+                'roles'=>$roles
             ]);
         }catch(Throwable $e)
         {
@@ -57,14 +64,17 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\RegisterUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(RegisterUserRequest $request)
     {
         //
+
         try{
-            User::create($request->validated());
+            $user=User::create($request->validated());
+            $user->roles()->attach($request->roles);
+
             return redirect()
                 ->route('user.index')
                 ->with('success','Usuario registrada exitosamente');
@@ -96,21 +106,23 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit($id)
     {
-
         try{
             $user=User::findOrFail($id);
-//             $this->authorize($user);
+             $this->authorize($user);
+             $roles=Role::pluck('display_name','id');
             return view('identification.users.edit',[
-                'user'=>$user
+                'user'=>$user,
+                'roles'=>$roles
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -123,12 +135,12 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        //
-//        return $request;
+
         try{
             $user=User::findOrFail($id);
-            $user->update($request->all());
-//            $id->update( $request->validated());
+            $this->authorize($user);
+            $user->update($request->only('email','name','cedula'));
+            $user->roles()->sync($request->roles);
             return redirect()
                 ->route('user.show',$id)
                 ->with('success','User actualizada exitosamente');
@@ -148,13 +160,13 @@ class UserController extends Controller
     {
         //
         try{
-            User::findOrFail($id)->delete();
+           $user= User::findOrFail($id)->delete();
+            $this->authorize($user);
             return redirect()->route('user.index')
                 ->with('delete','User eliminada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                ' No se puede eliminar, contiene registros asociados');
+            return back();
         }
     }
 }

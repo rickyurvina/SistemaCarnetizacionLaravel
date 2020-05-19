@@ -37,7 +37,7 @@ class PictureController extends Controller
                     ->paginate(count(Student::get()));
             }
             else{
-                $pictures=picture::orderBy('student_id','DESC')->paginate(5);
+                $pictures=picture::with('student')->paginate(5);
             }
             if (empty($pictures))
             {

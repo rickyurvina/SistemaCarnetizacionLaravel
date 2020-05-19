@@ -31,12 +31,12 @@ class PersonController extends Controller
             $institution_id=$request->get('institution_id');
             if (!empty($institution_id))
             {
-                $people=Person::Order()->InstitutionId($institution_id)
+                $people=Person::with('institution')->InstitutionId($institution_id)
                     ->paginate(count(Institution::get()));
             }
             else
             {
-                $people=Person::Order()->Id($person)->paginate(5);
+                $people=Person::with('institution')->Id($person)->paginate(5);
             }
             if (empty($people))
             {

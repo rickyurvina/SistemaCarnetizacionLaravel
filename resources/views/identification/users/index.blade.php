@@ -50,16 +50,16 @@
                                 </td>
 
                                 <td>
-                                @foreach($user->roles as $role)
-                                     {{$role->display_name}}
-                                @endforeach
+{{--                                @foreach($user->roles as $role)--}}
+{{--                                     {{$role->display_name}}--}}
+{{--                                @endforeach--}}
+                                    {{$user->roles->pluck('display_name')->implode(' - ')}}
                                 </td>
                                 <td>
                                     <a> {{$user->cedula}}</a>
                                 </td>
                                 <td>
-                                    @auth
-                                        @if(auth()->user()->hasRoles(['estudiante','admin']))
+                                  @can('edit',$user)
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('user.show',$user)}}"
                                    class="btn btn-primary btn-xs">
@@ -70,11 +70,10 @@
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
-                                    @endif
                                     {{Form::close()}}
-                                    @endauth
+                                    @endcan
                                 </a>
-                                        @if(auth()->user()->hasRoles(['admin']))
+                                        @if(auth()->user()->isAdmin())
                                     <form action="{{route('user.destroy',$user->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')

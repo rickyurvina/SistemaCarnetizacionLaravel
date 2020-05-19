@@ -31,10 +31,10 @@ class PhotoController extends Controller
                 foreach ($person as $per) {
                     $person_id= $per->id;
                 }
-                $photos=Photo::Order()->Id($person_id)->paginate(count(Person::get()));
+                $photos=Photo::with('people')->Id($person_id)->paginate(count(Person::get()));
             }
             else{
-                $photos=Photo::Order()
+                $photos=Photo::with('people')
                     ->paginate(5);
             }
             if (empty($photos))

@@ -55,6 +55,63 @@
             {!! $errors->first('cedula','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
+@unless($user->id)
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Password')}}
+            <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+            <input
+                type="password"
+                name="password"
+                required="required"
+                class="form-control"
+                value="{{old('password', $user->password) }}">
+            <span class="fa fa-user form-control-feedback right"
+                  aria-hidden="true"></span>
+            {!! $errors->first('password','<small class="alert-error">:message</small>')!!}
+        </div>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Confirm Password')}}
+            <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 ">
+            <input
+                type="password"
+                name="password_confirmation"
+                required="required"
+                class="form-control"
+                value="{{old('password_confirmation', $user->password_confirmation) }}">
+            <span class="fa fa-user form-control-feedback right"
+                  aria-hidden="true"></span>
+        </div>
+@endunless
+    </div>
+    {!! $errors->first('password_confirmation','<small class="alert-error">:message</small>')!!}
+
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Roles')}}
+            <span class="required">*</span>
+        </label>
+        <div class="checkbox">
+            @foreach($roles as $id => $name)
+                <label for="">
+                    <input type="checkbox"
+                           value="{{$id}}"
+                           {{$user->roles->pluck('id')->contains($id) ? 'checked' : ''}}
+                           name="roles[]">
+                    {{$name}}
+                </label>
+            @endforeach
+                {!! $errors->first('roles','<small class="alert-error">:message</small>')!!}
+
+        </div>
+    </div>
+
 
     <div class="ln_solid"></div>
     <div class="item form-group">

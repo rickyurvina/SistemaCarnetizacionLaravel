@@ -17,7 +17,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'PER_DIRECCION'=>$faker->city(),
         'PER_NUMERO'=>$faker->numberBetween(100000000,200000000),
         'PER_CELULAR'=>$faker->numberBetween(1000000000,2000000000),
-        'institution_id'=>$faker->randomElement([3,4,9,11,12,13,14]),
+        'institution_id'=>$faker->randomElement([2,4,5,9,11,13]),
         'area_id'=>$faker->randomElement([1,2,3,4,5,6,7,8,9]),
     ];
 });

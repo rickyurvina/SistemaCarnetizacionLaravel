@@ -11,7 +11,7 @@
                            <th>{{__('ID')}}</th>
                            <th>{{__('Name')}}</th>
                            <th>{{__('Email')}}</th>
-                           <th>{{__('Role')}}</th>
+                           <th>{{__('Roles')}}</th>
                            <th>{{__('Cedula')}}</th>
                        </tr>
                        </thead>
@@ -44,11 +44,14 @@
                    </table>
                </div>
                    <div class="btn-group btn-group-xs">
+                       @can('edit',$user)
                 <a href="{{route('user.edit',$user)}}"
                    class="btn btn-info btn-xs">
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
+                       @endcan()
+                       @if(auth()->user()->isAdmin())
                    <a href="#"
                       class="btn btn-danger btn-xs"
                       onclick="document.
@@ -62,6 +65,7 @@
                        action="{{route('user.destroy',$user)}}">
                        @csrf @method('DELETE')
                    </form>
+                           @endif
                    </div>
                </div>
         </div>

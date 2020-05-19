@@ -2,8 +2,12 @@
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-
+/*ver consultas en cada pagina del sistema*/
+//DB::listen(function ($query){
+//    echo "<pre>{$query->sql}</pre>";
+//});
 App::setlocale('es');
 Auth::routes();
 route::get('/','HomeController@index')->name('home');

@@ -31,12 +31,12 @@ class StudentController extends Controller
             $institution_id=$request->get('institution_id');
             if (!Empty($institution_id)||!Empty($type)||!Empty($student))
             {
-                $students=Student::OrderCreated()
+                $students=Student::with(['institution','course'])
                     ->InstitutionId($institution_id)
                     ->Id($student)
                     ->paginate(count(Institution::get()));
             }else{
-                $students=Student::OrderCreated()
+                $students=Student::with(['institution','course'])
                     ->paginate(10);
             }
             return view('identification.students.index',

@@ -28,6 +28,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password']=bcrypt($password);
+    }
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -43,18 +48,22 @@ class User extends Authenticatable
     }
     public function hasRoles(array $roles)
     {
+//        foreach ($roles as $role)
+//        {
+//            return $this->roles->pluck('name')->contains($role);
+//            foreach ($this->roles as $userRole)
+//            {
+//                if ($userRole->name===$role)
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+        return $this->roles->pluck('name')->intersect($roles)->count();
 
-        foreach ($roles as $role)
-        {
-            foreach ($this->roles as $userRole)
-            {
-                if ($userRole->name===$role)
-                {
-                    return true;
-                }
-            }
-
-        }
-        return false;
+    }
+    public function isAdmin()
+    {
+        return $this->hasRoles(['admin']);
     }
 }
