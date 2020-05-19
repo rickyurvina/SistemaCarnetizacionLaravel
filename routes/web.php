@@ -24,6 +24,7 @@ route::resource('/picture','PictureController')->names('picture');
 route::resource('/background','BackgroundController')->names('background');
 route::resource('/logo','LogoController')->names('logo');
 route::resource('/user','UserController')->names('user');
+route::resource('/roles','RoleController')->names('role');
 
 
 

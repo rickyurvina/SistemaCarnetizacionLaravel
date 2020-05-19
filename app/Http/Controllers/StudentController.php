@@ -29,16 +29,31 @@ class StudentController extends Controller
             $institutions=Institution::OrderCreate()->type($type)->get();
             $student=$request->get('EST_CEDULA');
             $institution_id=$request->get('institution_id');
-            if (!Empty($institution_id)||!Empty($type)||!Empty($student))
+            $cedula=auth()->user()->cedula;
+            if (auth()->user()->isAdmin())
             {
-                $students=Student::with(['institution','course'])
-                    ->InstitutionId($institution_id)
-                    ->Id($student)
-                    ->paginate(count(Institution::get()));
-            }else{
-                $students=Student::with(['institution','course'])
-                    ->paginate(10);
+                if (!Empty($institution_id)||!Empty($type)||!Empty($student))
+                {
+                    $students=Student::with(['institution','course'])
+                        ->InstitutionId($institution_id)
+                        ->Id($student)
+                        ->paginate(count(Institution::get()));
+                }else{
+                    $students=Student::with(['institution','course'])
+                        ->paginate(10);
+                }
             }
+            else{
+                if (!Empty($institution_id)||!Empty($type)||!Empty($student))
+                {
+                    $students=Student::with(['institution','course'])->where('EST_CEDULA',$cedula)
+                        ->paginate(1);
+                }else{
+                    $students=Student::with(['institution','course'])
+                        ->paginate(10);
+                }
+            }
+
             return view('identification.students.index',
                 compact('students','institutions'))
                 ->with('error','No se encontro ese estudiante');
@@ -98,6 +113,7 @@ class StudentController extends Controller
     {
         //
         try{
+
             $student_id=$student->id;
             $picture=Picture::WithStudent($student_id);
             return view('identification.students.show',[
