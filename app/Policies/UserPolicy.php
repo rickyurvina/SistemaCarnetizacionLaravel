@@ -37,5 +37,9 @@ class UserPolicy
     {
         return $authUser->id == $user->id;
     }
+    public function show(User $authUser,User $user)
+    {
+        return $authUser->id == $user->id;
+    }
 
 }

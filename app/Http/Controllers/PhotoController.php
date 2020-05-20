@@ -85,11 +85,12 @@ class PhotoController extends Controller
             }
             else{
                 $post= photo::create($request->validated());
+                $request->file('nombre');
 
                 if ($request->hasFile('nombre'))
                 {
                     $extension=$request->file('nombre')->getClientOriginalExtension();
-                      $people_id=$request->people_id;
+                    $people_id=$request->people_id;
                     $cedula=Person::PeopleId($people_id);
                     foreach ($cedula as $ced)
                     {

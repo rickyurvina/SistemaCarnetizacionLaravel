@@ -26,11 +26,10 @@ class UserController extends Controller
     public function index(Request $request  )
     {
         try{
-//            $ci=auth()->user()->cedula;
+
             $name=$request->get('name');
             $users=User::with('roles')
                 ->where('name','LIKE',"%$name%")
-//                ->where('cedula',$ci)
                 ->paginate(5);
             return view('identification.users.index',compact('users'));
 
@@ -90,13 +89,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($id)
     {
         //
         try{
-            return view('identification.users.show',[
-                'user'=>$user
-            ]);
+            $user=auth()->user();
+            if($user->can('show',$user))
+            {
+                return view('identification.users.show',[
+                    'user'=>$user
+                ]);
+            }
+            else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -113,7 +120,7 @@ class UserController extends Controller
     public function edit($id)
     {
         try{
-            return $user=User::findOrFail($id);
+             $user=User::findOrFail($id);
              $this->authorize($user);
              $roles=Role::pluck('display_name','id');
             return view('identification.users.edit',[

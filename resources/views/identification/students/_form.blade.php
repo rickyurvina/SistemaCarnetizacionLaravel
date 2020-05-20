@@ -142,7 +142,7 @@
             {!! $errors->first('EST_CELULAR','<small class="alert-error">:message</small>')!!}
         </div>
     </div>
-
+    @if(auth()->user()->isAdmin())
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Code')}}
@@ -237,7 +237,6 @@
             <input
                 type="text"
                 name="EST_BECA"
-                {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_BECA',$student->EST_BECA)}}">
             <span class="fa fa-book form-control-feedback right"
@@ -246,43 +245,6 @@
         </div>
     </div>
 
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Blood type')}}
-            <span class="required">*</span>
-        </label>
-        <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="EST_TIPOSANGRE" id="" required>
-         <option value="{{$student->EST_TIPOSANGRE}}" selected>
-                {{$student->EST_TIPOSANGRE}}
-            </option>
-            {{--                @else--}}
-            <option value="O negativo">
-                O negativo
-            </option>
-            <option value="O positivo">
-                O positivo
-            </option>
-            <option value="A negativo">
-                A negativo
-            </option>
-            <option value="A positivo">
-                A positivo
-            </option>
-            <option value="B negativo">
-                B negativo
-            </option>
-            <option value="B positivo">
-                B positivo
-            </option>
-            <option value="AB negativo">
-                AB negativo
-            </option>
-            <option value="AB positivo">
-                AB positivo
-            </option>
-        </select>
-        {!! $errors->first('EST_TIPOSANGRE','<small class="alert-error">:message</small>')!!}
-    </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Institution')}}
@@ -312,6 +274,49 @@
             <span class="required">*</span>
         </label>
         <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                name="course_id" id="select-course" required>
+            @foreach($course as $id =>$name )
+                @if(old('course', $student->course_id)==$id)
+                    <option value="{{$id}}" selected>
+                        {{$name}}
+                    </option>
+                @endif
+            @endforeach
+            <option value="">Seleccione Curso</option>
+        </select>
+        {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
+    </div>
+    @endif
+    @if(!auth()->user()->isAdmin())
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Institution')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                name="institution_id" id="select-institution"
+                required>
+            <option selected></option>
+            @foreach($institution as $ins )
+                @if(old('institution', $student->institution_id)==$ins->id)
+                    <option  id="ins_id"  value="{{$ins->id}}" selected >
+                        {{$ins->INS_NOMBRE}}
+                    </option>
+                @else
+                    <option  id="ins_id"  value="{{$ins->id}}" disabled>
+                        {{$ins->INS_NOMBRE}}
+                    </option>
+                @endif
+            @endforeach
+        </select>
+        {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Course')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
                 name="course_id" id="select-course"
                 required>
             @foreach($course as $id =>$name )
@@ -324,6 +329,44 @@
             <option value="">Seleccione Curso</option>
         </select>
         {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
+    </div>
+    @endif()
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Blood type')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="EST_TIPOSANGRE" id="" required>
+            <option value="{{$student->EST_TIPOSANGRE}}" selected>
+                {{$student->EST_TIPOSANGRE}}
+            </option>
+            {{--                @else--}}
+            <option value="O negativo">
+                O negativo
+            </option>
+            <option value="O positivo">
+                O positivo
+            </option>
+            <option value="A negativo">
+                A negativo
+            </option>
+            <option value="A positivo">
+                A positivo
+            </option>
+            <option value="B negativo">
+                B negativo
+            </option>
+            <option value="B positivo">
+                B positivo
+            </option>
+            <option value="AB negativo">
+                AB negativo
+            </option>
+            <option value="AB positivo">
+                AB positivo
+            </option>
+        </select>
+        {!! $errors->first('EST_TIPOSANGRE','<small class="alert-error">:message</small>')!!}
     </div>
     </div>
     <div class="item form-group">
