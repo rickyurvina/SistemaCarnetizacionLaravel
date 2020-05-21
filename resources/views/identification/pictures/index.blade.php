@@ -9,6 +9,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'picture.index','method'=>'GET'])}}
                         <div class="input-group">
+                            @if(auth()->user()->hasRoles(['admin']))
                             {{Form::text('student_id', null,['class'=>'form-control','placeholder'=>'Cedula del Estudiante'])}}
                     <span class="input-group-btn">
                           <button
@@ -16,6 +17,7 @@
                               class="btn btn-xs" >{{__('Search')}}
                           </button>
                     </span>
+                                @endif()
                     </div>
                 </div>
                 <div class="card-box table-responsive">
@@ -53,13 +55,14 @@
                                     <i class="fa fa-search"></i>
                                     {{__('View')}}
                                 </a>
-                                <a href="{{route('picture.edit',$picture)}}"
+                                        <a href="{{route('picture.edit',$picture)}}"
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
-                                    <form action="{{route('picture.destroy',$picture->id)}}" method="POST">
+                                        @if(auth()->user()->hasRoles(['admin']))
+                                        <form action="{{route('picture.destroy',$picture->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">
@@ -67,6 +70,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+                                            @endif()
                                     </div>
                                 </td>
                             </tr>

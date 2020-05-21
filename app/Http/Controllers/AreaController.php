@@ -14,6 +14,12 @@ class AreaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('roles:admin');
+
+    }
 
     public function index(Request $request)
     {

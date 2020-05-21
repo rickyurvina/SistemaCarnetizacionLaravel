@@ -6,7 +6,6 @@ use App\Http\Requests\LogoRequest;
 use App\Models\Institution;
 use App\Models\Logo;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\In;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -17,6 +16,11 @@ class LogoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('roles:admin');
+    }
     public function index(Request $request)
     {
         //

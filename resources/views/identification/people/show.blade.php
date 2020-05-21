@@ -1,86 +1,96 @@
 @extends('identification.layouts.app')
 @section('title','Ver Usuario')
 @section('content')
-@include('identification.layouts.top-content',['routeText'=>'person.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Persona'])
+@include('identification.layouts.top-content',['routeText'=>'person.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Usuario'])
                <div>
                 <br/>
-                   <h1>Foto</h1>
-                   @foreach($photos as $photo)
-                   <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
-                   @endforeach
+                   <div class="card-box table-responsive">
                    <table id="datatable"
-                          class="table table-striped projects">
+                          class="table table-sm">
                        <thead>
                        <tr>
-                           <th>{{__('Identification card')}}</th>
-                           <th>{{__('Name')}}</th>
-                           <th>{{__('LastName')}}</th>
-                           <th>{{__('Sex')}}</th>
-                           <th>{{__('Age')}}</th>
-                           <th>{{__('Blood type')}}</th>
+                           <th>{{__('Photo')}}</th>
+                           <td>
+                               @foreach($photos as $photo)
+                                   <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
+                               @endforeach
+                           </td>
                        </tr>
-                       </thead>
-                       <tbody>
                        <tr>
+                           <th>{{__('Identification card')}}</th>
                            <td>
                                <a>{{$person->PER_CEDULA}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Name')}}</th>
                            <td>
                                <a> {{$person->PER_NOMBRES}}</a>
                            </td>
+                       </tr>
+                       <tr><th>{{__('LastName')}}</th>
                            <td>
                                <a> {{$person->PER_APELLIDOS}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Sex')}}</th>
                            <td>
                                <a> {{$person->PER_SEXO}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Age')}}</th>
                            <td>
                                <a>{{\Carbon\Carbon::parse($person->PER_FECHANACIMIENTO)->age}} Años</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Blood type')}}</th>
                            <td>
                                <a>{{$person->PER_TIPOSANGRE}}</a>
                            </td>
                        </tr>
-                       </tbody>
-                   </table>
-                   <table id="datatable"
-                          class="table table-striped projects">
-                       <thead>
-                       <tr>
-                           <th>{{__('Email')}}</th>
-                           <th>{{__('Direction')}}</th>
-                           <th>{{__('Phone')}}</th>
-                           <th>{{__('CellPhone')}}</th>
-                           <th>{{__('Institution')}}</th>
-                           <th>{{__('Area')}}</th>
-                       </tr>
-                       </thead>
-                       <tbody>
-                       <tr>
+                       <tr> <th>{{__('Email')}}</th>
                            <td>
                                <a> {{$person->PER_CORREO}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Direction')}}</th>
                            <td>
                                <a> {{$person->PER_DIRECCION}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Phone')}}</th>
                            <td>
                                <a> {{$person->PER_NUMERO}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('CellPhone')}}</th>
                            <td>
                                <a> {{$person->PER_CELULAR}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Institution')}}</th>
                            <td>
                                <a href="{{route('institution.show',$person->institution_id)}}">
                                    {{$person->institution->INS_NOMBRE}}
                                </a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Area')}}</th>
                            <td>
                                <a href="{{route('area.show',$person->area_id)}}">
                                    {{$person->area->ARE_NOMBRE}}
                                </a>
                            </td>
                        </tr>
-                       </tbody>
+                       </thead>
                    </table>
                </div>
                 <div class="btn-group btn-group-xs">
@@ -89,12 +99,14 @@
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
+                    @if(auth()->user()->hasRoles(['admin']))
                    <a href="#"
                       class="btn btn-danger btn-xs"
                       onclick="document.
                     getElementById('delete-person').
                        submit()"
                    ><i class="fa fa-trash-o"></i>{{__('Delete')}}</a>
+
                    <form
                        class="d-none"
                        id="delete-person"
@@ -102,6 +114,7 @@
                        action="{{route('person.destroy',$person)}}">
                        @csrf @method('DELETE')
                    </form>
+                        @endif()
                    </div>
                </div>
         </div>

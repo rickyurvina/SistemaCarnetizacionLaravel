@@ -43,6 +43,8 @@
                                     <a> {{$area->ARE_DESCRIPCCION}}</a>
                                 </td>
                                 <td>
+{{--                                    @auth--}}
+{{--                                        @if(auth()->user()->hasRoles(['estudiante','admin']))--}}
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('area.show',$area)}}"
                                    class="btn btn-primary btn-xs">
@@ -53,8 +55,11 @@
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
+{{--                                    @endif--}}
                                     {{Form::close()}}
+{{--                                    @endauth--}}
                                 </a>
+{{--                                        @if(auth()->user()->hasRoles(['admin']))--}}
                                     <form action="{{route('area.destroy',$area->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -63,6 +68,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+{{--                                            @endif--}}
                                     </div>
                                 </td>
                             </tr>

@@ -1,3 +1,4 @@
+
 @extends('identification.layouts.app')
 @section('title','Crear Usuarios')
 @section('content')

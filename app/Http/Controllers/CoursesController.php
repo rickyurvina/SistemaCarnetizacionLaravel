@@ -9,6 +9,17 @@ use Throwable;
 
 class CoursesController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('auth',['except'=>'byInstitution']);
+        $this->middleware('roles:admin',['except'=>'byInstitution']);
+    }
     /**
      * Funcion para cargar los cursos en el select de
      * estudiantes
@@ -23,11 +34,6 @@ class CoursesController extends Controller
         }
 
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         try{

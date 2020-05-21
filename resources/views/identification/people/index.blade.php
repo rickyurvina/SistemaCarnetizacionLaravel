@@ -9,6 +9,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'person.index','method'=>'GET'])}}
                         <div class="input-group">
+                            @if(auth()->user()->hasRoles(['admin']))
                             {{Form::text('PER_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del Usuario'])}}
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
@@ -25,6 +26,7 @@
                             <span class="input-group-btn">
                               <button type="submit" class="btn btn-xs" >{{__('Search')}}</button>
                             </span>
+                                @endif()
                         </div>
                 </div>
                 <div class="card-box table-responsive">
@@ -41,8 +43,8 @@
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
                             <th>{{__('Age')}}</th>
-                            <th>{{__('Email')}}</th>
-                            <th>{{__('Phone')}}</th>
+{{--                            <th>{{__('Email')}}</th>--}}
+{{--                            <th>{{__('Phone')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Area')}}</th>
@@ -68,12 +70,12 @@
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($person->PER_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-                                <td>
-                                    <a> {{$person->PER_CORREO}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$person->PER_NUMERO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_CORREO}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_NUMERO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_CELULAR}}</a>
                                 </td>
@@ -88,6 +90,7 @@
                                     </a>
                                 </td>
                                 <td>
+
                                     <div class="btn-group btn-group-sm">
                                 <a href="{{route('person.show',$person)}}"
                                    class="btn btn-primary btn-xs">
@@ -100,6 +103,7 @@
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
+                                        @if(auth()->user()->hasRoles(['admin']))
                                     <form action="{{route('person.destroy',$person->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -108,6 +112,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+                                            @endif()
                                     </div>
                                 </td>
                             </tr>

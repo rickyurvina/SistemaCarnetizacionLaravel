@@ -7,38 +7,38 @@
                    <div class="card-box table-responsive">
                        <!-- start project list -->
                        <table id="datatable"
-                              class="table table-striped projects">
+                              class="table table-bordered">
                            <thead>
                            <tr>
                                <th>{{__('Photo')}}</th>
-                               <th>{{__('Student')}}</th>
-                               <th>{{__('Created_at')}}</th>
-                               <th>{{__('Updated_at')}}</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr>
                                <td>
-                             <img width="100px" src="{{asset('images/StudentsPhotos/'.$picture->nombre)}}">
+                                   <img width="100px" src="{{asset('images/StudentsPhotos/'.$picture->nombre)}}">
                                </td>
-
+                           </tr>
+                           <tr> <th>{{__('Student')}}</th>
                                <td>
                                    <a href="{{route('student.show',$picture->student->id)}}">
                                        {{$picture->student->EST_NOMBRES}} {{$picture->student->EST_APELLIDOS}}
                                    </a>
                                </td>
+                           </tr>
+                           <tr>
+                               <th>{{__('Created_at')}}</th>
                                <td>
                                    <a>
-                                       <p>{{__('Created_at')}} {{$picture->created_at->format('d/m/Y')}}</p>
-                                   </a>
-                               </td>
-                               <td >
-                                   <a>
-                                       <p>{{__('Updated_at')}}{{$picture->updated_at->format('d/m/Y')}}</p>
+                                       <p>{{$picture->created_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                            </tr>
-                           </tbody>
+                           <tr>
+                               <th>{{__('Updated_at')}}</th>
+                               <td >
+                                   <a>
+                                       <p>{{$picture->updated_at->format('d/m/Y')}}</p>
+                                   </a>
+                               </td>
+                           </tr>
+                           </thead>
                        </table>
                    </div>
                    <div class="btn-group btn-group-xs">
@@ -47,7 +47,9 @@
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
-                   <a href="#"
+                       @if(auth()->user()->hasRoles(['admin']))
+
+                       <a href="#"
                       class="btn btn-danger btn-xs"
                       onclick="document.
                     getElementById('delete-picture').
@@ -60,6 +62,7 @@
                        action="{{route('picture.destroy',$picture)}}">
                        @csrf @method('DELETE')
                    </form>
+                           @endif()
                    </div>
                </div>
         </div>

@@ -17,7 +17,13 @@ class InstitutionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-        public function index(Request $request)
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('roles:admin');
+    }
+
+    public function index(Request $request)
     {
         try{
             $INS_NOMBRE=$request->get('INS_NOMBRE');

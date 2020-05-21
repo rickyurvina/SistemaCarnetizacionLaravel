@@ -21,7 +21,9 @@
                     <div class="clearfix"></div>
                     @include('identification.sections.menuprofille')
                     <br />
+                    @auth
                     @include('identification.sections.sidebar')
+                        @endauth
                 </div>
             </div>
         @include('identification.sections.topnavigation')

@@ -11,6 +11,6 @@ $factory->define(Course::class, function (Faker $faker) {
         //
         'CUR_NOMBRE'=>$faker->name,
         'CUR_PARALELO'=>$faker->userName,
-        'institution_id'=>$faker->randomElement([2,6,7,8,9,12,15]),
+        'institution_id'=>$faker->randomElement([1,3,6,7,8,10,12,14,15]),
     ];
 });

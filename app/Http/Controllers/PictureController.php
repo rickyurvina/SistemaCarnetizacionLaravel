@@ -17,29 +17,47 @@ class PictureController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('roles:admin,estudiante');
+    }
     public function index(Request $request)
     {
         try{
             $students_id=$request->get('student_id');
-            if (!empty($students_id))
+            $cedula_estudiante=auth()->user()->cedula;
+            if (auth()->user()->isAdmin())
             {
-                $stu=Student::OrderCreated()->Id($students_id)->get('id');
-                foreach($stu as $st){
-                    $stu_id=$st->id;
+                if (!empty($students_id))
+                {
+                    $stu=Student::OrderCreated()->Id($students_id)->get('id');
+                    foreach($stu as $st){
+                        $stu_id=$st->id;
+                    }
+                    $pictures=picture::Order()
+                        ->Id($stu_id)
+                        ->paginate(count(Student::get()));
                 }
-                $pictures=picture::Order()
-                    ->Id($stu_id)
-                    ->paginate(count(Student::get()));
+                else{
+                    $pictures=picture::with('student')->paginate(5);
+                }
             }
             else{
-                $pictures=picture::orderBy('student_id','DESC')->paginate(5);
+               $students=Student::where('EST_CEDULA',$cedula_estudiante)->get('id');
+                foreach ($students as $student) {
+                    $id_estudiante=$student->id;
+               }
+                $pictures=Picture::with('student')
+                    ->where('student_id',$id_estudiante)->paginate(1);
+//                return view('identification.pictures.index', compact('pictures'));
             }
             if (empty($pictures))
             {
                 return view('identification.pictures.index', compact('pictures'));
             }
             return view('identification.pictures.index', compact('pictures'))
-                ->with('error','No se encontro ese Estudiante');
+                ->with('error','No se encontro  Estudiante');
 
         }catch(Throwable $e)
         {
@@ -56,14 +74,21 @@ class PictureController extends Controller
     {
         //
         try{
-            $students=student::Order()->get();
-            return view('identification.pictures.create',[
-                'picture'=>new picture(),
-                'students'=>$students
-            ]);
+           if (auth()->user()->isAdmin())
+           {
+               $students=student::Order()->get();
+               return view('identification.pictures.create',[
+                   'picture'=>new picture(),
+                   'students'=>$students
+               ]);
+           }
+           else{
+               return back()->with('error','Error: Not Authorized.');
+           }
+
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -122,9 +147,17 @@ class PictureController extends Controller
     {
 
         try{
-            return view('identification.pictures.show',[
-                'picture'=>$picture,
-            ]);
+            $student_id=$picture->student_id;
+            $student=Student::findOrFaIL($student_id);
+            $user=auth()->user();
+            if ($user->can('show',$student))
+            {
+                return view('identification.pictures.show',[
+                    'picture'=>$picture,
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -141,12 +174,21 @@ class PictureController extends Controller
     public function edit(Picture $picture)
     {
         $student_id=$picture->student_id;
+        $user=auth()->user();
         try{
             $students=student::StudentID($student_id);
-            return view('identification.pictures.edit',[
-                'picture'=>$picture,
-                'students'=>$students,
-            ]);
+            $student=Student::findOrFaIL($student_id);
+            if ($user->can('edit',$student))
+            {
+                return view('identification.pictures.edit',[
+                    'picture'=>$picture,
+                    'students'=>$students,
+                ]);
+            }
+            else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -164,28 +206,35 @@ class PictureController extends Controller
     {
         try
         {
+            $student_id=$picture->student_id;
+            $user=auth()->user();
             $post=Picture::find($picture->id);
-            $post->fill($request->validated())->save();
-            if ($request->hasFile('nombre'))
+            $student=Student::findOrFaIL($student_id);
+            if ($user->can('update',$student))
             {
-                $extension=$request->file('nombre')->getClientOriginalExtension();
-                $student_id=$request->student_id;
-                $cedula=Student::WithPicture($student_id);
-                foreach ($cedula as $ced)
+                $post->fill($request->validated())->save();
+                if ($request->hasFile('nombre'))
                 {
-                    $cedula_stu=$ced->EST_CEDULA;
+                    $extension=$request->file('nombre')->getClientOriginalExtension();
+                    $student_id=$request->student_id;
+                    $cedula=Student::WithPicture($student_id);
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->EST_CEDULA;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('nombre'))
+                        ->resize(375,508)
+                        ->save('images/StudentsPhotos/'.$file_name);
+                    $post->nombre=$file_name;
+                    $post->save();
                 }
-                $file_name=$cedula_stu.'.'.$extension;
-                Image::make($request->file('nombre'))
-                    ->resize(375,508)
-                    ->save('images/StudentsPhotos/'.$file_name);
-                $post->nombre=$file_name;
-                $post->save();
+                return redirect()
+                    ->route('picture.show',$picture)
+                    ->with('success','Foto actualizado exitosamente');
+            }else{
+                return back()->with('error','Error: Not Authorized.');
             }
-            return redirect()
-                ->route('picture.show',$picture)
-                ->with('success','Foto actualizado exitosamente');
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().
@@ -204,11 +253,9 @@ class PictureController extends Controller
             picture::findOrFail($id)->delete();
             return redirect()->route('picture.index')
                 ->with('delete','Foto eliminado exitosamente');
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
         }
-
     }
 }
