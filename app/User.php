@@ -48,22 +48,22 @@ class User extends Authenticatable
     }
     public function hasRoles(array $roles)
     {
-//        foreach ($roles as $role)
-//        {
-//            return $this->roles->pluck('name')->contains($role);
-//            foreach ($this->roles as $userRole)
-//            {
-//                if ($userRole->name===$role)
-//                {
-//                    return true;
-//                }
-//            }
-//        }
         return $this->roles->pluck('name')->intersect($roles)->count();
-
     }
     public function isAdmin()
     {
         return $this->hasRoles(['admin']);
     }
+    public function scopeWithRoles($query)
+    {
+        return $query->with('roles');
+    }
+    public function scopeName($query,$name)
+    {
+        if ($name)
+        {
+            return $query->where('name','LIKE',"%$name%");
+        }
+    }
+
 }

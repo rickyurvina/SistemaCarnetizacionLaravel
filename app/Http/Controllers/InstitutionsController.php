@@ -28,17 +28,13 @@ class InstitutionsController extends Controller
         try{
             $INS_NOMBRE=$request->get('INS_NOMBRE');
             $type=$request->get('institution_id');
-            $institutions=Institution::OrderCreate()
-                ->Name($INS_NOMBRE)
-                ->where('INS_TIPO','LIKE',"%$type%")
-                ->paginate(6);
+            $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->paginate(6);
             return view('identification.institutions.index',compact('institutions'));
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Show the form for creating a new resource.
@@ -53,9 +49,8 @@ class InstitutionsController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Store a newly created resource in storage.
@@ -67,15 +62,12 @@ class InstitutionsController extends Controller
     {
         try{
             Institution::create($request->validated());
-            return redirect()
-                ->route('institution.index')
-                ->with('success','Institución registrada exitosamente');
+            return redirect()->route('institution.index')->with('success','Institución registrada exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Display the specified resource.
@@ -97,12 +89,10 @@ class InstitutionsController extends Controller
                 'logos'=>$logo,
                 'backgrounds'=>$background
             ]);
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -119,9 +109,8 @@ class InstitutionsController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Update the specified resource in storage.
@@ -140,9 +129,8 @@ class InstitutionsController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Remove the specified resource from storage.
@@ -154,12 +142,10 @@ class InstitutionsController extends Controller
     {
         try{
             Institution::findOrFail($id)->delete();
-            return redirect()->route('institution.index')
-                ->with('delete', 'Institución eliminada exitosamente');
+            return redirect()->route('institution.index')->with('delete', 'Institución eliminada exitosamente');
         }catch(\Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                ' No se puede eliminar, contiene registros asignados');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
    }
 }

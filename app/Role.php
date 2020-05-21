@@ -16,5 +16,8 @@ class Role extends Model
     {
         return $query->orderBy('id','asc');
     }
+    public function scopePluckDisplayName($query){
+        return $query->pluck('display_name','id');
+    }
 
 }

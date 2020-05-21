@@ -34,26 +34,20 @@ class StudentController extends Controller
             {
                 if (!Empty($institution_id)||!Empty($type)||!Empty($student))
                 {
-                    $students=Student::with(['institution','course'])
-                        ->InstitutionId($institution_id)
-                        ->Id($student)
+                    $students=Student::WithInsCur()->InstitutionId($institution_id)->Id($student)
                         ->paginate(count(Institution::get()));
                 }else{
-                    $students=Student::with(['institution','course'])
-                        ->paginate(10);
+                    $students=Student::WithInsCur()->paginate(10);
                 }
             }
             else{
-                $students=Student::with(['institution','course'])
-                    ->where('EST_CEDULA',$cedula)
-                    ->paginate(1);
+                $students=Student::WithInsCur()->StudentCedula($cedula)->paginate(1);
             }
-            return view('identification.students.index',
-                compact('students','institutions'))
+            return view('identification.students.index', compact('students','institutions'))
                 ->with('error','No se encontro ese estudiante');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -79,7 +73,6 @@ class StudentController extends Controller
            else{
                return back()->with('error','Error: Not Authorized.');
            }
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
@@ -101,7 +94,7 @@ class StudentController extends Controller
                 ->with('success','Estudiante registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -130,7 +123,7 @@ class StudentController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -179,13 +172,11 @@ class StudentController extends Controller
                 {
                     $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));
                     return redirect()
-                        ->route('student.show',$student)
-                        ->with('success','Estudiante actualizado exitosamente');
+                        ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
                 }
                 else{
                     return back()->with('error','Error: Not Authorized.');
                 }
-//            }
 
         }catch(Throwable $e)
         {
@@ -203,12 +194,10 @@ class StudentController extends Controller
     {
         try{
             Student::findOrFail($id)->delete();
-            return redirect()->route('student.index')
-                ->with('delete','Estudiante eliminado exitosamente');
-
+            return redirect()->route('student.index')->with('delete','Estudiante eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

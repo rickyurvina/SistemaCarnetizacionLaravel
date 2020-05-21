@@ -34,31 +34,28 @@ class PhotoController extends Controller
                     foreach ($person as $per) {
                         $person_id= $per->id;
                     }
-                    $photos=Photo::with('people')->Id($person_id)->paginate(count(Person::get()));
+                    $photos=Photo::WithPer()->Id($person_id)->paginate(count(Person::get()));
                 }
                 else{
-                    $photos=Photo::with('people')
-                        ->paginate(5);
+                    $photos=Photo::WithPer()->paginate(5);
                 }
             }
             else{
-                $people=Person::where('PER_CEDULA',$cedula_usuario)->get('id');
+                $people=Person::FindCedula($cedula_usuario)->get('id');
                 foreach ($people as $person){
                     $id_person=$person->id;
                 }
-                $photos=Photo::with('people')
-                    ->where('people_id',$id_person)->paginate(1);
+                $photos=Photo::WithPer()->Id($id_person)->paginate(1);
             }
             if (empty($photos))
             {
                 return view('identification.photos.index', compact('photos'));
             }
-            return view('identification.photos.index', compact('photos'))
-                ->with('error','No se encontro esa persona');
+            return view('identification.photos.index', compact('photos'))->with('error','No se encontro esa persona');
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -80,10 +77,9 @@ class PhotoController extends Controller
             }else{
                 return back()->with('error','Error: Not Authorized.');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -115,9 +111,7 @@ class PhotoController extends Controller
                         $cedula_stu=$ced->PER_CEDULA;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('nombre'))
-                        ->resize(375,508)
-                        ->save('images/PeoplePhotos/'.$file_name);
+                    Image::make($request->file('nombre'))->resize(375,508)->save('images/PeoplePhotos/'.$file_name);
                     $post->nombre=$file_name;
                     $post->save();
                 }
@@ -127,10 +121,8 @@ class PhotoController extends Controller
             }
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede agregar, El estudiante ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 
     /**
@@ -157,7 +149,7 @@ class PhotoController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -186,7 +178,7 @@ class PhotoController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -218,9 +210,7 @@ class PhotoController extends Controller
                         $cedula_stu=$ced->PER_CEDULA;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('nombre'))
-                        ->resize(375,508)
-                        ->save('images/PeoplePhotos/'.$file_name);
+                    Image::make($request->file('nombre'))->resize(375,508)->save('images/PeoplePhotos/'.$file_name);
                     $post->nombre=$file_name;
                     $post->save();
                 }
@@ -233,8 +223,7 @@ class PhotoController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede modificar, El usuario ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -252,7 +241,7 @@ class PhotoController extends Controller
                 ->with('delete','Foto eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

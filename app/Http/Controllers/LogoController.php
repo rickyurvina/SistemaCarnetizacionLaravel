@@ -23,19 +23,15 @@ class LogoController extends Controller
     }
     public function index(Request $request)
     {
-        //
         try{
             $institutions=logo::WithInstitution();
             $institution_id=$request->get('institution_id');
-            $logos=Logo::Order()
-                ->InstitutionId($institution_id)
-                ->paginate(5);
-            return view('identification.logos.index',
-                compact('logos','institutions'))
+            $logos=Logo::Order()->InstitutionId($institution_id)->paginate(5);
+            return view('identification.logos.index', compact('logos','institutions'))
                 ->with('error','No se encontro esa institutcion');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -46,7 +42,6 @@ class LogoController extends Controller
      */
     public function create()
     {
-        //
         try{
             $institutions=Institution::OrderCreate()->get();
             return view('identification.logos.create',[
@@ -55,9 +50,8 @@ class LogoController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 
     /**
@@ -76,7 +70,6 @@ class LogoController extends Controller
             }
             else{
                 $post= logo::create($request->validated());
-
                 if ($request->hasFile('LOG_NOMBRE'))
                 {
                     $extension=$request->file('LOG_NOMBRE')->getClientOriginalExtension();
@@ -87,21 +80,16 @@ class LogoController extends Controller
                         $cedula_stu=$ced->INS_NOMBRE;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('LOG_NOMBRE'))
-                        ->resize(354,213)
-                        ->save('images/LogosPhotos/'.$file_name);
+                    Image::make($request->file('LOG_NOMBRE'))->resize(354,213)->save('images/LogosPhotos/'.$file_name);
                     $post->LOG_NOMBRE=$file_name;
                     $post->save();
                 }
                 return redirect()
-                    ->route('logo.index')
-                    ->with('success','Foto registrada exitosamente');
+                    ->route('logo.index')->with('success','Foto registrada exitosamente');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede agregar, El estudiante ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -113,14 +101,13 @@ class LogoController extends Controller
      */
     public function show(Logo $logo)
     {
-        //
         try{
             return view('identification.logos.show',[
                 'logo'=>$logo,
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -132,9 +119,8 @@ class LogoController extends Controller
      */
     public function edit(Logo $logo)
     {
-        //
-     $institution_id=$logo->institution_id;
         try{
+            $institution_id=$logo->institution_id;
             $institutions=Institution::InsId($institution_id);
             return view('identification.logos.edit',[
                 'logo'=>$logo,
@@ -142,7 +128,7 @@ class LogoController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage().' '.$e->getMessage());
         }
     }
 
@@ -169,20 +155,16 @@ class LogoController extends Controller
                     $cedula_stu=$ced->INS_NOMBRE;
                 }
                 $file_name=$cedula_stu.'.'.$extension;
-                Image::make($request->file('LOG_NOMBRE'))
-                    ->resize(354,213)
-                    ->save('images/LogosPhotos/'.$file_name);
+                Image::make($request->file('LOG_NOMBRE'))->resize(354,213)->save('images/LogosPhotos/'.$file_name);
                 $post->LOG_NOMBRE=$file_name;
                 $post->save();
             }
             return redirect()
-                ->route('logo.show',$logo)
-                ->with('success','Logo actualizado exitosamente');
+                ->route('logo.show',$logo)->with('success','Logo actualizado exitosamente');
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede modificar, El logo ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -196,11 +178,10 @@ class LogoController extends Controller
     {
         try{
             logo::findOrFail($id)->delete();
-            return redirect()->route('logo.index')
-                ->with('delete','Fondo eliminado exitosamente');
+            return redirect()->route('logo.index')->with('delete','Fondo eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

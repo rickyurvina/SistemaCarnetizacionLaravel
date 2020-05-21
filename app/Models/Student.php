@@ -67,7 +67,17 @@ class Student extends Model
         {
             return $query->where('id','=',$student_id)->get();
         }
-
+    }
+    public function scopeStudentCedula($query, $cedula_estudiante)
+    {
+        if ($cedula_estudiante)
+        {
+            return $query->where('EST_CEDULA',$cedula_estudiante);
+        }
+    }
+    public function scopeWithInsCur($query)
+    {
+        return $query->with(['institution','course']);
     }
 
 

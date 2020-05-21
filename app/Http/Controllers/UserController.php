@@ -27,14 +27,11 @@ class UserController extends Controller
         try{
 
             $name=$request->get('name');
-            $users=User::with('roles')
-                ->where('name','LIKE',"%$name%")
-                ->paginate(5);
+            $users=User::WithRoles()->Name($name)->paginate(5);
             return view('identification.users.index',compact('users'));
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().$e->getMessage());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -47,7 +44,7 @@ class UserController extends Controller
     {
         //
         try{
-            $roles=Role::pluck('display_name','id');
+            $roles=Role::PluckDisplayName();
             $user=new User;
             return view('identification.users.create',[
                 'user'=>$user,
@@ -55,7 +52,7 @@ class UserController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -67,17 +64,13 @@ class UserController extends Controller
      */
     public function store(RegisterUserRequest $request)
     {
-        //
-
         try{
             $user=User::create($request->validated());
             $user->roles()->attach($request->roles);
-            return redirect()
-                ->route('user.index')
-                ->with('success','Usuario registrada exitosamente');
+            return redirect()->route('user.index')->with('success','Usuario registrada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -89,7 +82,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
         try{
             $user=auth()->user();
             if($user->can('show',$user))
@@ -101,10 +93,9 @@ class UserController extends Controller
             else{
                 return back()->with('error','Error: Not Authorized.');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -120,7 +111,7 @@ class UserController extends Controller
         try{
              $user=User::findOrFail($id);
              $this->authorize($user);
-             $roles=Role::pluck('display_name','id');
+             $roles=Role::PluckDisplayName();
             return view('identification.users.edit',[
                 'user'=>$user,
                 'roles'=>$roles
@@ -146,12 +137,10 @@ class UserController extends Controller
             $this->authorize($user);
             $user->update($request->only('email','name','cedula'));
             $user->roles()->sync($request->roles);
-            return redirect()
-                ->route('user.show',$id)
-                ->with('success','User actualizada exitosamente');
+            return redirect()->route('user.show',$id)->with('success','User actualizada exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -166,12 +155,11 @@ class UserController extends Controller
         //
         try{
            $user= User::findOrFail($id)->delete();
-            $this->authorize($user);
-            return redirect()->route('user.index')
-                ->with('delete','User eliminada exitosamente');
+//            $this->authorize($user);
+            return redirect()->route('user.index')->with('delete','User eliminada exitosamente');
         }catch(Throwable $e)
         {
-            return back();
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

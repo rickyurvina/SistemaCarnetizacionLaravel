@@ -34,37 +34,28 @@ class PersonController extends Controller
             {
                 if (!empty($institution_id))
                 {
-                    $people=Person::with('institution')->InstitutionId($institution_id)
-                        ->paginate(count(Institution::get()));
+                    $people=Person::WithIns()->InstitutionId($institution_id)->paginate(count(Institution::get()));
                 }
                 else
                 {
-                    $people=Person::with('institution')->Id($person)->paginate(5);
+                    $people=Person::WithIns()->Id($person)->paginate(5);
                 }
-
             }
             else{
-                $people=Person::with('institution')
-                    ->where('PER_CEDULA',$cedula_user)
-                    ->paginate(1);
+                $people=Person::WithIns()->FindCedula($cedula_user)->paginate(1);
             }
-
             if (empty($people))
             {
-                return view('identification.people.index',
-                    compact('people','institutions'));
+                return view('identification.people.index', compact('people','institutions'));
             }
             else {
-                return view('identification.people.index',
-                    compact('people', 'institutions'))
+                return view('identification.people.index', compact('people', 'institutions'))
                     ->with('error', 'No se encontro esa persona');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Show the form for creating a new resource.
@@ -87,12 +78,10 @@ class PersonController extends Controller
             }else{
                 return back()->with('error','Error: Not Authorized.');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Store a newly created resource in storage.
@@ -105,11 +94,10 @@ class PersonController extends Controller
         try{
             Person::create($request->validated());
             return redirect()
-                ->route('person.index')
-                ->with('success','Usuario registrado exitosamente');
+                ->route('person.index')->with('success','Usuario registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -133,10 +121,9 @@ class PersonController extends Controller
             }else{
                 return back()->with('error','Error: Not Authorized.');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -165,9 +152,8 @@ class PersonController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Update the specified resource in storage.
@@ -183,17 +169,14 @@ class PersonController extends Controller
             if ($user->can('update',$person))
             {
                 $person->update( $request->validated());
-                return redirect()
-                    ->route('person.show',$person)
-                    ->with('success','Usuario actualizado exitosamente');
+                return redirect()->route('person.show',$person)->with('success','Usuario actualizado exitosamente');
             }else{
                 return back()->with('error','Error: Not Authorized.');
             }
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Remove the specified resource from storage.
@@ -205,11 +188,10 @@ class PersonController extends Controller
     {
         try{
             Person::findOrFail($id)->delete();
-            return redirect()->route('person.index')
-                ->with('delete','Usuario eliminado exitosamente');
+            return redirect()->route('person.index')->with('delete','Usuario eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

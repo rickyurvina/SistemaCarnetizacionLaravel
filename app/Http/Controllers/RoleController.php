@@ -60,8 +60,7 @@ class RoleController extends Controller
         try{
             Role::create($request->validated());
             return redirect()
-                ->route('role.index')
-                ->with('success','Role regitrado exitosamente');
+                ->route('role.index')->with('success','Role regitrado exitosamente');
 
         }catch(Throwable $e)
         {
@@ -119,9 +118,7 @@ class RoleController extends Controller
         //
         try{
             $role->update( $request->validated() );
-            return redirect()
-                ->route('role.show',$role)
-                ->with('success','Role actualizada exitosamente');
+            return redirect()->route('role.show',$role)->with('success','Role actualizada exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
@@ -139,8 +136,7 @@ class RoleController extends Controller
         //
         try{
             Role::findOrFail($id)->delete();
-            return redirect()->route('role.index')
-                ->with('delete','Role eliminado exitosamente');
+            return redirect()->route('role.index')->with('delete','Role eliminado exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());

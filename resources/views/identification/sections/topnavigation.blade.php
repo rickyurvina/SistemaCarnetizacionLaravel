@@ -12,15 +12,7 @@
                         @php
                             $picture=\App\Http\Controllers\ServicesController::photo(auth()->user()->cedula);
                         @endphp
-                        @if(auth()->user()->hasRoles(['estudiante']))
-                            <img src="{{asset($picture)}}" alt="..." class="">
-                        @endif
-                        @if(auth()->user()->hasRoles(['usuario']))
-                            <img src="{{asset($picture)}}" alt="..." class="">
-                        @endif
-                        @if(auth()->user()->isAdmin())
-                            <img src="{{asset('images/img.jpg')}}" alt="">
-                        @endif
+                        <img src="{{asset($picture)}}" alt="..." class="">
                         @auth
                         {{auth()->user()->name}}
                         @endauth

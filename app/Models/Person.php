@@ -45,13 +45,23 @@ class Person extends Model
     public function scopePeopleId($query,$people_id)
     {
         if ($people_id)
-            return $query->where('id','=',$people_id)
-                ->get('PER_CEDULA');
+            return $query->where('id','=',$people_id)->get('PER_CEDULA');
     }
     public function scopePersonId($query,$people_id)
     {
         if ($people_id)
             return $query->where('id','=',$people_id)->get();
+    }
+    public function scopeWithIns($query)
+    {
+        return $query->with('institution');
+    }
+    public function scopeFindCedula($query,$cedula_user)
+    {
+        if ($cedula_user)
+        {
+            return $query->where('PER_CEDULA',$cedula_user);
+        }
     }
 
 

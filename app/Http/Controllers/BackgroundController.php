@@ -26,15 +26,12 @@ class BackgroundController extends Controller
         try{
             $institutions=Background::WithInstitution()->get();
             $institution_id=$request->get('institution_id');
-            $backgrounds=Background::Order()
-                ->Institution($institution_id)
-                ->paginate(5);
-            return view('identification.backgrounds.index',
-                compact('backgrounds','institutions'))
+            $backgrounds=Background::Order()->Institution($institution_id)->paginate(5);
+            return view('identification.backgrounds.index',compact('backgrounds','institutions'))
                 ->with('error','No se encontro esa institutcion');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -52,7 +49,7 @@ class BackgroundController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -63,7 +60,6 @@ class BackgroundController extends Controller
      */
     public function store(BackgroundRequest $request)
     {
-        //
         try{
             if (!$request->FON_NOMBRE)
             {
@@ -81,9 +77,7 @@ class BackgroundController extends Controller
                         $cedula_stu=$ced->INS_NOMBRE;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('FON_NOMBRE'))
-                        ->resize(354,213)
-                        ->save('images/BackgroundsPhotos/'.'frontal'.$file_name);
+                    Image::make($request->file('FON_NOMBRE'))->resize(354,213)->save('images/BackgroundsPhotos/'.'frontal'.$file_name);
                     $post->FON_NOMBRE='frontal'.$file_name;
                     $post->save();
                 }
@@ -97,21 +91,17 @@ class BackgroundController extends Controller
                         $cedula_stu=$ced->INS_NOMBRE;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('FON_NOMBRE2'))
-                        ->resize(354,213)
-                        ->save('images/BackgroundsPhotos/'.'posterior'.$file_name);
+                    Image::make($request->file('FON_NOMBRE2'))->resize(354,213)->save('images/BackgroundsPhotos/'.'posterior'.$file_name);
                     $post->FON_NOMBRE2='posterior'.$file_name;
                     $post->save();
                 }
                 return redirect()
-                    ->route('background.index')
-                    ->with('success','Foto registrada exitosamente');
+                    ->route('background.index')->with('success','Foto registrada exitosamente');
             }
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede agregar, El estudiante ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -127,10 +117,9 @@ class BackgroundController extends Controller
             return view('identification.backgrounds.show',[
                 'background'=>$background,
             ]);
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -141,8 +130,8 @@ class BackgroundController extends Controller
      */
     public function edit(Background $background)
     {
-        $institution_id=$background->institution_id;
         try{
+            $institution_id=$background->institution_id;
             $institutions=Institution::InsId($institution_id);
             return view('identification.backgrounds.edit',[
                 'background'=>$background,
@@ -151,9 +140,8 @@ class BackgroundController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Update the specified resource in storage.
@@ -178,9 +166,7 @@ class BackgroundController extends Controller
                     $cedula_stu=$ced->INS_NOMBRE;
                 }
                 $file_name=$cedula_stu.'.'.$extension;
-                Image::make($request->file('FON_NOMBRE'))
-                    ->resize(354,213)
-                    ->save('images/BackgroundsPhotos/'.'frontal'.$file_name);
+                Image::make($request->file('FON_NOMBRE'))->resize(354,213)->save('images/BackgroundsPhotos/'.'frontal'.$file_name);
                 $post->FON_NOMBRE='frontal'.$file_name;
                 $post->save();
             }
@@ -194,16 +180,12 @@ class BackgroundController extends Controller
                     $cedula_stu=$ced->INS_NOMBRE;
                 }
                 $file_name=$cedula_stu.'.'.$extension;
-                Image::make($request->file('FON_NOMBRE2'))
-                    ->resize(354,213)
-                    ->save('images/BackgroundsPhotos/'.'posterior'.$file_name);
+                Image::make($request->file('FON_NOMBRE2'))->resize(354,213)->save('images/BackgroundsPhotos/'.'posterior'.$file_name);
                 $post->FON_NOMBRE2='posterior'.$file_name;
                 $post->save();
             }
             return redirect()
-                ->route('background.show',$background)
-                ->with('success','Logo actualizado exitosamente');
-
+                ->route('background.show',$background)->with('success','Logo actualizado exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().
@@ -220,14 +202,10 @@ class BackgroundController extends Controller
     {
         try{
             Background::findOrFail($id)->delete();
-            return redirect()
-                ->route('background.index')
-                ->with('delete','Fondo eliminado exitosamente');
-
+            return redirect()->route('background.index')->with('delete','Fondo eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 }

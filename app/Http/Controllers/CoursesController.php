@@ -30,9 +30,8 @@ class CoursesController extends Controller
             return Course::CourseIns($id)->get();
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     public function index(Request $request)
     {
@@ -42,24 +41,18 @@ class CoursesController extends Controller
             if (!empty($institution_id)||!Empty($type))
             {
                 $institutions=Institution::OrderCreate()->Type($type)->get();
-                $courses=Course::Order()
-                    ->CourseIns($institution_id)
-                    ->paginate(count(Institution::get()));
+                $courses=Course::Order()->CourseIns($institution_id)->paginate(count(Institution::get()));
             }
             else{
-                $courses=Course::Order()
-                    ->paginate(5);
+                $courses=Course::Order()->paginate(5);
             }
-
-            return view('identification.courses.index',
-                compact('courses','institutions'))
+            return view('identification.courses.index', compact('courses','institutions'))
                 ->with('error','No se encontro esa institutcion');
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Show the form for creating a new resource.
@@ -77,9 +70,8 @@ class CoursesController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Store a newly created resource in storage.
@@ -91,14 +83,11 @@ class CoursesController extends Controller
     {
         try{
             Course::create($request->validated());
-            return redirect()
-                ->route('course.index')
-                ->with('success','Curso registrado exitosamente');
+            return redirect()->route('course.index')->with('success','Curso registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Display the specified resource.
@@ -108,7 +97,6 @@ class CoursesController extends Controller
      */
     public function show(Course $course)
     {
-        //
         try{
             $students=Course::WithStudent()->CourseID($course->id);
             return view('identification.courses.show',[
@@ -117,9 +105,8 @@ class CoursesController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Show the form for editing the specified resource.
@@ -138,9 +125,8 @@ class CoursesController extends Controller
             ]);
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
     /**
      * Update the specified resource in storage.
@@ -153,15 +139,11 @@ class CoursesController extends Controller
     {
         try{
             $course->update( $request->validated() );
-            return redirect()
-                ->route('course.show',$course)
-                ->with('success','Curso actualizado exitosamente');
-
+            return redirect()->route('course.show',$course)->with('success','Curso actualizado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 
     /**
@@ -175,14 +157,10 @@ class CoursesController extends Controller
         //
         try{
             Course::findOrFail($id)->delete();
-            return redirect()->route('course.index')
-                ->with('delete','Curso eliminado exitosamente');
-
+            return redirect()->route('course.index')->with('delete','Curso eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
-
     }
 }

@@ -28,6 +28,10 @@ class Photo extends Model
             return $query->with('people')
                 ->where('people_id','=',$person_id)->get();
     }
+    public function scopeWithPer($query)
+    {
+    return $query->with('people');
+    }
 
 
 }
