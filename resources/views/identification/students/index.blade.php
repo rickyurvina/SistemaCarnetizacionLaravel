@@ -41,12 +41,12 @@
                         <thead>
                         <tr>
                             <th>{{__('Identification card')}}</th>
-                            <th>{{__('Name')}}</th>
+                            <th>{{__('Names')}}</th>
                             <th>{{__('LastName')}}</th>
                             <th>{{__('Age')}}</th>
-                            <th>{{__('Email')}}</th>
+{{--                            <th>{{__('Email')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
-                            <th>{{__('Code')}}</th>
+{{--                            <th>{{__('Code')}}</th>--}}
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Course')}}</th>
                             <th>{{__('Actions')}}</th>
@@ -69,17 +69,17 @@
                                     <a> {{$student->EST_APELLIDOS}}</a>
                                 </td>
                                 <td>
-                                    <a>{{\Carbon\Carbon::parse($student->EST_FECHANACIMIENTO)->age}} Años</a>
+                                    <a>{{\Carbon\Carbon::parse($student->EST_FECHANACIMIENTO)->age}} {{__('Years')}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$student->EST_CORREO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_CORREO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$student->EST_CELULAR}}</a>
                                 </td>
-                                <td>
-                                    <a> {{$student->EST_CODIGO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$student->EST_CODIGO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a href="{{route('institution.show',$student->institution_id)}}">
                                         {{$student->institution->INS_NOMBRE}}

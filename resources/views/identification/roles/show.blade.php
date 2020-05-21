@@ -4,6 +4,7 @@
 @include('identification.layouts.top-content',['routeText'=>'role.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Role'])
                <div>
                 <br/>
+                   <div class="card-box table-responsive">
                    <table id="datatable"
                           class="table table-striped projects">
                        <thead>
@@ -39,6 +40,7 @@
                        </tr>
                        </tbody>
                    </table>
+                   </div>
                </div>
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('role.edit',$role)}}"

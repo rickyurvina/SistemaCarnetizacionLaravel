@@ -48,7 +48,7 @@
                         @forelse($logos as $logo)
                             <tr>
                                 <td>
-                                    <img width="100px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
+                                    <img width="150px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
                                     <br />
                                     <small>
                                         {{__('Created_at')}} {{$logo->created_at->format('d/m/Y')}}

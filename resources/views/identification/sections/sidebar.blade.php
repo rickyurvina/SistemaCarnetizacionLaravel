@@ -81,7 +81,7 @@
                     @if(auth()->user()->hasRoles(['admin','estudiante']))
                     <li><a href="{{route('picture.index')}}">{{__('Photos Students')}}</a></li>
                     @endif()
-                        @if(auth()->user()->hasRoles(['admin','usuario']))
+                        @if(auth()->user()->hasRoles(['admin']))
                         <li><a href="{{route('user.index')}}">{{__('System Users')}}</a></li>
                         @endif()
                         @if(auth()->user()->isAdmin())

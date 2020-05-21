@@ -25,17 +25,29 @@ class PhotoController extends Controller
     {
         try{
             $people_id=$request->get('people_id');
-            if (!empty($people_id))
+            $cedula_usuario=auth()->user()->cedula;
+            if (auth()->user()->isAdmin())
             {
-                $person=Person::Order()->Id($people_id)->get('id');
-                foreach ($person as $per) {
-                    $person_id= $per->id;
+                if (!empty($people_id))
+                {
+                    $person=Person::Order()->Id($people_id)->get('id');
+                    foreach ($person as $per) {
+                        $person_id= $per->id;
+                    }
+                    $photos=Photo::with('people')->Id($person_id)->paginate(count(Person::get()));
                 }
-                $photos=Photo::with('people')->Id($person_id)->paginate(count(Person::get()));
+                else{
+                    $photos=Photo::with('people')
+                        ->paginate(5);
+                }
             }
             else{
+                $people=Person::where('PER_CEDULA',$cedula_usuario)->get('id');
+                foreach ($people as $person){
+                    $id_person=$person->id;
+                }
                 $photos=Photo::with('people')
-                    ->paginate(5);
+                    ->where('people_id',$id_person)->paginate(1);
             }
             if (empty($photos))
             {
@@ -58,11 +70,17 @@ class PhotoController extends Controller
     public function create()
     {
         try{
-            $people=person::OrderName()->get();
-            return view('identification.photos.create',[
-                'photo'=>new photo(),
-                'people'=>$people
-            ]);
+            if (auth()->user()->isAdmin())
+            {
+                $people=person::OrderName()->get();
+                return view('identification.photos.create',[
+                    'photo'=>new photo(),
+                    'people'=>$people
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -125,9 +143,17 @@ class PhotoController extends Controller
     {
         //
         try{
-            return view('identification.photos.show',[
-                'photo'=>$photo,
-            ]);
+            $person_id=$photo->people_id;
+            $person=Person::findOrFail($person_id);
+            $user=auth()->user();
+            if ($user->can('show',$person))
+            {
+                return view('identification.photos.show',[
+                    'photo'=>$photo,
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
 
         }catch(Throwable $e)
         {
@@ -143,14 +169,21 @@ class PhotoController extends Controller
      */
     public function edit(Photo $photo)
     {
-        //
-        $people_id=$photo->people_id;
         try{
-            $people=person::PersonId($people_id);
-            return view('identification.photos.edit',[
-                'photo'=>$photo,
-                'people'=>$people,
-            ]);
+            $people_id=$photo->people_id;
+            $person=Person::findOrFail($people_id);
+            $user=auth()->user();
+            if ($user->can('edit',$person))
+            {
+                $people=person::PersonId($people_id);
+                return view('identification.photos.edit',[
+                    'photo'=>$photo,
+                    'people'=>$people,
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -168,27 +201,35 @@ class PhotoController extends Controller
     {
         try
         {
-            $post=Photo::find($photo->id);
-            $post->fill($request->validated())->save();
-            if ($request->hasFile('nombre'))
+            $people_id=$photo->people_id;
+            $person=Person::findOrFail($people_id);
+            $user=auth()->user();
+            if ($user->can('update',$person))
             {
-                $extension=$request->file('nombre')->getClientOriginalExtension();
-                $people_id=$request->people_id;
-                $cedula=Person::PeopleId($people_id);
-                foreach ($cedula as $ced)
+                $post=Photo::find($photo->id);
+                $post->fill($request->validated())->save();
+                if ($request->hasFile('nombre'))
                 {
-                    $cedula_stu=$ced->PER_CEDULA;
+                    $extension=$request->file('nombre')->getClientOriginalExtension();
+                    $people_id=$request->people_id;
+                    $cedula=Person::PeopleId($people_id);
+                    foreach ($cedula as $ced)
+                    {
+                        $cedula_stu=$ced->PER_CEDULA;
+                    }
+                    $file_name=$cedula_stu.'.'.$extension;
+                    Image::make($request->file('nombre'))
+                        ->resize(375,508)
+                        ->save('images/PeoplePhotos/'.$file_name);
+                    $post->nombre=$file_name;
+                    $post->save();
                 }
-                $file_name=$cedula_stu.'.'.$extension;
-                Image::make($request->file('nombre'))
-                    ->resize(375,508)
-                    ->save('images/PeoplePhotos/'.$file_name);
-                $post->nombre=$file_name;
-                $post->save();
+                return redirect()
+                    ->route('photo.show',$photo)
+                    ->with('success','Foto actualizado exitosamente');
+            }else{
+                return back()->with('error','Error: Not Authorized.');
             }
-            return redirect()
-                ->route('photo.show',$photo)
-                ->with('success','Foto actualizado exitosamente');
 
         }catch(Throwable $e)
         {
@@ -209,7 +250,6 @@ class PhotoController extends Controller
             photo::findOrFail($id)->delete();
             return redirect()->route('photo.index')
                 ->with('delete','Foto eliminado exitosamente');
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());

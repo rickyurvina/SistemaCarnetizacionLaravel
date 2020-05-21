@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Student;
+use App\Models\Person;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PicturePolicy
+class UsuarioPolicy
 {
     use HandlesAuthorization;
 
@@ -26,17 +26,16 @@ class PicturePolicy
             return true;
         }
     }
-
-    public function edit(User $user, Student $student)
+    public function edit(User $user, Person $person)
     {
-        return $user->cedula==$student->EST_CEDULA;
+        return $user->cedula==$person->PER_CEDULA;
     }
-    public function update(User $user, Student $student)
+    public function update(User $user, Person $person)
     {
-        return $user->cedula==$student->EST_CEDULA;
+        return $user->cedula==$person->PER_CEDULA;
     }
-    public function show(User $user, Student $student)
+    public function show(User $user, Person $person)
     {
-        return $user->cedula==$student->EST_CEDULA;
+        return $user->cedula==$person->PER_CEDULA;
     }
 }

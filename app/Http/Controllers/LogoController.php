@@ -6,7 +6,6 @@ use App\Http\Requests\LogoRequest;
 use App\Models\Institution;
 use App\Models\Logo;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\In;
 use Intervention\Image\Facades\Image;
 use Throwable;
 

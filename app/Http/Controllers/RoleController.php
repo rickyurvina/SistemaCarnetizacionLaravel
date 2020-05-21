@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RoleRequest;
 use App\Role;
-use Illuminate\Http\Request;
 use Throwable;
 
 class RoleController extends Controller

@@ -1,44 +1,45 @@
 @extends('identification.layouts.app')
 @section('title','Ver Foto')
 @section('content')
-@include('identification.layouts.top-content',['routeText'=>'photo.index','btnText'=>'Panel de Control','textTitle'=>'Detalles'])
+@include('identification.layouts.top-content',['routeText'=>'photo.index','btnText'=>'Panel de Control','textTitle'=>'Detalles Foto Usuario'])
                <div>
                 <br/>
                    <div class="card-box table-responsive">
                        <!-- start project list -->
                        <table id="datatable"
-                              class="table table-striped projects">
+                              class="table table-bordered">
                            <thead>
                            <tr>
                                <th>{{__('Name')}}</th>
-                               <th>{{__('User')}}</th>
-                               <th>{{__('Created_at')}}</th>
-                               <th>{{__('Updated_at')}}</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr>
                                <td>
                                    <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
                                </td>
-
+                           </tr>
+                           <tr>
+                               <th>{{__('User')}}</th>
                                <td>
                                    <a href="{{route('person.show',$photo->people->id)}}">
                                        {{$photo->people->PER_NOMBRES}} {{$photo->people->PER_APELLIDOS}}
                                    </a>
                                </td>
+                           </tr>
+                           <tr>
+                               <th>{{__('Created_at')}}</th>
                                <td>
                                    <a>
                                        <p>{{__('Created_at')}} {{$photo->created_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
+                           </tr>
+                           <tr>
+                               <th>{{__('Updated_at')}}</th>
                                <td >
                                    <a>
                                        <p>{{__('Updated_at')}}{{$photo->updated_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                            </tr>
-                           </tbody>
+                           </thead>
                        </table>
                    </div>
                    <div class="btn-group btn-group-xs">

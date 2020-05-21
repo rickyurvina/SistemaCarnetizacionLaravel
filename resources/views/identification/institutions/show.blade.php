@@ -5,12 +5,9 @@
                <div>
                 <br/>
                    <div class="card-box table-responsive">
-                       <h1>Fondo</h1>
-                       @foreach($backgrounds as $background)
-                       @endforeach
-                       <table id="datatable" class="table table-striped projects">
+                       <table id="datatable" class="table table-active">
                            <thead>
-                           <tr>
+                           <tr align="center">
                                <th>{{__('Logo')}}</th>
                                <th>{{__('Front Background')}}</th>
                                <th>{{__('Back Background')}}</th>
@@ -18,25 +15,35 @@
                            </thead>
                            <tbody>
                            @foreach($logos as $logo)
-                           <tr>
+                           <tr class="table-light" align="center">
                                <td>
-                                   <img width="100px" src="{{asset('images/logosPhotos/'.$logo->LOG_NOMBRE)}}">
-
+                                   <a href="{{route('logo.show',$logo)}}">
+                                   <img width="200px" src="{{asset('images/logosPhotos/'.$logo->LOG_NOMBRE)}}">
+                                   </a>
+                               </td>
+                               @foreach($backgrounds as $background)
+                               <td>
+                                   <a href="{{route('background.show',$background)}}">
+                                   <img width="200px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
+                                   </a>
                                </td>
                                <td>
-                                   <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
-                               </td>
-                               <td>
-                                   <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+                                   <a href="{{route('background.show',$background)}}">
+                                   <img width="200px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+                                   </a>
                                </td>
                            </tr>
                            @endforeach
+                           @endforeach
                            </tbody>
                        </table>
+                       </div>
+                   </div>
+                   <div class="card-box table-responsive">
                        <table id="datatable"
-                              class="table table-striped projects">
+                              class="table table-active" >
                            <thead>
-                           <tr>
+                           <tr align="center">
                                <th>{{__('Name')}}</th>
                                <th>{{__('Direction')}}</th>
                                <th>{{__('Phone')}}</th>
@@ -46,7 +53,7 @@
                            </thead>
                            <tbody>
                       @foreach($courses as $course)
-                       <tr>
+                       <tr class="table-light" align="center">
                            <td>
                                <a>{{$course->INS_NOMBRE}}</a>
                                <br />
@@ -69,6 +76,7 @@
                        </tr>
                            </tbody>
                        </table>
+                   </div>
                        <div class="item form-group">
                            <label class="col-form-label">
                                {{__('Mission')}}
@@ -99,10 +107,10 @@
                        </div>
                        @if($course->INS_TIPO=='Organización')
                           @else
-                           <div class="card-box table-responsive">
-                               <table id="datatable" class="table table-striped projects">
-                                   <thead>
-                                   <tr>
+                       <div class="card-box table-responsive">
+                               <table id="datatable" class="table table-sm">
+                                   <thead class="table-active">
+                                   <tr align="center">
                                        <th>
                                            {{__('Name of Course')}}
                                        </th>
@@ -113,7 +121,7 @@
                                    </thead>
                                    @forelse($course->course as $cur)
                                        <tbody>
-                                       <tr>
+                                       <tr align="center">
                                            <td>
                                                <a href="{{route('course.show',$cur)}}">
                                                    {{$cur->CUR_NOMBRE}}
@@ -131,6 +139,7 @@
                                        </tbody>
                                </table>
                            </div>
+                       </div>
                        @endif
                        @endforeach
                    <div class="btn-group btn-group-xs">

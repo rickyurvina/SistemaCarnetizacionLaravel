@@ -7,37 +7,39 @@
                    <div class="card-box table-responsive">
                        <!-- start project list -->
                        <table id="datatable"
-                              class="table table-striped projects">
+                              class="table table-bordered">
                            <thead>
                            <tr>
                                <th>{{__('Logo')}}</th>
-                               <th>{{__('Institution')}}</th>
-                               <th>{{__('Created_at')}}</th>
-                               <th>{{__('Updated_at')}}</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr>
                                <td>
-                                   <img width="100px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
+                                   <img width="200px" src="{{asset('images/LogosPhotos/'.$logo->LOG_NOMBRE)}}">
                                </td>
+                           </tr>
+                           <tr>
+                               <th>{{__('Institution')}}</th>
                                <td>
                                    <a href="{{route('institution.show',$logo->institution->id)}}">
                                        {{$logo->institution->INS_NOMBRE}}
                                    </a>
                                </td>
+                           </tr>
+                           <tr>
+                               <th>{{__('Created_at')}}</th>
                                <td>
                                    <a>
-                                       <p>{{__('Created_at')}} {{$logo->created_at->format('d/m/Y')}}</p>
-                                   </a>
-                               </td>
-                               <td >
-                                   <a>
-                                       <p>{{__('Updated_at')}}{{$logo->updated_at->format('d/m/Y')}}</p>
+                                       <p>{{$logo->created_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                            </tr>
-                           </tbody>
+                           <tr>
+                               <th>{{__('Updated_at')}}</th>
+                               <td >
+                                   <a>
+                                       <p>{{$logo->updated_at->format('d/m/Y')}}</p>
+                                   </a>
+                               </td>
+                           </tr>
+                           </thead>
                        </table>
                    </div>
                    <div class="btn-group btn-group-xs">

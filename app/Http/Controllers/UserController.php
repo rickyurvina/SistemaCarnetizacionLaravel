@@ -7,7 +7,6 @@ use App\Http\Requests\UserRequest;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class UserController extends Controller
@@ -20,7 +19,7 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('roles:admin,usuario',['except'=>['edit','show','update','destroy']]);
+        $this->middleware('roles:admin');
 
     }
     public function index(Request $request  )
@@ -73,7 +72,6 @@ class UserController extends Controller
         try{
             $user=User::create($request->validated());
             $user->roles()->attach($request->roles);
-
             return redirect()
                 ->route('user.index')
                 ->with('success','Usuario registrada exitosamente');

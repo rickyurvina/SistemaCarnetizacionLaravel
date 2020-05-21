@@ -42,8 +42,6 @@
                             <th>{{__('Phone')}}</th>
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Type')}}</th>
-                            <th>{{__('Mission')}}</th>
-                            <th>{{__('Vision')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>
@@ -68,12 +66,6 @@
                                 </td>
                                 <td>
                                     <a> {{$institution->INS_TIPO}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$institution->INS_MISION}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$institution->INS_VISION}}</a>
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">

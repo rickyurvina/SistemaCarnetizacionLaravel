@@ -7,8 +7,8 @@
                    <div class="card-box table-responsive">
                        <!-- start project list -->
                        <table id="datatable"
-                              class="table table-striped projects">
-                           <thead>
+                              class="table table-responsive-lg">
+                           <thead align="center">
                            <tr>
                                <th>{{__('Name')}}</th>
                                <th>{{__('Parallel')}}</th>
@@ -17,7 +17,7 @@
                                <th>{{__('Updated_at')}}</th>
                            </tr>
                            </thead>
-                           <tbody>
+                           <tbody align="center">
                            <tr>
                                <td>
                                    <a>{{$course->CUR_NOMBRE}}</a>
@@ -32,12 +32,12 @@
                                </td>
                                <td>
                                    <a>
-                                       <p>{{__('Created_at')}} {{$course->created_at->format('d/m/Y')}}</p>
+                                       <p>{{$course->created_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                                <td >
                                    <a>
-                                       <p>{{__('Updated_at')}}{{$course->updated_at->format('d/m/Y')}}</p>
+                                       <p>{{$course->updated_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                            </tr>
@@ -47,8 +47,8 @@
                            @endforeach
                        <div class="card-box table-responsive">
                        <table id="datatable"
-                              class="table table-striped projects">
-                           <thead>
+                              class="table table-striped table-sm">
+                           <thead align="center">
                            <tr>
                                <th>{{__('Identification card')}}</th>
                                <th>{{__('Name')}}</th>
@@ -58,7 +58,7 @@
                                <th>{{__('Actions')}}</th>
                            </tr>
                            </thead>
-                           <tbody>
+                           <tbody align="center">
                            @foreach($student->student as $stu)
                            <tr>
                                <td>

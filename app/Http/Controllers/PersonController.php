@@ -29,23 +29,36 @@ class PersonController extends Controller
             $person=$request->get('PER_CEDULA');
             $institutions=Institution::OrderCreate()->type($type)->get();
             $institution_id=$request->get('institution_id');
-            if (!empty($institution_id))
+            $cedula_user=auth()->user()->cedula;
+            if (auth()->user()->isAdmin())
             {
-                $people=Person::with('institution')->InstitutionId($institution_id)
-                    ->paginate(count(Institution::get()));
+                if (!empty($institution_id))
+                {
+                    $people=Person::with('institution')->InstitutionId($institution_id)
+                        ->paginate(count(Institution::get()));
+                }
+                else
+                {
+                    $people=Person::with('institution')->Id($person)->paginate(5);
+                }
+
             }
-            else
-            {
-                $people=Person::with('institution')->Id($person)->paginate(5);
+            else{
+                $people=Person::with('institution')
+                    ->where('PER_CEDULA',$cedula_user)
+                    ->paginate(1);
             }
+
             if (empty($people))
             {
                 return view('identification.people.index',
                     compact('people','institutions'));
             }
-            return view('identification.people.index',
-                compact('people','institutions'))
-                ->with('error','No se encontro esa persona');
+            else {
+                return view('identification.people.index',
+                    compact('people', 'institutions'))
+                    ->with('error', 'No se encontro esa persona');
+            }
 
         }catch(Throwable $e)
         {
@@ -61,14 +74,20 @@ class PersonController extends Controller
     public function create()
     {
         try{
-            $areas=Area::Nombre();
-            $type='Organización';
-            $institutions=Institution::OrderCreate()->type($type)->get();
-            return view('identification.people.create',[
-                'person'=>new Person,
-                'institution'=>$institutions,
-                'area'=>$areas,
-            ]);
+            if (auth()->user()->isAdmin())
+            {
+                $areas=Area::Nombre();
+                $type='Organización';
+                $institutions=Institution::OrderCreate()->type($type)->get();
+                return view('identification.people.create',[
+                    'person'=>new Person,
+                    'institution'=>$institutions,
+                    'area'=>$areas,
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -102,12 +121,19 @@ class PersonController extends Controller
     public function show(Person $person)
     {
         try{
-            $person_id=$person->id;
-            $photo=Photo::WithPerson($person_id);
-            return view('identification.people.show',[
-                'person'=>$person,
-                'photos'=>$photo
-            ]);
+            $user=auth()->user();
+            if ($user->can('show',$person))
+            {
+                $person_id=$person->id;
+                $photo=Photo::WithPerson($person_id);
+                return view('identification.people.show',[
+                    'person'=>$person,
+                    'photos'=>$photo
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -125,11 +151,18 @@ class PersonController extends Controller
             $type='Organización';
             $institutions=Institution::OrderCreate()->type($type)->get();
             $areas=Area::Nombre();
-            return view('identification.people.edit',[
-                'person'=>$person,
-                'institution'=>$institutions,
-                'area'=>$areas
-            ]);
+            $user=auth()->user();
+            if ($user->can('edit',$person))
+            {
+                return view('identification.people.edit',[
+                    'person'=>$person,
+                    'institution'=>$institutions,
+                    'area'=>$areas
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -146,10 +179,16 @@ class PersonController extends Controller
     public function update(PersonRequest $request, Person $person)
     {
         try{
-            $person->update( $request->validated());
-            return redirect()
-                ->route('person.show',$person)
-                ->with('success','Usuario actualizado exitosamente');
+            $user=auth()->user();
+            if ($user->can('update',$person))
+            {
+                $person->update( $request->validated());
+                return redirect()
+                    ->route('person.show',$person)
+                    ->with('success','Usuario actualizado exitosamente');
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());

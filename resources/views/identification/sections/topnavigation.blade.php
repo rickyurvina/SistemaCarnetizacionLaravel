@@ -9,21 +9,27 @@
             <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                        <img src="{{asset('images/img.jpg')}}" alt="">
+                        @php
+                            $picture=\App\Http\Controllers\ServicesController::photo(auth()->user()->cedula);
+                        @endphp
+                        @if(auth()->user()->hasRoles(['estudiante']))
+                            <img src="{{asset($picture)}}" alt="..." class="">
+                        @endif
+                        @if(auth()->user()->hasRoles(['usuario']))
+                            <img src="{{asset($picture)}}" alt="..." class="">
+                        @endif
+                        @if(auth()->user()->isAdmin())
+                            <img src="{{asset('images/img.jpg')}}" alt="">
+                        @endif
                         @auth
                         {{auth()->user()->name}}
-                            @endauth
+                        @endauth
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item"  href="#"> Profile</a>
-                        <a class="dropdown-item"  href="/user/{{auth()->id()}}">Mi cuenta</a>
-                        @guest
-                        <a class="dropdown-item"  href="{{route('login')}}">Login</a>
-                            @else
-                            <a class="dropdown-item"  href="#" onclick="event.preventDefault();
+                        <a class="dropdown-item"  href="/profile">Mi Cuenta</a>
+                        <a class="dropdown-item"  href="#" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i
                                 class="fa fa-sign-out pull-right"></i> Log Out</a>
-                        @endguest
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

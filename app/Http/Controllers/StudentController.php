@@ -126,7 +126,6 @@ class StudentController extends Controller
             }
             else{
                 return back()->with('error','Error: Not Authorized.');
-
             }
 
         }catch(Throwable $e)
@@ -175,20 +174,7 @@ class StudentController extends Controller
     public function update(StudentRequest $request, Student $student)
     {
         try{
-            $user=auth()->user();
-//            if (auth()->user()->isAdmin())
-//            {
-//                if ($user->can('update',$student))
-//                {
-//                    $student->update( $request->validated());
-//                    return redirect()
-//                        ->route('student.show',$student)
-//                        ->with('success','Estudiante actualizado exitosamente');
-//                }
-//                else{
-//                    return back()->with('error','Error: Not Authorized.');
-//                }
-//            }else{
+                $user=auth()->user();
                 if ($user->can('update',$student))
                 {
                     $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));

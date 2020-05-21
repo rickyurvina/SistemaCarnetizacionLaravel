@@ -1,36 +1,40 @@
 @extends('identification.layouts.app')
 @section('title',' Ver Área')
 @section('content')
-@include('identification.layouts.top-content',['routeText'=>'area.index','btnText'=>'Panel de Control','textTitle'=>'Detalles de la Institución'])
+@include('identification.layouts.top-content',['routeText'=>'area.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Área'])
                <div>
                 <br/>
+                   <div class="card-box table-responsive">
                    <table id="datatable"
-                          class="table table-striped projects">
+                          class="table d-sm-table-row">
                        <thead>
                        <tr>
                            <th>{{__('Name')}}</th>
-                           <th>{{__('Description')}}</th>
-                           <th>{{__('Created_at')}}</th>
-                           <th>{{__('Updated_at')}}</th>
-                       </tr>
-                       </thead>
-                       <tbody>
-                       <tr>
                            <td>
-                             <a>{{$area->ARE_NOMBRE}}</a>
+                               <a>{{$area->ARE_NOMBRE}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Description')}}</th>
                            <td>
                                <a> {{$area->ARE_DESCRIPCCION}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Created_at')}}</th>
                            <td>
                                <a>{{$area->created_at->format('d/m/Y')}}</a>
                            </td>
+                       </tr>
+                       <tr>
+                           <th>{{__('Updated_at')}}</th>
                            <td>
                                <a>{{$area->updated_at->format('d/m/Y')}}</a>
                            </td>
                        </tr>
-                       </tbody>
+                       </thead>
                    </table>
+                   </div>
                </div>
                    <div class="btn-group btn-group-xs">
                 <a href="{{route('area.edit',$area)}}"

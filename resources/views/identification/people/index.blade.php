@@ -43,8 +43,8 @@
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
                             <th>{{__('Age')}}</th>
-                            <th>{{__('Email')}}</th>
-                            <th>{{__('Phone')}}</th>
+{{--                            <th>{{__('Email')}}</th>--}}
+{{--                            <th>{{__('Phone')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Area')}}</th>
@@ -70,12 +70,12 @@
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($person->PER_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-                                <td>
-                                    <a> {{$person->PER_CORREO}}</a>
-                                </td>
-                                <td>
-                                    <a> {{$person->PER_NUMERO}}</a>
-                                </td>
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_CORREO}}</a>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    <a> {{$person->PER_NUMERO}}</a>--}}
+{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_CELULAR}}</a>
                                 </td>

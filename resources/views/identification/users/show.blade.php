@@ -1,9 +1,10 @@
 @extends('identification.layouts.app')
-@section('title',' Ver Área')
+@section('title','Usuarios del Sistema')
 @section('content')
 @include('identification.layouts.top-content',['routeText'=>'user.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Uusario'])
                <div>
                 <br/>
+                   <div class="card-box table-responsive">
                    <table id="datatable"
                           class="table table-striped projects">
                        <thead>
@@ -42,6 +43,7 @@
                            </tr>
                        </tbody>
                    </table>
+                   </div>
                </div>
                    <div class="btn-group btn-group-xs">
                        @can('edit',$user)

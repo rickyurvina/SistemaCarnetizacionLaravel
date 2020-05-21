@@ -47,7 +47,7 @@
                         @forelse($backgrounds as $background)
                             <tr>
                                 <td>
-                                    <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
+                                    <img width="150px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE)}}">
 
                                     <br />
                                     <small>
@@ -55,7 +55,7 @@
                                     </small>
                                 </td>
                                 <td>
-                                    <img width="100px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
+                                    <img width="150px" src="{{asset('images/BackgroundsPhotos/'.$background->FON_NOMBRE2)}}">
 
                                 </td>
                                 <td class="project_progress">

@@ -26,6 +26,7 @@ class PictureController extends Controller
     {
         try{
             $students_id=$request->get('student_id');
+            $cedula_estudiante=auth()->user()->cedula;
             if (auth()->user()->isAdmin())
             {
                 if (!empty($students_id))
@@ -43,14 +44,13 @@ class PictureController extends Controller
                 }
             }
             else{
-                $cedula_usuario=auth()->user()->cedula;
-               $students=Student::where('EST_CEDULA',$cedula_usuario)->get('id');
+               $students=Student::where('EST_CEDULA',$cedula_estudiante)->get('id');
                 foreach ($students as $student) {
                     $id_estudiante=$student->id;
                }
                 $pictures=Picture::with('student')
                     ->where('student_id',$id_estudiante)->paginate(1);
-                return view('identification.pictures.index', compact('pictures'));
+//                return view('identification.pictures.index', compact('pictures'));
             }
             if (empty($pictures))
             {
@@ -147,9 +147,17 @@ class PictureController extends Controller
     {
 
         try{
-            return view('identification.pictures.show',[
-                'picture'=>$picture,
-            ]);
+            $student_id=$picture->student_id;
+            $student=Student::findOrFaIL($student_id);
+            $user=auth()->user();
+            if ($user->can('show',$student))
+            {
+                return view('identification.pictures.show',[
+                    'picture'=>$picture,
+                ]);
+            }else{
+                return back()->with('error','Error: Not Authorized.');
+            }
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
@@ -245,11 +253,9 @@ class PictureController extends Controller
             picture::findOrFail($id)->delete();
             return redirect()->route('picture.index')
                 ->with('delete','Foto eliminado exitosamente');
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode());
         }
-
     }
 }
