@@ -19,8 +19,26 @@ class PersonController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('roles:admin,usuario');
+        $this->middleware('auth',['except'=>['byInstitution','byPerson']]);
+        $this->middleware('roles:admin,usuario',['except'=>['byInstitution','byPerson']]);
+    }
+    public function byInstitution($id)
+    {
+        try{
+            return Person::where('institution_id',$id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
+    }
+    public function byPerson($id)
+    {
+        try{
+            return Person::where('id',$id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
     }
     public function index(Request $request)
     {

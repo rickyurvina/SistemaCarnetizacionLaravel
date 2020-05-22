@@ -181,6 +181,30 @@
         </select>
         {!! $errors->first('PER_TIPOSANGRE','<small class="alert-error">:message</small>')!!}
     </div>
+    @if(!auth()->user()->isAdmin())
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Institution')}}
+                <span class="required">*</span>
+            </label>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
+                <option selected></option>
+                @foreach($institution as $ins )
+                    @if(old('institution', $person->institution_id)==$ins->id)
+                        <option value="{{$ins->id}}" selected>
+                            {{$ins->INS_NOMBRE}}
+                        </option>
+                    @else
+                        <option value="{{$ins->id}}" disabled>
+                            {{$ins->INS_NOMBRE}}
+                        </option>
+                    @endif
+                @endforeach
+            </select>
+            {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
+        </div>
+    @endif
+    @if(auth()->user()->isAdmin())
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Institution')}}
@@ -202,6 +226,7 @@
             </select>
         {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
     </div>
+    @endif()
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Area')}}

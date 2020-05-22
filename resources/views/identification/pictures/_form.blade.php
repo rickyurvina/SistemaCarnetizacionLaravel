@@ -17,6 +17,7 @@
             <input
                 type="file"
                 name="nombre"
+                accept="image/*"
               >
                 <span class="fa fa-book form-control-feedback right"
                       aria-hidden="true"></span>

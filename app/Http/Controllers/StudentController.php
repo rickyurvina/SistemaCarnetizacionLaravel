@@ -19,8 +19,26 @@ class StudentController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('roles:admin,estudiante');
+        $this->middleware('auth',['except'=>['byInstitution','byStudent']]);
+        $this->middleware('roles:admin,estudiante',['except'=>['byInstitution','byStudent']]);
+    }
+    public function byInstitution($id)
+    {
+        try{
+            return Student::where('institution_id',$id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
+    }
+    public function byStudent($id)
+    {
+        try{
+            return Student::where('id',$id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
     }
     public function index(Request $request)
     {

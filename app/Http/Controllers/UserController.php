@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\Institution;
+use App\Models\Person;
+use App\Models\Student;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -44,11 +47,21 @@ class UserController extends Controller
     {
         //
         try{
+            $type='Ins';
+            $type2='Org';
+            $institution_educative=Institution::OrderCreate()->type($type)->get();
+            $organisation=Institution::OrderCreate()->type($type2)->get();
+            $student=Student::orderBy('EST_NOMBRES','ASC')->get();
+            $person=Person::orderBy('PER_NOMBRES','ASC')->get();
             $roles=Role::PluckDisplayName();
             $user=new User;
             return view('identification.users.create',[
                 'user'=>$user,
-                'roles'=>$roles
+                'roles'=>$roles,
+                'institution'=>$institution_educative,
+                'institutions'=>$organisation,
+                'student'=>$student,
+                'people'=>$person
             ]);
         }catch(Throwable $e)
         {
@@ -109,12 +122,23 @@ class UserController extends Controller
     public function edit($id)
     {
         try{
+            $type='Ins';
+            $type2='Org';
+            $institution_educative=Institution::OrderCreate()->type($type)->get();
+            $organisation=Institution::OrderCreate()->type($type2)->get();
+            $student=Student::orderBy('EST_NOMBRES','ASC')->get();
+            $person=Person::orderBy('PER_NOMBRES','ASC')->get();
+            $roles=Role::PluckDisplayName();
              $user=User::findOrFail($id);
              $this->authorize($user);
              $roles=Role::PluckDisplayName();
             return view('identification.users.edit',[
                 'user'=>$user,
-                'roles'=>$roles
+                'roles'=>$roles,
+                'institution'=>$institution_educative,
+                'institutions'=>$organisation,
+                'student'=>$student,
+                'people'=>$person
             ]);
         }catch(Throwable $e)
         {
@@ -134,10 +158,10 @@ class UserController extends Controller
 
         try{
             $user=User::findOrFail($id);
-            $this->authorize($user);
+//            $this->authorize($user);
             $user->update($request->only('email','name','cedula'));
             $user->roles()->sync($request->roles);
-            return redirect()->route('user.show',$id)->with('success','User actualizada exitosamente');
+            return redirect()->route('user.index')->with('success','User actualizada exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());

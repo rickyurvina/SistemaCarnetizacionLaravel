@@ -17,6 +17,7 @@
             <input
                 type="file"
                 name="LOG_NOMBRE"
+                accept="image/*"
             >
             <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>

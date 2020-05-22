@@ -6,11 +6,62 @@
     @method($txtMethod??'')
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Institution Educative')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+               id="select-institution">
+            <option selected></option>
+            @foreach($institution as $ins )
+                    <option  id="ins_id"  value="{{$ins->id}}">
+                        {{$ins->INS_NOMBRE}}
+                    </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Organisation')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                id="select-organisation">
+            <option selected></option>
+            @foreach($institutions as $ins )
+                <option  id="ins_id"  value="{{$ins->id}}">
+                    {{$ins->INS_NOMBRE}}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('Student')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                id="select-student">
+            <option value="">Seleccionar Estudiante</option>
+        </select>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
+            {{__('User')}}
+            <span class="required">*</span>
+        </label>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                id="select-user">
+            <option value="">Seleccionar Usuario</option>
+        </select>
+    </div>
+    <div class="item form-group">
+        <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Name')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
+                id="input-name"
                 type="text"
                 name="name"
                 required="required"
@@ -29,6 +80,7 @@
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="email"
+                id="input-email"
                 name="email"
                 required="required"
                 class="form-control"
@@ -45,6 +97,7 @@
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
+                id="input-cedula"
                 type="number"
                 name="cedula"
                 required="required"
@@ -63,6 +116,7 @@
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
+                id="input-password"
                 type="password"
                 name="password"
                 required="required"
@@ -80,6 +134,7 @@
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
+                id="input-password-confirm"
                 type="password"
                 name="password_confirmation"
                 required="required"

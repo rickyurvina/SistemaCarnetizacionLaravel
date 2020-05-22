@@ -17,6 +17,7 @@
             <input
                 type="file"
                 name="FON_NOMBRE"
+                accept="image/*"
             >
             <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
@@ -35,6 +36,7 @@
             <input
                 type="file"
                 name="FON_NOMBRE2"
+                accept="image/*"
             >
             <span class="fa fa-book form-control-feedback right"
                   aria-hidden="true"></span>
