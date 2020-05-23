@@ -62,7 +62,7 @@ class User extends Authenticatable
     {
         if ($name)
         {
-            return $query->where('name','LIKE',"%$name%");
+            return $query->where('cedula','LIKE',"%$name%");
         }
     }
 

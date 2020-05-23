@@ -71,15 +71,9 @@
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($student->EST_FECHANACIMIENTO)->age}} {{__('Years')}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_CORREO}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a> {{$student->EST_CELULAR}}</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$student->EST_CODIGO}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a href="{{route('institution.show',$student->institution_id)}}">
                                         {{$student->institution->INS_NOMBRE}}

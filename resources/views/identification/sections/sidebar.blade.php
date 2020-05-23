@@ -30,12 +30,12 @@
             </li>
                 @endif()
 {{--            Instituciones Educativas--}}
-            @if(auth()->user()->hasRoles(['admin','estudiante']))
+            @if(auth()->user()->hasRoles(['admin']))
               <li><a><i class="fa fa-sheqel"></i>
                     {{__('Institutions Educatives')}}
                     <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    @if(auth()->user()->hasRoles(['admin','estudiante']))
+                    @if(auth()->user()->hasRoles(['admin']))
                     <li><a href="{{route('student.index')}}">{{__('Students')}}</a></li>
                     @endif()
                         @if(auth()->user()->isAdmin())
@@ -64,7 +64,7 @@
                     </li>
                 @endif()
 {{--            Fondos Logos y Fotos--}}
-                    @if(auth()->user()->hasRoles(['admin','estudiante','usuario']))
+                    @if(auth()->user()->hasRoles(['admin','usuario']))
                     <li><a><i class="fa fa-users"></i>
                     {{__('General Records')}}
                     <span
@@ -78,7 +78,7 @@
                     @if(auth()->user()->hasRoles(['admin','usuario']))
                     <li><a href="{{route('photo.index')}}">{{__('Photos of People')}}</a></li>
                     @endif()
-                    @if(auth()->user()->hasRoles(['admin','estudiante']))
+                    @if(auth()->user()->hasRoles(['admin']))
                     <li><a href="{{route('picture.index')}}">{{__('Photos Students')}}</a></li>
                     @endif()
                         @if(auth()->user()->hasRoles(['admin']))
@@ -91,6 +91,7 @@
             </li>
                     @endif()
 {{--            Sistema de impresiones--}}
+            @if(auth()->user()->isAdmin())
             <li><a><i class="fa fa-print"></i>
                     {{__('Print')}}
                     <span
@@ -103,6 +104,7 @@
                     <li><a href="#">{{__('Without Requesting')}}</a></li>
                 </ul>
             </li>
+                @endif()
         </ul>
     </div>
 </div>
