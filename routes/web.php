@@ -26,6 +26,10 @@ route::resource('/logo','LogoController')->names('logo');
 route::resource('/user','UserController')->names('user');
 route::resource('/roles','RoleController')->names('role');
 route::get('/profile','ServicesController@profile')->name('profile');
+route::resource('/solicitadas','SolicitadasController')->names('solicitadas');
 
+route::get('/pr','ServicesController@solicitadas')->name('soli');
+
+route::get('requested','ServicesController@requested')->name('requested');
 
 

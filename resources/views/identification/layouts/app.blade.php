@@ -28,14 +28,12 @@
         @include('identification.sections.topnavigation')
         <!-- page content -->
             <div class="right_col" role="main">
-                <div class="">
                     <div class="page-title">
                         <div class="title_left">
                             @yield('content')
                         </div>
                     </div>
                 </div>
-            </div>
             <!-- /page content -->
             @include('identification.sections.footer')
         </div>

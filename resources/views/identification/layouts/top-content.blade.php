@@ -1,3 +1,4 @@
+
 <div>
     <h3>Panel de Control</h3>
 </div>
@@ -38,3 +39,4 @@
             </div>
             @include('partials.session-status')
             <div class="x_content">
+

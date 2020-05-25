@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhotosTable extends Migration
+class CreateSolicitadas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('photos', function (Blueprint $table) {
+        Schema::create('solicitadas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->foreignId('people_id')->unique()->constrained()->onDelete('cascade');
+            $table->integer('cedula');
+            $table->string('tipo');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photos');
+        Schema::dropIfExists('solicitadas');
     }
 }

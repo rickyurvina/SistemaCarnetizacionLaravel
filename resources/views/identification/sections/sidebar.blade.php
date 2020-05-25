@@ -99,7 +99,7 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li><a href="#">{{__('Requested')}}</a></li>
+                    <li><a href="{{route('requested')}}">{{__('Requested')}}</a></li>
                     <li><a href="#">{{__('Approved')}}</a></li>
                     <li><a href="#">{{__('Without Requesting')}}</a></li>
                 </ul>

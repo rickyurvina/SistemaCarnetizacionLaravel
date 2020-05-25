@@ -1,3 +1,4 @@
+<link href="{{ asset('css/app.css') }}" rel="stylesheet">
 <!-- Bootstrap -->
 <link href="{{asset('gentelella/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
 <!-- Font Awesome -->

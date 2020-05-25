@@ -1,6 +1,7 @@
 <!-- menu profile quick info -->
 <div class="profile clearfix">
     <div class="profile_pic">
+
     @php
     $picture=\App\Http\Controllers\ServicesController::photo(auth()->user()->cedula);
     @endphp

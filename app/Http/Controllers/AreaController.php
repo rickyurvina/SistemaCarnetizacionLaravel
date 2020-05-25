@@ -18,7 +18,6 @@ class AreaController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('roles:admin');
-
     }
 
     public function index(Request $request)

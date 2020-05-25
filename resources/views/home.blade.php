@@ -11,16 +11,18 @@
                        class="table table-striped projects">
                     <thead>
                     <tr>
+                        <th>{{__('ID')}}</th>
                         <th>{{__('Name')}}</th>
                         <th>{{__('Email')}}</th>
                         <th>{{__('Identification Card')}}</th>
-{{--                        @if(!auth()->user()->isAdmin())--}}
                         <th>{{__('Actions')}}</th>
-{{--                            @endif--}}
                     </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            <td id="id">
+                                <a href="">{{auth()->user()->id}}</a>
+                            </td>
                             <td>
                                 <a>{{auth()->user()->name}}</a>
                                 <br />
@@ -43,7 +45,7 @@
                                     {{__('View Profile')}}
                                 </a>
                                     @if(!auth()->user()->isAdmin())
-                                    <a href="#"
+                                    <a href="{{route('soli')}}"
                                        class="btn btn-outline-success btn-xs">
                                         <i class="fa fa-print"></i>
                                        Solcitar Impresion
