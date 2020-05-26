@@ -93,19 +93,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
         try{
-            $user=auth()->user();
-            if($user->can('show',$user))
-            {
-                return view('identification.users.show',[
-                    'user'=>$user
-                ]);
-            }
-            else{
-                return back()->with('error','Error: Not Authorized.');
-            }
+            return view('identification.users.show',[
+                'user'=>$user
+            ]);
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
@@ -128,7 +121,6 @@ class UserController extends Controller
             $organisation=Institution::OrderCreate()->type($type2)->get();
             $student=Student::orderBy('EST_NOMBRES','ASC')->get();
             $person=Person::orderBy('PER_NOMBRES','ASC')->get();
-            $roles=Role::PluckDisplayName();
              $user=User::findOrFail($id);
              $this->authorize($user);
              $roles=Role::PluckDisplayName();
@@ -158,7 +150,6 @@ class UserController extends Controller
 
         try{
             $user=User::findOrFail($id);
-//            $this->authorize($user);
             $user->update($request->only('email','name','cedula'));
             $user->roles()->sync($request->roles);
             return redirect()->route('user.index')->with('success','User actualizada exitosamente');
@@ -179,7 +170,6 @@ class UserController extends Controller
         //
         try{
            $user= User::findOrFail($id)->delete();
-//            $this->authorize($user);
             return redirect()->route('user.index')->with('delete','User eliminada exitosamente');
         }catch(Throwable $e)
         {

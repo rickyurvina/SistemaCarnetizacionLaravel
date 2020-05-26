@@ -101,10 +101,17 @@
                </div>
                 <div class="btn-group btn-group-xs">
                 <a href="{{route('person.edit',$person)}}"
-                   class="btn btn-info btn-xs">
+                   class="btn btn-outline-info btn-xs">
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
+                    @if(!empty($photo))
+                        <a href="{{route('photo.edit',$photo)}}"
+                           class="btn btn-outline-primary btn-xs">
+                            <i class="fa fa-photo"></i>
+                            {{__('Edit Photo')}}
+                        </a>
+                    @endif
                     @if(auth()->user()->hasRoles(['admin']))
                    <a href="#"
                       class="btn btn-danger btn-xs"

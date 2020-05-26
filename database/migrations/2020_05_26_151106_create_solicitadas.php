@@ -17,6 +17,7 @@ class CreateSolicitadas extends Migration
             $table->id();
             $table->integer('cedula');
             $table->string('tipo');
+            $table->foreignId('institution_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -25,11 +25,13 @@ route::resource('/background','BackgroundController')->names('background');
 route::resource('/logo','LogoController')->names('logo');
 route::resource('/user','UserController')->names('user');
 route::resource('/roles','RoleController')->names('role');
-route::get('/profile','ServicesController@profile')->name('profile');
 route::resource('/solicitadas','SolicitadasController')->names('solicitadas');
 
-route::get('/pr','ServicesController@solicitadas')->name('soli');
+/*Rutas varias para funciones aisladas
+ * */
 
-route::get('requested','ServicesController@requested')->name('requested');
+route::get('/pr','ServicesController@solicitadas')->name('soli');
+//route::get('requested','ServicesController@requested')->name('requested');
+route::get('/profile','ServicesController@profile')->name('profile');
 
 

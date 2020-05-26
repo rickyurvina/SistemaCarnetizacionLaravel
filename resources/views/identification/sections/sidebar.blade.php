@@ -4,7 +4,6 @@
         <h3>{{__('General')}}</h3>
         <ul class="nav side-menu">
 {{--            Home--}}
-{{--            @if(auth()->user()->isAdmin())--}}
             <li><a><i class="fa fa-home"></i>
                     {{__('Home')}}
                     <span
@@ -14,7 +13,6 @@
                 <ul class="nav child_menu">
                     <li> <a href="/"> {{__('Home')}} </a></li>
                 </ul>
-{{--            @endif()--}}
 {{--            Registro Institutciones--}}
                 @if(auth()->user()->hasRoles(['admin']))
                 <li><a><i class="fa fa-institution"></i>
@@ -64,29 +62,19 @@
                     </li>
                 @endif()
 {{--            Fondos Logos y Fotos--}}
-                    @if(auth()->user()->hasRoles(['admin','usuario']))
+                    @if(auth()->user()->hasRoles(['admin']))
                     <li><a><i class="fa fa-users"></i>
                     {{__('General Records')}}
                     <span
                         class="fa fa-chevron-down">
                     </span></a>
                 <ul class="nav child_menu">
-                    @if(auth()->user()->isAdmin())
                     <li><a href="{{route('background.index')}}">{{__('Background')}}</a></li>
                     <li><a href="{{route('logo.index')}}">{{__('Logos')}}</a></li>
-                    @endif()
-                    @if(auth()->user()->hasRoles(['admin','usuario']))
                     <li><a href="{{route('photo.index')}}">{{__('Photos of People')}}</a></li>
-                    @endif()
-                    @if(auth()->user()->hasRoles(['admin']))
                     <li><a href="{{route('picture.index')}}">{{__('Photos Students')}}</a></li>
-                    @endif()
-                        @if(auth()->user()->hasRoles(['admin']))
-                        <li><a href="{{route('user.index')}}">{{__('System Users')}}</a></li>
-                        @endif()
-                        @if(auth()->user()->isAdmin())
+                    <li><a href="{{route('user.index')}}">{{__('System Users')}}</a></li>
                     <li><a href="{{route('role.index')}}">{{'Roles'}}</a></li>
-                            @endif()
                 </ul>
             </li>
                     @endif()
@@ -99,12 +87,24 @@
                     </span>
                 </a>
                 <ul class="nav child_menu">
-                    <li><a href="{{route('requested')}}">{{__('Requested')}}</a></li>
+                    <li><a href="{{route('solicitadas.index')}}">{{__('Requested')}}</a></li>
                     <li><a href="#">{{__('Approved')}}</a></li>
                     <li><a href="#">{{__('Without Requesting')}}</a></li>
                 </ul>
             </li>
                 @endif()
+            @if(auth()->user()->isAdmin())
+                <li><a><i class="fa fa-money"></i>
+                        {{__('Billing')}}
+                        <span
+                            class="fa fa-chevron-down">
+                    </span>
+                    </a>
+                    <ul class="nav child_menu">
+                        <li><a href="#">{{__('Billings')}}</a></li>
+                    </ul>
+                </li>
+            @endif()
         </ul>
     </div>
 </div>

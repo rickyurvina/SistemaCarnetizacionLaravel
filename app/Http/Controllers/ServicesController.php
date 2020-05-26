@@ -63,7 +63,7 @@ class ServicesController extends Controller
             $people=Person::FindCedula($cedula)->get();
             if (auth()->user()->isAdmin())
             {
-                return 'images/img.jpg';
+                return 'images/user.png';
             }
             if (count($students)>0)
             {
@@ -88,25 +88,12 @@ class ServicesController extends Controller
                     }
                 }
             }
+
+
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-    }
-    public function requested(Request $request){
-        $institutions=Institution::all();
-        $institution_id=$request->get('select-institution');
-        $student=Student::with('institution')->where('institution_id',$institution_id)->get();
-//        $people=Person::with('institution')->where('institution_id',$institution_id)->get();
-        $people=Person::WithIns()->InstitutionId($institution_id)->paginate(count(Institution::get()));
-        $courses=Course::PluckName();
-        return view('identification.print.solicitadas',[
-            'institutions'=>$institutions,
-            'course'=>$courses,
-            'student'=>$student,
-            'people'=>$people,
-            'institution_id'=>$institution_id
-        ]);
     }
 
     public function solicitadas()
@@ -115,22 +102,31 @@ class ServicesController extends Controller
             $solicitadas=new Solicitadas();
             $cedula=auth()->user()->cedula;
             $solicitadas->cedula=$cedula;
-
             $students=Student::where('EST_CEDULA',$cedula)->get();
             $person=Person::where('PER_CEDULA',$cedula)->get();
             if (count($students)>0)
             {
                 $solicitadas->tipo='Estudiante';
+                foreach ($students as $student)
+                {
+                    $institution_id=$student->institution_id;
+                }
+                $solicitadas->institution_id=$institution_id;
+
             }
             else{
                 $solicitadas->tipo='Usuario';
+                foreach ($person as $per)
+                {
+                    $institution_id=$per->institution_id;
+                }
+                $solicitadas->institution_id=$institution_id;
             }
             $solicitadas->save();
             return back()->with('success','Solicitud realizada');
         }catch(Throwable $e){
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 
 }

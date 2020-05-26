@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Solicitadas extends Model
 {
     //
-    protected $fillable=['cedula','tipo'];
-
-
+    protected $fillable=['cedula','tipo','institution_id'];
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class);
+    }
 
 }

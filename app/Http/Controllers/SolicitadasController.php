@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Institution;
 use App\Models\Solicitadas;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class SolicitadasController extends Controller
@@ -15,9 +14,28 @@ class SolicitadasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    function __construct()
     {
-        //
+        $this->middleware('auth');
+        $this->middleware('roles:admin');
+    }
+    public function index(Request $request)
+    {
+        try{
+            $institution_id=$request->get('institution_id');
+            $institutions=Institution::orderBy('INS_NOMBRE','asc')->get();
+            if (!empty($institution_id))
+            {
+                $solicitadas=Solicitadas::orderBy('created_at','asc')
+                    ->where('institution_id',$institution_id)->paginate(count(Institution::get()));
+            }else{
+                $solicitadas=Solicitadas::orderBy('created_at','asc')->paginate(10);
+            }
+            return view('identification.print.index',compact('solicitadas','institutions'))
+                ->with('error' ,'No se encuentran registros');
+        }catch(Throwable $e){
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
     }
 
     /**
@@ -38,20 +56,7 @@ class SolicitadasController extends Controller
      */
     public function store()
     {
-        //
-//        $solicitadas=DB::table('solicitadas')->insert([
-//            'user_id'=>auth()->user()->id,
-//        ]);
-//        try{
-//            return $user_id=auth()->user()->id;
-//            $solicitadas=new Solicitadas();
-//            $solicitadas->user_id=auth()->user()->id;
-//            $solicitadas->numero_solicitudes=1;
-//            $solicitadas->save();
-//            return back()->with('success','Solicitud realizada');
-//        }catch(Throwable $e){
-//            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
-//        }
+
     }
 
     /**
@@ -94,8 +99,15 @@ class SolicitadasController extends Controller
      * @param  \App\Solicitadas  $solicitadas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Solicitadas $solicitadas)
+    public function destroy($id)
     {
         //
+        try{
+            Solicitadas::findOrFail($id)->delete();
+            return redirect()->route('solicitadas.index')->with('delete','Solicitud eliminada exitosamente');
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
     }
 }
