@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CourseMessageRequest;
 use App\Models\Course;
 use App\Models\Institution;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -18,7 +19,7 @@ class CoursesController extends Controller
     function __construct()
     {
         $this->middleware('auth',['except'=>'byInstitution']);
-        $this->middleware('roles:admin',['except'=>'byInstitution']);
+        $this->middleware('roles:admin,representanteEducativa',['except'=>'byInstitution']);
     }
     /**
      * Funcion para cargar los cursos en el select de
@@ -38,14 +39,30 @@ class CoursesController extends Controller
         try{
             $type='Institución Educativa';
             $institution_id=$request->get('institution_id');
-            if (!empty($institution_id)||!Empty($type))
+            $institutions=Institution::OrderCreate()->Type($type)->get();
+            $cedula=auth()->user()->cedula;
+
+            if (auth()->user()->isAdmin())
             {
-                $institutions=Institution::OrderCreate()->Type($type)->get();
-                 $courses=Course::Order()->CourseIns($institution_id)->paginate(count(Institution::get()));
+                if (!empty($institution_id))
+                {
+                    $courses_count=Course::Order()->CourseIns($institution_id)->get();
+                    $courses=Course::Order()->CourseIns($institution_id)->paginate(count($courses_count));
+                }
+                else{
+                    $courses=Course::Order()->paginate(15);
+                }
+            }elseif(auth()->user()->hasRoles(['representanteEducativa']))
+            {
+                $student=Student::where('EST_CEDULA',$cedula)->get('institution_id');
+                foreach ($student as $stu) {
+                    $ins_id=$stu->institution_id;
+                }
+                $courses=Course::with('institution')->where('institution_id',$ins_id)->paginate(15);
+            }else{
+                return back();
             }
-            else{
-              return  $courses=Course::Order()->paginate(5);
-            }
+
             return view('identification.courses.index', compact('courses','institutions'))
                 ->with('error','No se encontro esa institutcion');
 
@@ -98,7 +115,8 @@ class CoursesController extends Controller
     public function show(Course $course)
     {
         try{
-            $students=Course::WithStudent()->CourseID($course->id);
+//            $students=Course::WithStudent()->orderBy('EST_APELLIDOS','ASC')->CourseID($course->id);
+           $students=Student::with('course')->orderBy('EST_APELLIDOS','ASC')->where('course_id',$course->id)->get();
             return view('identification.courses.show',[
                 'course'=>$course,
                 'students'=>$students

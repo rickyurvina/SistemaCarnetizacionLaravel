@@ -7,6 +7,7 @@
             <div class="col-sm-12">
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                       @if(auth()->user()->isAdmin())
                         {{Form::open(['route'=>'course.index','method'=>'GET'])}}
                         <div class="input-group">
                                 <select class="custom-select custom-select-sm"
@@ -28,6 +29,8 @@
                           </button>
                     </span>
                     </div>
+                        {{Form::close()}}
+                       @endif
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of courses')}}
@@ -74,9 +77,9 @@
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
-                                    {{Form::close()}}
                                 </a>
-                                    <form action="{{route('course.destroy',$course->id)}}" method="POST">
+                                        @if(auth()->user()->isAdmin())
+                                        <form action="{{route('course.destroy',$course->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">
@@ -84,6 +87,7 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
+                                            @endif
                                     </div>
                                 </td>
                             </tr>

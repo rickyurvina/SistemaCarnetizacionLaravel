@@ -28,9 +28,8 @@ class UserController extends Controller
     public function index(Request $request  )
     {
         try{
-
             $name=$request->get('name');
-            $users=User::WithRoles()->Name($name)->paginate(5);
+            $users=User::WithRoles()->Name($name)->paginate(15);
             return view('identification.users.index',compact('users'));
         }catch(Throwable $e)
         {

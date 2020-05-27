@@ -1,5 +1,5 @@
 @extends('identification.layouts.app')
-@section('title','Usuarios Organizaciones')
+@section('title','Usuarios-Organizaciones')
 @section('content')
     <!-- page content -->
     @include('identification.layouts.top-content',['routeText'=>'person.create','btnText'=>'Crear','textTitle'=>'Usuarios Organizaciones'])
@@ -31,9 +31,12 @@
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of people')}}
-                        <a href="{{route('person.index')}}"
-                               class="btn btn-link btn-xs">
-                        </a> {{$people->fragment('foo')->links()}}</p>
+                        @if(auth()->user()->hasRoles(['representanteOrganizacion']))
+                        <a href="#" class="btn btn-outline-success btn-xs">
+                            {{__('Solicitar Impresion')}}<i class="fa fa-check"></i>
+                        </a>
+                        @endif
+                      {{$people->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
@@ -43,8 +46,6 @@
                             <th>{{__('Name')}}</th>
                             <th>{{__('LastName')}}</th>
                             <th>{{__('Age')}}</th>
-{{--                            <th>{{__('Email')}}</th>--}}
-{{--                            <th>{{__('Phone')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Area')}}</th>
@@ -70,12 +71,6 @@
                                 <td>
                                     <a>{{\Carbon\Carbon::parse($person->PER_FECHANACIMIENTO)->age}} Años</a>
                                 </td>
-{{--                                <td>--}}
-{{--                                    <a> {{$person->PER_CORREO}}</a>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <a> {{$person->PER_NUMERO}}</a>--}}
-{{--                                </td>--}}
                                 <td>
                                     <a> {{$person->PER_CELULAR}}</a>
                                 </td>
@@ -90,8 +85,13 @@
                                     </a>
                                 </td>
                                 <td>
-
-                                    <div class="btn-group btn-group-sm">
+                            <div class="btn-group btn-group-sm">
+                                @if(auth()->user()->isAdmin())
+                                    <a href="#"
+                                       class="btn btn-outline-success btn-xs">
+                                        <i class="fa fa-print"></i>
+                                        {{__('View Carnet')}}
+                                    </a>
                                 <a href="{{route('person.show',$person)}}"
                                    class="btn btn-primary btn-xs">
                                     <i class="fa fa-search"></i>
@@ -103,7 +103,6 @@
                                     {{__('Edit')}}
                                     {{Form::close()}}
                                 </a>
-                                        @if(auth()->user()->hasRoles(['admin']))
                                     <form action="{{route('person.destroy',$person->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -112,8 +111,8 @@
                                             {{__('Delete')}}
                                         </button>
                                     </form>
-                                            @endif()
                                     </div>
+                                    @endif()
                                 </td>
                             </tr>
                         @empty

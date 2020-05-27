@@ -20,7 +20,7 @@ class PersonController extends Controller
     function __construct()
     {
         $this->middleware('auth',['except'=>['byInstitution','byPerson']]);
-        $this->middleware('roles:admin,usuario',['except'=>['byInstitution','byPerson']]);
+        $this->middleware('roles:admin,usuario,representanteOrganizacion',['except'=>['byInstitution','byPerson']]);
     }
     public function byInstitution($id)
     {
@@ -52,15 +52,27 @@ class PersonController extends Controller
             {
                 if (!empty($institution_id))
                 {
-                    $people=Person::WithIns()->InstitutionId($institution_id)->paginate(count(Institution::get()));
-                }
+                    $people_count=Person::WithIns()->InstitutionId($institution_id)->get();
+                    $people=Person::WithIns()->orderBy('PER_APELLIDOS','ASC')->InstitutionId($institution_id)->paginate(count($people_count));
+                }elseif(!empty($person))
+                    {
+                        $people_count=Person::WithIns()->Id($person)->get();
+                        $people=Person::WithIns()->Id($person)->paginate(count($people_count));
+                    }
                 else
                 {
-                    $people=Person::WithIns()->Id($person)->paginate(5);
+                    $people=Person::WithIns()->paginate(15);
                 }
             }
+            elseif(auth()->user()->hasRoles(['representanteOrganizacion'])){
+                $usuario=Person::where('PER_CEDULA',$cedula_user)->get('institution_id');
+                foreach ($usuario as $usu) {
+                    $ins_id=$usu->institution_id;
+                }
+                $people=Person::orderBy('PER_APELLIDOS','asc')->where('institution_id',$ins_id)->paginate(15);
+            }
             else{
-                $people=Person::WithIns()->FindCedula($cedula_user)->paginate(1);
+                return back();
             }
             if (empty($people))
             {

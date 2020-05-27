@@ -150,9 +150,9 @@
                     </a>
                     @if(!empty($pic))
                 <a href="{{route('picture.edit',$pic)}}"
-                   class="btn btn-outline-info btn-xs">
+                   class="btn btn-outline-success btn-xs">
                     <i class="fa fa-pencil"></i>
-                    {{__('Edit')}}
+                    {{__('Edit Photo')}}
                 </a>
                     @endif
                     @if(auth()->user()->isAdmin())

@@ -26,8 +26,9 @@ class SolicitadasController extends Controller
             $institutions=Institution::orderBy('INS_NOMBRE','asc')->get();
             if (!empty($institution_id))
             {
-                $solicitadas=Solicitadas::orderBy('created_at','asc')
-                    ->where('institution_id',$institution_id)->paginate(count(Institution::get()));
+                $solicitadas_count=Solicitadas::orderBy('created_at','asc')->where('institution_id',$institution_id)->get();
+
+                $solicitadas=Solicitadas::orderBy('created_at','asc')->where('institution_id',$institution_id)->paginate(count($solicitadas_count));
             }else{
                 $solicitadas=Solicitadas::orderBy('created_at','asc')->paginate(10);
             }

@@ -28,22 +28,18 @@
             </li>
                 @endif()
 {{--            Instituciones Educativas--}}
-            @if(auth()->user()->hasRoles(['admin']))
+            @if(auth()->user()->hasRoles(['admin','representanteEducativa']))
               <li><a><i class="fa fa-sheqel"></i>
                     {{__('Institutions Educatives')}}
                     <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu">
-                    @if(auth()->user()->hasRoles(['admin']))
                     <li><a href="{{route('student.index')}}">{{__('Students')}}</a></li>
-                    @endif()
-                        @if(auth()->user()->isAdmin())
-                        <li><a href="{{route('course.index')}}">{{__('Courses')}}</a></li>
-                            @endif()
+                    <li><a href="{{route('course.index')}}">{{__('Courses')}}</a></li>
                 </ul>
                  </li>
             @endif()
                 {{--Organizaciones--}}
-                    @if(auth()->user()->hasRoles(['admin','usuario']))
+                    @if(auth()->user()->hasRoles(['admin','representanteOrganizacion']))
                 <li><a><i class="fa fa-bar-chart"></i>
                     {{__('Organisations')}}
                     <span
@@ -52,7 +48,10 @@
                 </a>
                 <ul class="nav child_menu">
                     <li>
-                        <a href="{{route('person.index')}}">{{__('Users')}}</a></li>
+                        @if(auth()->user()->hasRoles(['admin','representanteOrganizacion']))
+                         <a href="{{route('person.index')}}">{{__('Users')}}</a>
+                        @endif
+                    </li>
                     @if(auth()->user()->hasRoles(['admin']))
                     <li>
                         <a href="{{route('area.index')}}">{{__('Work Area')}}</a>

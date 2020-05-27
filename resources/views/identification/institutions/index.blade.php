@@ -14,18 +14,19 @@
                                     name="institution_id"
                                     id="institution_id">
                                 <option value="" selected>
-                                    Seleccione
+                                    --{{__('Select One')}}--
                                 </option>
                                 <option value="Institución Educativa">
-                                    Institución Educativa
+                                    {{__('Institution Educative')}}
                                 </option>
                                 <option value="Organización">
-                                    Organización
+                                    {{__('Organisation')}}
                                 </option>
                             </select>
                             <span class="input-group-btn">
                       <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                     </span>
+                            {{Form::close()}}
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,6 @@
                                    class="btn btn-info btn-xs">
                                     <i class="fa fa-pencil"></i>
                                     {{__('Edit')}}
-                                    {{Form::close()}}
                                 </a>
                                     <form action="{{route('institution.destroy',$institution->id)}}" method="POST">
                                         @csrf

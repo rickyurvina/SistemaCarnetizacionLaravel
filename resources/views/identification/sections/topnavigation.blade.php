@@ -9,13 +9,14 @@
             <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                     @auth
                         @php
                             $picture=\App\Http\Controllers\ServicesController::photo(auth()->user()->cedula);
                         @endphp
                         <img src="{{asset($picture)}}" alt="..." class="">
-                        @auth
+
                         {{auth()->user()->name}}
-                        @endauth
+                    @endauth
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"  href="/profile">Mi Cuenta</a>

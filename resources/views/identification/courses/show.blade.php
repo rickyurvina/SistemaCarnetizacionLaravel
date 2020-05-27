@@ -43,8 +43,8 @@
                            </tr>
                            </tbody>
                        </table>
-                       @foreach($students as $student)
-                           @endforeach
+
+
                        <div class="card-box table-responsive">
                        <table id="datatable"
                               class="table table-striped table-sm">
@@ -59,34 +59,43 @@
                            </tr>
                            </thead>
                            <tbody align="center">
-                           @foreach($student->student as $stu)
+                           @foreach($students as $student)
                            <tr>
                                <td>
-                                   <a href="{{route('student.show',$stu->id)}}">
-                                   {{$stu->EST_CEDULA}}
+                                   <a href="{{route('student.show',$student->id)}}">
+                                   {{$student->EST_CEDULA}}
                                    </a>
                                </td>
                                <td>
-                                   {{$stu->EST_NOMBRES}}
+                                   {{$student->EST_NOMBRES}}
                                </td>
                                <td>
-                                   {{$stu->EST_APELLIDOS}}
+                                   {{$student->EST_APELLIDOS}}
                                </td>
                                <td>
-                                   {{$stu->EST_CORREO}}
+                                   {{$student->EST_CORREO}}
                                </td>
                                <td>
-                                   {{$stu->EST_CODIGO}}
+                                   {{$student->EST_CODIGO}}
                                </td>
                                <td>
-                                   <a href="{{route('student.show',$stu->id)}}"
+                                   <div class="btn-group btn-group-sm">
+                                   @if(auth()->user()->isAdmin())
+                                   <a href="#"
+                                      class="btn btn-outline-success btn-xs">
+                                       <i class="fa fa-print"></i>
+                                       {{__('View Carnet')}}
+                                   </a>
+                                   @endif()
+                                   <a href="{{route('student.show',$student->id)}}"
                                       class="btn btn-primary btn-xs">
                                        <i class="fa fa-search"></i>
                                        {{__('View')}}
                                    </a>
+                                   </div>
                                </td>
-                           @endforeach
                            </tr>
+                           @endforeach
                            </tbody>
                        </table>
                        </div>

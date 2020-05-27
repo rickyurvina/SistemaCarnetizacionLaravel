@@ -32,9 +32,12 @@
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of students')}}
-                        <a href="{{route('student.index')}}"
-                               class="btn btn-link btn-xs">
-                        </a> {{$students->fragment('foo')->links()}}</p>
+                        @if(auth()->user()->hasRoles(['representanteEducativa']))
+                        <a href="#" class="btn btn-outline-success btn-xs">
+                            {{__('Solicitar Impresion')}}<i class="fa fa-check"></i>
+                        </a>
+                        @endif()
+                        {{$students->fragment('foo')->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
@@ -44,9 +47,7 @@
                             <th>{{__('Names')}}</th>
                             <th>{{__('LastName')}}</th>
                             <th>{{__('Age')}}</th>
-{{--                            <th>{{__('Email')}}</th>--}}
                             <th>{{__('CellPhone')}}</th>
-{{--                            <th>{{__('Code')}}</th>--}}
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Course')}}</th>
                             <th>{{__('Actions')}}</th>
@@ -85,28 +86,33 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
-                                <a href="{{route('student.show',$student)}}"
-                                   class="btn btn-primary btn-xs">
-                                    <i class="fa fa-search"></i>
-                                    {{__('View')}}
-                                </a>
-                                <a href="{{route('student.edit',$student)}}"
-                                   class="btn btn-info btn-xs">
-                                    <i class="fa fa-pencil"></i>
-                                    {{__('Edit')}}
-                                    {{Form::close()}}
-                                </a>
-                                        @if(auth()->user()->hasRoles(['admin']))
-                                        <form action="{{route('student.destroy',$student->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="sumbit" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash-o"></i>
-                                            {{__('Delete')}}
-                                        </button>
-                                    </form>
-                                            @endif()
+                                <div class="btn-group btn-group-sm">
+                                @if(auth()->user()->isAdmin())
+                                    <a href="#"
+                                       class="btn btn-outline-success btn-xs">
+                                        <i class="fa fa-print"></i>
+                                        {{__('View Carnet')}}
+                                    </a>
+                                    <a href="{{route('student.show',$student)}}"
+                                       class="btn btn-primary btn-xs">
+                                        <i class="fa fa-search"></i>
+                                        {{__('View')}}
+                                    </a>
+                                    <a href="{{route('student.edit',$student)}}"
+                                       class="btn btn-info btn-xs">
+                                        <i class="fa fa-pencil"></i>
+                                        {{__('Edit')}}
+                                        {{Form::close()}}
+                                    </a>
+                                <form action="{{route('student.destroy',$student->id)}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="sumbit" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash-o"></i>
+                                        {{__('Delete')}}
+                                    </button>
+                                </form>
+                                @endif()
                                     </div>
                                 </td>
                             </tr>

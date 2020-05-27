@@ -63,13 +63,13 @@
                                     </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
+                                        <a href="#"
+                                           class="btn btn-outline-success btn-xs">
+                                            <i class="fa fa-print"></i>
+                                            {{__('View Carnet')}}
+                                        </a>
                                 <a href="#"
-                                   class="btn btn-outline-primary btn-xs">
-                                    <i class="fa fa-eye"></i>
-                                    {{__('Show Carnet')}}
-                                </a>
-                                <a href="#"
-                                   class="btn btn-info btn-xs">
+                                   class="btn btn-primary btn-xs">
                                     <i class="fa fa-print"></i>
                                     {{__('Aprobar Solicitud')}}
                                     {{Form::close()}}

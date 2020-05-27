@@ -20,7 +20,7 @@ class StudentController extends Controller
     function __construct()
     {
         $this->middleware('auth',['except'=>['byInstitution','byStudent']]);
-        $this->middleware('roles:admin,estudiante',['except'=>['byInstitution','byStudent']]);
+        $this->middleware('roles:admin,estudiante,representanteEducativa',['except'=>['byInstitution','byStudent']]);
     }
     public function byInstitution($id)
     {
@@ -50,16 +50,28 @@ class StudentController extends Controller
             $cedula=auth()->user()->cedula;
             if (auth()->user()->isAdmin())
             {
-                if (!Empty($institution_id)||!Empty($type)||!Empty($student))
+                if (!empty($institution_id))
                 {
-                    $students=Student::WithInsCur()->InstitutionId($institution_id)->Id($student)
-                        ->paginate(count(Institution::get()));
-                }else{
-                    $students=Student::WithInsCur()->paginate(10);
+                    $students_count=Student::withInsCur()->InstitutionId($institution_id)->get();
+                    $students=Student::withInsCur()->orderBy('EST_APELLIDOS','ASC')->InstitutionId($institution_id)->Id($student)->paginate(count($students_count));
                 }
+                elseif(!empty($student)){
+                    $students_count=Student::withInsCur()->orderBy('EST_APELLIDOS','ASC')->Id($student)->get();
+                    $students=Student::withInsCur()->orderBy('EST_APELLIDOS','ASC')->Id($student)->paginate(count($students_count));
+                }
+                else{
+                    $students=Student::withInsCur()->paginate(15);
+                }
+            }elseif(auth()->user()->hasRoles(['representanteEducativa'])){
+                $student=Student::where('EST_CEDULA',$cedula)->get('institution_id');
+                foreach ($student as $stu) {
+                    $ins_id=$stu->institution_id;
+                }
+                $students=Student::orderBy('EST_APELLIDOS','ASC')->where('institution_id',$ins_id)->paginate(15);
+
             }
             else{
-                $students=Student::WithInsCur()->StudentCedula($cedula)->paginate(1);
+                return back();
             }
             return view('identification.students.index', compact('students','institutions'))
                 ->with('error','No se encontro ese estudiante');

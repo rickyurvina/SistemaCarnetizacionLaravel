@@ -21,6 +21,7 @@ class InstitutionsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('roles:admin');
+
     }
 
     public function index(Request $request)
@@ -28,7 +29,13 @@ class InstitutionsController extends Controller
         try{
             $INS_NOMBRE=$request->get('INS_NOMBRE');
             $type=$request->get('institution_id');
-            $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->paginate(6);
+            if (!empty($type))
+            {
+                $institutions_count=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->get();
+                $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->paginate(count($institutions_count));
+            }else{
+                $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->paginate(15);
+            }
             return view('identification.institutions.index',compact('institutions'));
 
         }catch(Throwable $e)

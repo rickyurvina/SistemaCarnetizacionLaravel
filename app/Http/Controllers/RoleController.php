@@ -22,7 +22,7 @@ class RoleController extends Controller
     public function index()
     {
         try{
-            $roles=Role::Order()->paginate(5);
+            $roles=Role::Order()->paginate(10);
             return view('identification.roles.index',compact('roles'));
         }catch(Throwable $e)
         {
