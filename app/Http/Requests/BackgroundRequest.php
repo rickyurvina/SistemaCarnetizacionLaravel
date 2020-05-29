@@ -27,7 +27,7 @@ class BackgroundRequest extends FormRequest
             //
             'FON_NOMBRE'=>'nullable',
             'FON_NOMBRE2'=>'nullable',
-            'institution_id'=>'required'
+            'institution_id'=>'required|unique:backgrounds,institution_id,'.$this->route('background'),
             ];
     }
 }

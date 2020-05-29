@@ -29,5 +29,8 @@ class Picture extends Model
             return $query->with('student')
                 ->where('student_id','=',$student_id)->get();
     }
+    public function scopeWithStu($query){
+        return $query->with('student');
+    }
 
 }

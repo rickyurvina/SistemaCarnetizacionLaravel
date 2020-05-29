@@ -134,7 +134,7 @@
                                            </td>
                                        </tr>
                                        @empty
-                                           <h2>{{__('There are no courses registred')}}</h2>
+                                           <h2>{{__('There are no courses registered')}}</h2>
                                        @endforelse
                                        </tbody>
                                </table>

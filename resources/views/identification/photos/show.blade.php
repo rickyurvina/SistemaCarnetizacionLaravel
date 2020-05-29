@@ -27,7 +27,7 @@
                                <th>{{__('Created_at')}}</th>
                                <td>
                                    <a>
-                                       <p>{{__('Created_at')}} {{$photo->created_at->format('d/m/Y')}}</p>
+                                       <p>{{$photo->created_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                            </tr>
@@ -35,7 +35,7 @@
                                <th>{{__('Updated_at')}}</th>
                                <td >
                                    <a>
-                                       <p>{{__('Updated_at')}}{{$photo->updated_at->format('d/m/Y')}}</p>
+                                       <p>{{$photo->updated_at->format('d/m/Y')}}</p>
                                    </a>
                                </td>
                            </tr>

@@ -9,7 +9,7 @@
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         {{Form::open(['route'=>'user.index','method'=>'GET'])}}
                         <div class="input-group">
-                            {{Form::text('name', null,['class'=>'form-control','placeholder'=>'Nombre del Usuario'])}}
+                            {{Form::text('name', null,['class'=>'form-control','placeholder'=>'Cédula del Usuario'])}}
                             <span class="input-group-btn">
                       <button type="submit" class="btn btn-default" >{{__('Search')}}</button>
                     </span>
@@ -27,8 +27,8 @@
                             <th>{{__('ID')}}</th>
                             <th>{{__('Name')}}</th>
                             <th>{{__('Email')}}</th>
-                            <th>{{__('Role')}}</th>
-                            <th>{{__('Cedula')}}</th>
+                            <th>{{__('Roles')}}</th>
+                            <th>{{__('Identification card')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
                         </thead>

@@ -9,12 +9,18 @@
                           class="table table-sm">
                        <thead>
                        <tr>
-                           <th>{{__('Photo')}}</th>
+                           @foreach($photos as $photo)
+                               <th>
+                                   <a href="{{route('photo.show',$photo)}}">
+                                       {{__('Photo')}}
+                                   </a>
+                               </th>
                            <td>
-                               @foreach($photos as $photo)
+                               <a href="{{route('photo.show',$photo)}}">
                                    <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
-                               @endforeach
+                               </a>
                            </td>
+                           @endforeach
                        </tr>
                        <tr>
                            <th>{{__('Identification card')}}</th>
@@ -23,7 +29,7 @@
                            </td>
                        </tr>
                        <tr>
-                           <th>{{__('Name')}}</th>
+                           <th>{{__('Names')}}</th>
                            <td>
                                <a> {{$person->PER_NOMBRES}}</a>
                            </td>
@@ -95,10 +101,17 @@
                </div>
                 <div class="btn-group btn-group-xs">
                 <a href="{{route('person.edit',$person)}}"
-                   class="btn btn-info btn-xs">
+                   class="btn btn-outline-info btn-xs">
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>
+                    @if(!empty($photo))
+                        <a href="{{route('photo.edit',$photo)}}"
+                           class="btn btn-outline-primary btn-xs">
+                            <i class="fa fa-photo"></i>
+                            {{__('Edit Photo')}}
+                        </a>
+                    @endif
                     @if(auth()->user()->hasRoles(['admin']))
                    <a href="#"
                       class="btn btn-danger btn-xs"

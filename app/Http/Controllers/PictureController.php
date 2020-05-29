@@ -35,22 +35,18 @@ class PictureController extends Controller
                     foreach($stu as $st){
                         $stu_id=$st->id;
                     }
-                    $pictures=picture::Order()
-                        ->Id($stu_id)
-                        ->paginate(count(Student::get()));
+                    $pictures=picture::Order()->Id($stu_id)->paginate(count(Student::get()));
                 }
                 else{
-                    $pictures=picture::with('student')->paginate(5);
+                    $pictures=picture::WithStu()->paginate(5);
                 }
             }
             else{
-               $students=Student::where('EST_CEDULA',$cedula_estudiante)->get('id');
+               $students=Student::StudentCedula($cedula_estudiante)->get('id');
                 foreach ($students as $student) {
                     $id_estudiante=$student->id;
                }
-                $pictures=Picture::with('student')
-                    ->where('student_id',$id_estudiante)->paginate(1);
-//                return view('identification.pictures.index', compact('pictures'));
+                $pictures=Picture::WithStu()->Id($id_estudiante)->paginate(1);
             }
             if (empty($pictures))
             {
@@ -61,7 +57,7 @@ class PictureController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -118,9 +114,7 @@ class PictureController extends Controller
                         $cedula_stu=$ced->EST_CEDULA;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('nombre'))
-                        ->resize(375,508)
-                        ->save('images/StudentsPhotos/'.$file_name);
+                    Image::make($request->file('nombre'))->resize(375,508)->save('images/StudentsPhotos/'.$file_name);
                     $post->nombre=$file_name;
                     $post->save();
                 }
@@ -128,13 +122,10 @@ class PictureController extends Controller
                     ->route('picture.index')
                     ->with('success','Foto registrada exitosamente');
             }
-
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede agregar, El estudiante ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 
     /**
@@ -145,7 +136,6 @@ class PictureController extends Controller
      */
     public function show(Picture $picture)
     {
-
         try{
             $student_id=$picture->student_id;
             $student=Student::findOrFaIL($student_id);
@@ -160,9 +150,8 @@ class PictureController extends Controller
             }
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
-
     }
 
     /**
@@ -173,9 +162,9 @@ class PictureController extends Controller
      */
     public function edit(Picture $picture)
     {
-        $student_id=$picture->student_id;
-        $user=auth()->user();
         try{
+            $student_id=$picture->student_id;
+            $user=auth()->user();
             $students=student::StudentID($student_id);
             $student=Student::findOrFaIL($student_id);
             if ($user->can('edit',$student))
@@ -191,7 +180,7 @@ class PictureController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -202,13 +191,13 @@ class PictureController extends Controller
      * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function update(PictureRequest $request, Picture $picture)
+    public function update(PictureRequest $request, $id)
     {
         try
         {
-            $student_id=$picture->student_id;
+            $student_id=$id;
             $user=auth()->user();
-            $post=Picture::find($picture->id);
+            $post=Picture::find($id);
             $student=Student::findOrFaIL($student_id);
             if ($user->can('update',$student))
             {
@@ -223,22 +212,18 @@ class PictureController extends Controller
                         $cedula_stu=$ced->EST_CEDULA;
                     }
                     $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('nombre'))
-                        ->resize(375,508)
-                        ->save('images/StudentsPhotos/'.$file_name);
+                    Image::make($request->file('nombre'))->resize(375,508)->save('images/StudentsPhotos/'.$file_name);
                     $post->nombre=$file_name;
                     $post->save();
                 }
                 return redirect()
-                    ->route('picture.show',$picture)
-                    ->with('success','Foto actualizado exitosamente');
+                    ->route('picture.show',$id)->with('success','Foto actualizado exitosamente');
             }else{
                 return back()->with('error','Error: Not Authorized.');
             }
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().
-                'No se puede modificar, El estudiante ya tiene una foto asociada');
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
     /**
@@ -251,11 +236,10 @@ class PictureController extends Controller
     {
         try{
             picture::findOrFail($id)->delete();
-            return redirect()->route('picture.index')
-                ->with('delete','Foto eliminado exitosamente');
+            return redirect()->route('picture.index')->with('delete','Foto eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

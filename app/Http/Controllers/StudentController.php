@@ -19,8 +19,26 @@ class StudentController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('roles:admin,estudiante');
+        $this->middleware('auth',['except'=>['byInstitution','byStudent']]);
+        $this->middleware('roles:admin,estudiante,representanteEducativa',['except'=>['byInstitution','byStudent']]);
+    }
+    public function byInstitution($id)
+    {
+        try{
+            return Student::where('institution_id',$id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
+    }
+    public function byStudent($id)
+    {
+        try{
+            return Student::where('id',$id)->get();
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        }
     }
     public function index(Request $request)
     {
@@ -32,28 +50,34 @@ class StudentController extends Controller
             $cedula=auth()->user()->cedula;
             if (auth()->user()->isAdmin())
             {
-                if (!Empty($institution_id)||!Empty($type)||!Empty($student))
+                if (!empty($institution_id))
                 {
-                    $students=Student::with(['institution','course'])
-                        ->InstitutionId($institution_id)
-                        ->Id($student)
-                        ->paginate(count(Institution::get()));
-                }else{
-                    $students=Student::with(['institution','course'])
-                        ->paginate(10);
+                    $students_count=Student::withInsCur()->InstitutionId($institution_id)->get();
+                    $students=Student::withInsCur()->OrderApellidos()->InstitutionId($institution_id)->Id($student)->paginate(count($students_count));
                 }
+                elseif(!empty($student)){
+                    $students_count=Student::withInsCur()->OrderApellidos()->Id($student)->get();
+                    $students=Student::withInsCur()->OrderApellidos()->Id($student)->paginate(count($students_count));
+                }
+                else{
+                    $students=Student::withInsCur()->paginate(15);
+                }
+            }elseif(auth()->user()->hasRoles(['representanteEducativa'])){
+                $student=Student::StudentCedula($cedula)->get('institution_id');
+                foreach ($student as $stu) {
+                    $ins_id=$stu->institution_id;
+                    $students=Student::OrderApellidos()->InstitutionId($ins_id)->paginate(15);
+                }
+
             }
             else{
-                $students=Student::with(['institution','course'])
-                    ->where('EST_CEDULA',$cedula)
-                    ->paginate(1);
+                return back();
             }
-            return view('identification.students.index',
-                compact('students','institutions'))
+            return view('identification.students.index', compact('students','institutions'))
                 ->with('error','No se encontro ese estudiante');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -79,7 +103,6 @@ class StudentController extends Controller
            else{
                return back()->with('error','Error: Not Authorized.');
            }
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
@@ -101,7 +124,7 @@ class StudentController extends Controller
                 ->with('success','Estudiante registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' Constraint violation. Registro Cédula: '.$request->EST_CEDULA.' o Correo Electronico: '.$request->EST_CORREO. 'ya existen en la base de datos');
         }
     }
     /**
@@ -130,7 +153,7 @@ class StudentController extends Controller
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -171,25 +194,38 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(StudentRequest $request, Student $student)
+    public function update(StudentRequest $request, $id)
     {
         try{
                 $user=auth()->user();
-                if ($user->can('update',$student))
+                $student=Student::findOrFail($id);
+                if (auth()->user()->isAdmin())
                 {
-                    $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));
-                    return redirect()
-                        ->route('student.show',$student)
-                        ->with('success','Estudiante actualizado exitosamente');
+                    if ($user->can('update',$student))
+                    {
+                        $student->update($request->validated());
+                        return redirect()
+                            ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
+                    }
+                    else{
+                        return back()->with('error','Error: Not Authorized.');
+                    }
+                }else{
+                    if ($user->can('update',$student))
+                    {
+                        $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));
+                        return redirect()
+                            ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
+                    }
+                    else{
+                        return back()->with('error','Error: Not Authorized.');
+                    }
                 }
-                else{
-                    return back()->with('error','Error: Not Authorized.');
-                }
-//            }
+
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return back()->with('error','Error: '.$e->getCode().' Constraint violation. Registro Cédula: '.$request->EST_CEDULA.' o Correo Electronico: '.$request->EST_CORREO. ' ya existen en nuestros registros');
         }
     }
 
@@ -203,12 +239,10 @@ class StudentController extends Controller
     {
         try{
             Student::findOrFail($id)->delete();
-            return redirect()->route('student.index')
-                ->with('delete','Estudiante eliminado exitosamente');
-
+            return redirect()->route('student.index')->with('delete','Estudiante eliminado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode());
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 }

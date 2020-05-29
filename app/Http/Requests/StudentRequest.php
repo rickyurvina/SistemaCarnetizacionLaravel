@@ -22,17 +22,18 @@ class StudentRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'EST_CEDULA'=>'required|min:10',
+            'EST_CEDULA'=>'required|unique:students,EST_CEDULA,'.$this->route('student'),
             'EST_NOMBRES'=>'required',
             'EST_APELLIDOS'=>'required',
             'EST_SEXO'=>'required',
             'EST_FECHANACIMIENTO'=>'required',
             'EST_TIPOSANGRE'=>'required',
-            'EST_CORREO'=>'required',
-            'EST_DIRECCION'=>'required',
-            'EST_NUMERO'=>'min:7',
-            'EST_CELULAR'=>'min:10',
+            'EST_CORREO'=>'required|unique:students,EST_CORREO,'.$this->route('student'),
+            'EST_DIRECCION'=>'nullable',
+            'EST_NUMERO'=>'min:7|nullable',
+            'EST_CELULAR'=>'min:10|nullable',
             'EST_CODIGO'=>'nullable',
             'EST_MATRICULA'=>'nullable',
             'EST_INSCRITO'=>'nullable',

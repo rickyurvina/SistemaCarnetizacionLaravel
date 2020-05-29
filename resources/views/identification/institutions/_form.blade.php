@@ -48,7 +48,6 @@
                 name="INS_TELEFONO"
                 class="form-control"
                 type="number"
-{{--                required="required"--}}
                 value="{{old('INS_TELEFONO',$institution->INS_TELEFONO )}}">
             <span class="fa fa-phone form-control-feedback right"
                   aria-hidden="true"></span>

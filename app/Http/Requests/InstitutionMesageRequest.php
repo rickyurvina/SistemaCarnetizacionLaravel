@@ -23,8 +23,9 @@ class InstitutionMesageRequest extends FormRequest
      */
     public function rules()
     {
+//        dd($this->route('institution'));
           return[
-                'INS_NOMBRE'=>'required',
+                'INS_NOMBRE'=>'required|unique:institutions,INS_NOMBRE,'.$this->route('institution'),
                 'INS_DIRECCION'=>'required',
                 'INS_TELEFONO'=>'required|min:7',
                 'INS_CELULAR'=>'required|min:10',

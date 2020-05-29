@@ -48,7 +48,7 @@
                    <div class="btn-group btn-group-xs">
                        @can('edit',$user)
                 <a href="{{route('user.edit',$user)}}"
-                   class="btn btn-info btn-xs">
+                   class="btn btn-outline-info btn-xs">
                     <i class="fa fa-pencil"></i>
                     {{__('Edit')}}
                 </a>

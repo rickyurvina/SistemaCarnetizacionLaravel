@@ -16,7 +16,6 @@
                                {{__('Photo')}}
                                </a>
                            </th>
-
                            <td>
                                    <a href="{{route('picture.show',$pic)}}">
                                    <img  width="100px"  src="{{asset('images/StudentsPhotos/'.$pic->nombre)}}">
@@ -144,13 +143,19 @@
                    </div>
                </div>
                 <div class="btn-group btn-group-xs">
-                <a href="{{route('student.edit',$student)}}"
-                   class="btn btn-info btn-xs">
+                    <a href="{{route('student.edit',$student)}}"
+                       class="btn btn-outline-info btn-xs">
+                        <i class="fa fa-pencil"></i>
+                        {{__('Edit')}}
+                    </a>
+                    @if(!empty($pic))
+                <a href="{{route('picture.edit',$pic)}}"
+                   class="btn btn-outline-success btn-xs">
                     <i class="fa fa-pencil"></i>
-                    {{__('Edit')}}
+                    {{__('Edit Photo')}}
                 </a>
-                    @if(auth()->user()->hasRoles(['admin']))
-
+                    @endif
+                    @if(auth()->user()->isAdmin())
                     <a href="#"
                       class="btn btn-danger btn-xs"
                       onclick="document.

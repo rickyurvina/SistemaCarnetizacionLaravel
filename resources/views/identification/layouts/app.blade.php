@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/icono.ico" type="image/ico" />
     <title>@yield('title','COTEDEM')</title>
     @include('identification.links-scripts.links.linksapp')
 </head>
@@ -29,14 +28,12 @@
         @include('identification.sections.topnavigation')
         <!-- page content -->
             <div class="right_col" role="main">
-                <div class="">
                     <div class="page-title">
                         <div class="title_left">
                             @yield('content')
                         </div>
                     </div>
                 </div>
-            </div>
             <!-- /page content -->
             @include('identification.sections.footer')
         </div>
