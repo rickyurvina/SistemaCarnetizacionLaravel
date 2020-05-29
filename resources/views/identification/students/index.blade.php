@@ -33,7 +33,7 @@
                 <div class="card-box table-responsive">
                     <p>{{__('List of students')}}
                         @if(auth()->user()->hasRoles(['representanteEducativa']))
-                        <a href="#" class="btn btn-outline-success btn-xs">
+                        <a href="solicitud" class="btn btn-outline-success btn-xs">
                             {{__('Solicitar Impresion')}}<i class="fa fa-check"></i>
                         </a>
                         @endif()

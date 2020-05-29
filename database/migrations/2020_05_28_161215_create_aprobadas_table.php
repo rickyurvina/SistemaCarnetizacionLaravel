@@ -15,8 +15,8 @@ class CreateAprobadasTable extends Migration
     {
         Schema::create('aprobadas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('solicitadas_id')->constrained();
-            $table->foreignId('institution_id')->constrained();
+            $table->foreignId('solicitadas_id')->constrained()->onDelete('cascade');
+            $table->foreignId('institution_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

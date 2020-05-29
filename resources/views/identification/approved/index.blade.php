@@ -57,7 +57,7 @@
                                 </td>
                                 <td class="project_progress">
                                     <a href="{{route('institution.show', $aprobada->institution_id)}}">
-                                        {{$aprobada->institution->INS_NOMBRE}} {{$aprobada->institution->id}}
+                                        {{$aprobada->institution->INS_NOMBRE}}
                                     </a>
                                 </td>
                             </tr>

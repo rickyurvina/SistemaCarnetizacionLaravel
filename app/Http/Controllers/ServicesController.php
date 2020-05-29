@@ -128,6 +128,31 @@ class ServicesController extends Controller
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
+    public function solicitudImpresion()
+    {
+        if (auth()->user()->hasRoles(['representanteEducativa']))
+        {
+            $cedula=auth()->user()->cedula;
+            $student=Student::StudentCedula($cedula)->get('institution_id');
+            foreach ($student as $stu) {
+                $ins_id=$stu->institution_id;
+                $students_count=Student::InstitutionId($ins_id)->get();
+//                echo count($students_count);
+               $students=Student::InstitutionId($ins_id)->get();
+
+                   foreach ($students as $student) {
+                       $cedula_estudiante=$student->EST_CEDULA;
+                       $institution_id=$student->institution_id;
+                       $solicitadas=new Solicitadas();
+                       $solicitadas->cedula=$cedula_estudiante;
+                       $solicitadas->tipo='Estudiante';
+                       $solicitadas->institution_id=$institution_id;
+                       $solicitadas->save();
+                 }
+                   return back()->with('success','Registrado extisoamente');
+            }
+        }
+    }
 
 
 }
