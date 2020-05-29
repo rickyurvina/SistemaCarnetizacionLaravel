@@ -109,9 +109,10 @@ class AreaController extends Controller
      * @param  \App\Area  $area
      * @return \Illuminate\Http\Response
      */
-    public function update(AreaRequest $request, Area $area)
+    public function update(AreaRequest $request, $id)
     {
         try{
+            $area=Area::findOrFail($id);
             $area->update( $request->validated() );
             return redirect()->route('area.show',$area)->with('success','Area actualizada exitosamente');
         }catch(Throwable $e)

@@ -24,7 +24,7 @@ class AreaRequest extends FormRequest
     public function rules()
     {
         return [
-            'ARE_NOMBRE'=>'required',
+            'ARE_NOMBRE'=>'required|unique:areas,ARE_NOMBRE,'.$this->route('area'),
             'ARE_DESCRIPCCION'=>'nullable'
         ];
     }

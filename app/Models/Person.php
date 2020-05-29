@@ -9,9 +9,18 @@ class Person extends Model
 
     protected $dates=['PER_FECHANACIMIENTO'];
     protected $fillable=[
-        'PER_CEDULA','PER_NOMBRES','PER_APELLIDOS',
-        'PER_SEXO','PER_FECHANACIMIENTO','PER_TIPOSANGRE',
-        'PER_CORREO','PER_DIRECCION','PER_NUMERO','PER_CELULAR','institution_id','area_id'
+        'PER_CEDULA',
+        'PER_NOMBRES',
+        'PER_APELLIDOS',
+        'PER_FECHANACIMIENTO',
+        'PER_SEXO',
+        'PER_TIPOSANGRE',
+        'PER_CORREO',
+        'PER_DIRECCION',
+        'PER_NUMERO',
+        'PER_CELULAR',
+        'institution_id',
+        'area_id'
         ];
     public function institution()
     {
@@ -62,6 +71,10 @@ class Person extends Model
         {
             return $query->where('PER_CEDULA',$cedula_user);
         }
+    }
+    public function scopeOrderApellidos($query)
+    {
+        return $query->orderBy('PER_APELLIDOS','ASC');
     }
 
 

@@ -27,6 +27,10 @@ class Institution extends Model
     public function student(){
         return $this->hasOne(Person::class);
     }
+    public function aprobadas()
+    {
+        return $this->hasOne(Aprobadas::class);
+    }
     public function scopeOrderCreate($query)
     {
         return $query->orderBy('INS_NOMBRE','ASC');

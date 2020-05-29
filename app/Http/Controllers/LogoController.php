@@ -139,11 +139,11 @@ class LogoController extends Controller
      * @param  \App\Logo  $logo
      * @return \Illuminate\Http\Response
      */
-    public function update(LogoRequest $request, Logo $logo)
+    public function update(LogoRequest $request, $id)
     {
         try
         {
-            $post=logo::find($logo->id);
+            $post=logo::find($id);
             $post->fill($request->validated())->save();
             if ($request->hasFile('LOG_NOMBRE'))
             {
@@ -160,7 +160,7 @@ class LogoController extends Controller
                 $post->save();
             }
             return redirect()
-                ->route('logo.show',$logo)->with('success','Logo actualizado exitosamente');
+                ->route('logo.show',$id)->with('success','Logo actualizado exitosamente');
 
         }catch(Throwable $e)
         {

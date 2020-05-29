@@ -14,7 +14,6 @@
                             $picture=\App\Http\Controllers\ServicesController::photo(auth()->user()->cedula);
                         @endphp
                         <img src="{{asset($picture)}}" alt="..." class="">
-
                         {{auth()->user()->name}}
                     @endauth
                     </a>
@@ -22,7 +21,7 @@
                         <a class="dropdown-item"  href="/profile">Mi Cuenta</a>
                         <a class="dropdown-item"  href="#" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i
-                                class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                class="fa fa-sign-out pull-right"></i>{{__('Logout')}}</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

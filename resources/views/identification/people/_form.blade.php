@@ -99,7 +99,7 @@
             <input
                 type="text"
                 name="PER_DIRECCION"
-{{--                required="required"--}}
+                {{--                required="required"--}}
                 class="form-control"
                 value="{{old('PER_DIRECCION',$person->PER_DIRECCION)}}">
             <span class="fa fa-location-arrow form-control-feedback right"
@@ -116,7 +116,7 @@
             <input
                 type="number"
                 name="PER_NUMERO"
-{{--                required="required"--}}
+                {{--                required="required"--}}
                 class="form-control"
                 value="{{old('PER_NUMERO',$person->PER_NUMERO)}}">
             <span class="fa fa-phone form-control-feedback right"
@@ -133,7 +133,7 @@
             <input
                 type="number"
                 name="PER_CELULAR"
-{{--                required="required"--}}
+                {{--                required="required"--}}
                 class="form-control"
                 value="{{old('PER_CELULAR',$person->PER_CELULAR)}}">
             <span class="fa fa-phone-square form-control-feedback right"
@@ -181,52 +181,27 @@
         </select>
         {!! $errors->first('PER_TIPOSANGRE','<small class="alert-error">:message</small>')!!}
     </div>
-    @if(!auth()->user()->isAdmin())
-        <div class="item form-group">
-            <label class="col-form-label col-md-3 col-sm-3 label-align">
-                {{__('Institution')}}
-                <span class="required">*</span>
-            </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
-                <option selected></option>
-                @foreach($institution as $ins )
-                    @if(old('institution', $person->institution_id)==$ins->id)
-                        <option value="{{$ins->id}}" selected>
-                            {{$ins->INS_NOMBRE}}
-                        </option>
-                    @else
-                        <option value="{{$ins->id}}" disabled>
-                            {{$ins->INS_NOMBRE}}
-                        </option>
-                    @endif
-                @endforeach
-            </select>
-            {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
-        </div>
-    @endif
-    @if(auth()->user()->isAdmin())
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Institution')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
-                <option selected></option>
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6 " name="institution_id" id="" required>
+            <option selected></option>
             @foreach($institution as $ins )
-                    @if(old('institution', $person->institution_id)==$ins->id)
+                @if(old('institution', $person->institution_id)==$ins->id)
                     <option value="{{$ins->id}}" selected>
                         {{$ins->INS_NOMBRE}}
                     </option>
-                        @else
-                        <option value="{{$ins->id}}">
-                            {{$ins->INS_NOMBRE}}
-                        </option>
-                    @endif
-                @endforeach
-            </select>
+                @else
+                    <option value="{{$ins->id}}">
+                        {{$ins->INS_NOMBRE}}
+                    </option>
+                @endif
+            @endforeach
+        </select>
         {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
     </div>
-    @endif()
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Area')}}
@@ -289,4 +264,3 @@
     </div>
 
 </form>
-

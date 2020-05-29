@@ -50,8 +50,8 @@ class UserController extends Controller
             $type2='Org';
             $institution_educative=Institution::OrderCreate()->type($type)->get();
             $organisation=Institution::OrderCreate()->type($type2)->get();
-            $student=Student::orderBy('EST_NOMBRES','ASC')->get();
-            $person=Person::orderBy('PER_NOMBRES','ASC')->get();
+            $student=Student::OrderApellidos()->get();
+            $person=Person::OrderApellidos()->get();
             $roles=Role::PluckDisplayName();
             $user=new User;
             return view('identification.users.create',[
@@ -118,8 +118,8 @@ class UserController extends Controller
             $type2='Org';
             $institution_educative=Institution::OrderCreate()->type($type)->get();
             $organisation=Institution::OrderCreate()->type($type2)->get();
-            $student=Student::orderBy('EST_NOMBRES','ASC')->get();
-            $person=Person::orderBy('PER_NOMBRES','ASC')->get();
+            $student=Student::OrderApellidos()->get();
+            $person=Person::OrderApellidos()->get();
              $user=User::findOrFail($id);
              $this->authorize($user);
              $roles=Role::PluckDisplayName();

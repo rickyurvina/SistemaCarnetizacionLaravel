@@ -26,7 +26,7 @@ class LogoRequest extends FormRequest
         return [
             //
             'LOG_NOMBRE'=>'nullable',
-            'institution_id'=>'required'
+            'institution_id'=>'required|unique:logos,institution_id,'.$this->route('logo'),
         ];
     }
 }

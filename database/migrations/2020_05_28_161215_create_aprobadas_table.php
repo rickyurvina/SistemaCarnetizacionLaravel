@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSolicitadas extends Migration
+class CreateAprobadasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateSolicitadas extends Migration
      */
     public function up()
     {
-        Schema::create('solicitadas', function (Blueprint $table) {
+        Schema::create('aprobadas', function (Blueprint $table) {
             $table->id();
-            $table->integer('cedula');
-            $table->string('tipo');
+            $table->foreignId('solicitadas_id')->constrained();
             $table->foreignId('institution_id')->constrained();
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ class CreateSolicitadas extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solicitadas');
+        Schema::dropIfExists('aprobadas');
     }
 }

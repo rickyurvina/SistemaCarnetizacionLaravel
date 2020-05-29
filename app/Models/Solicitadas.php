@@ -13,5 +13,20 @@ class Solicitadas extends Model
     {
         return $this->belongsTo(Institution::class);
     }
+    public function aprobadas()
+    {
+        return $this->hasOne(Aprobadas::class);
+    }
+    public function scopeOrderCreate($query)
+    {
+        return $query->orderBy('created_at','asc');
+    }
+    public function scopeWhereInsId($query, $institution_id)
+    {
+        if ($institution_id)
+        {
+            return $query->where('institution_id',$institution_id);
+        }
+    }
 
 }

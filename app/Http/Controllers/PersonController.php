@@ -53,7 +53,7 @@ class PersonController extends Controller
                 if (!empty($institution_id))
                 {
                     $people_count=Person::WithIns()->InstitutionId($institution_id)->get();
-                    $people=Person::WithIns()->orderBy('PER_APELLIDOS','ASC')->InstitutionId($institution_id)->paginate(count($people_count));
+                    $people=Person::WithIns()->OrderApellidos()->InstitutionId($institution_id)->paginate(count($people_count));
                 }elseif(!empty($person))
                     {
                         $people_count=Person::WithIns()->Id($person)->get();
@@ -65,11 +65,11 @@ class PersonController extends Controller
                 }
             }
             elseif(auth()->user()->hasRoles(['representanteOrganizacion'])){
-                $usuario=Person::where('PER_CEDULA',$cedula_user)->get('institution_id');
+                $usuario=Person::FindCedula($cedula_user)->get('institution_id');
                 foreach ($usuario as $usu) {
                     $ins_id=$usu->institution_id;
                 }
-                $people=Person::orderBy('PER_APELLIDOS','asc')->where('institution_id',$ins_id)->paginate(15);
+                $people=Person::OrderApellidos()->InstitutionId($ins_id)->paginate(15);
             }
             else{
                 return back();
@@ -121,7 +121,7 @@ class PersonController extends Controller
      */
     public function store(PersonRequest $request)
     {
-        try{
+        try{//
             Person::create($request->validated());
             return redirect()
                 ->route('person.index')->with('success','Usuario registrado exitosamente');
@@ -192,9 +192,10 @@ class PersonController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function update(PersonRequest $request, Person $person)
+    public function update(PersonRequest $request, $id)
     {
         try{
+            $person=Person::findOrFail($id);
             $user=auth()->user();
             if ($user->can('update',$person))
             {

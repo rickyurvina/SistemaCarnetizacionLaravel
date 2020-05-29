@@ -126,9 +126,10 @@ class InstitutionsController extends Controller
      * @param  \App\Institution  $institution
      * @return \Illuminate\Http\Response
      */
-    public function update(InstitutionMesageRequest $request, Institution $institution)
+    public function update(InstitutionMesageRequest $request, $id)
     {
         try{
+            $institution=Institution::findOrFail($id);
             $institution->update( $request->validated() );
             return redirect()
                 ->route('institution.show',$institution)

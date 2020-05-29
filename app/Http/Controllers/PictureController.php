@@ -191,13 +191,13 @@ class PictureController extends Controller
      * @param  \App\Picture  $picture
      * @return \Illuminate\Http\Response
      */
-    public function update(PictureRequest $request, Picture $picture)
+    public function update(PictureRequest $request, $id)
     {
         try
         {
-            $student_id=$picture->student_id;
+            $student_id=$id;
             $user=auth()->user();
-            $post=Picture::find($picture->id);
+            $post=Picture::find($id);
             $student=Student::findOrFaIL($student_id);
             if ($user->can('update',$student))
             {
@@ -217,7 +217,7 @@ class PictureController extends Controller
                     $post->save();
                 }
                 return redirect()
-                    ->route('picture.show',$picture)->with('success','Foto actualizado exitosamente');
+                    ->route('picture.show',$id)->with('success','Foto actualizado exitosamente');
             }else{
                 return back()->with('error','Error: Not Authorized.');
             }

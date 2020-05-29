@@ -94,13 +94,11 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Direction')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="text"
                 name="EST_DIRECCION"
-{{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_DIRECCION',$student->EST_DIRECCION)}}">
             <span class="fa fa-location-arrow form-control-feedback right"
@@ -111,13 +109,11 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Phone')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="number"
                 name="EST_NUMERO"
-{{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_NUMERO',$student->EST_NUMERO)}}">
             <span class="fa fa-phone form-control-feedback right"
@@ -128,13 +124,11 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('CellPhone')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="number"
                 name="EST_CELULAR"
-{{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_CELULAR',$student->EST_CELULAR)}}">
             <span class="fa fa-phone-square form-control-feedback right"
@@ -146,13 +140,11 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Code')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
                 type="number"
                 name="EST_CODIGO"
-                {{--                required="required"--}}
                 class="form-control"
                 value="{{old('EST_CODIGO',$student->EST_CODIGO)}}">
             <span class="fa fa-codepen form-control-feedback right"
@@ -163,7 +155,6 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Enrollment')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
@@ -180,7 +171,6 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Signed up')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
@@ -197,7 +187,6 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('No Enrollment')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
@@ -214,7 +203,6 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Retired')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input
@@ -231,7 +219,6 @@
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
             {{__('Scholarship')}}
-            <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
             <input

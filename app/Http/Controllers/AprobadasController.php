@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Aprobadas;
 use App\Models\Institution;
-use App\Models\Solicitadas;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\Table;
 use Throwable;
 
-class SolicitadasController extends Controller
+class AprobadasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,21 +19,26 @@ class SolicitadasController extends Controller
         $this->middleware('auth');
         $this->middleware('roles:admin');
     }
+
     public function index(Request $request)
     {
+        //
         try{
             $institution_id=$request->get('institution_id');
             $institutions=Institution::OrderCreate()->get();
             if (!empty($institution_id))
             {
-                $solicitadas_count=Solicitadas::OrderCreate()->WhereInsId($institution_id)->get();
-
-                $solicitadas=Solicitadas::OrderCreate()->WhereInsId($institution_id)->paginate(count($solicitadas_count));
+                $aprobadas_count=Aprobadas::with(['solicitadas','institution'])->OrderWhere($institution_id)->get();
+                $count=count($aprobadas_count);
+                $aprobadas=Aprobadas::with(['solicitadas','institution'])->OrderWhere($institution_id)->paginate(count($aprobadas_count));
+                return view('identification.approved.index',compact('aprobadas','institutions','count'))
+                    ->with('error' ,'No se encuentran registros');
             }else{
-                $solicitadas=Solicitadas::OrderCreate()->paginate(10);
+                $aprobadas=Aprobadas::Order()->paginate(10);
+                return view('identification.approved.index',compact('aprobadas','institutions'))
+                    ->with('error' ,'No se encuentran registros');
             }
-            return view('identification.print.index',compact('solicitadas','institutions'))
-                ->with('error' ,'No se encuentran registros');
+
         }catch(Throwable $e){
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
@@ -58,47 +60,41 @@ class SolicitadasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Solicitadas  $solicitadas
+     * @param  \App\Aprobadas  $aprobadas
      * @return \Illuminate\Http\Response
      */
-    public function show(Solicitadas $solicitadas)
+    public function show(Aprobadas $aprobadas)
     {
         //
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Solicitadas  $solicitadas
+     * @param  \App\Aprobadas  $aprobadas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Solicitadas $solicitada)
+    public function edit(Aprobadas $aprobadas)
     {
         //
-        $aprobadas=new Aprobadas();
-        $aprobadas->solicitadas_id=$solicitada->id;
-        $aprobadas->institution_id=$solicitada->institution_id;
-        $aprobadas->save();
-        return back()->with('success','Aproabda exitosamente');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Solicitadas  $solicitadas
+     * @param  \App\Aprobadas  $aprobadas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Solicitadas $solicitadas)
+    public function update(Request $request, Aprobadas $aprobadas)
     {
         //
     }
@@ -106,18 +102,11 @@ class SolicitadasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Solicitadas  $solicitadas
+     * @param  \App\Aprobadas  $aprobadas
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Aprobadas $aprobadas)
     {
         //
-        try{
-            Solicitadas::findOrFail($id)->delete();
-            return redirect()->route('solicitadas.index')->with('delete','Solicitud eliminada exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
-        }
     }
 }

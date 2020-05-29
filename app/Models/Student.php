@@ -79,7 +79,16 @@ class Student extends Model
     {
         return $query->with(['institution','course']);
     }
-
-
+    public function scopewithCourseOrder($query, $course_id)
+    {
+        if ($course_id)
+        {
+            return $query->with('course')->orderBy('EST_APELLIDOS','ASC')->where('course_id',$course_id);
+        }
+    }
+    public function scopeOrderApellidos($query)
+    {
+        return $query->orderBy('EST_APELLIDOS','ASC');
+    }
 
 }

@@ -8,26 +8,26 @@
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                         @if(auth()->user()->hasRoles(['admin']))
-                        {{Form::open(['route'=>'student.index','method'=>'GET'])}}
-                         <div class="input-group">
-                             {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
+                            {{Form::open(['route'=>'student.index','method'=>'GET'])}}
+                            <div class="input-group">
+                                {{Form::text('EST_CEDULA', null,['class'=>'form-control','placeholder'=>'Cédula del estudiante'])}}
                                 <select class="custom-select custom-select-sm"
                                         name="institution_id"
                                         id="institution_id">
                                     <option value=""
-                                        selected> {{__('Search by Institution')}}
+                                            selected> {{__('Search by Institution')}}
                                     </option>
                                     @foreach($institutions as $institution )
-                                            <option value="{{$institution->id}}">
-                                                {{$institution->INS_NOMBRE}}
-                                            </option>
+                                        <option value="{{$institution->id}}">
+                                            {{$institution->INS_NOMBRE}}
+                                        </option>
                                     @endforeach
                                 </select>
-                            <span class="input-group-btn">
+                                <span class="input-group-btn">
                               <button type="submit" class="btn btn-xs" >{{__('Search')}}</button>
                             </span>
-                             @endif()
-                         </div>
+                                @endif()
+                            </div>
                     </div>
                 </div>
                 <div class="card-box table-responsive">

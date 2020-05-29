@@ -12,7 +12,7 @@ function onSelectInstitutionChange() {
     $.get('/api/institution/'+institution_id+'/courses', function (data) {
         let html_select = '<option value="">Seleccione Curso</option>';
         for (var i=0;i<data.length; ++i)
-           html_select+='<option value="'+data[i].id+'">'+data[i].CUR_NOMBRE+'</option>';
+           html_select+='<option value="'+data[i].id+'">'+data[i].CUR_NOMBRE+" Paralelo:"+data[i].CUR_PARALELO+'</option>';
        // console.log(html_select);
        $('#select-course').html(html_select);
     });

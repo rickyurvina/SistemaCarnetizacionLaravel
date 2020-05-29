@@ -150,11 +150,11 @@ class BackgroundController extends Controller
      * @param  \App\Background  $background
      * @return \Illuminate\Http\Response
      */
-    public function update(BackgroundRequest $request, Background $background)
+    public function update(BackgroundRequest $request, $id)
     {
         try
         {
-            $post=background::find($background->id);
+            $post=background::find($id);
             $post->fill($request->validated())->save();
             if ($request->hasFile('FON_NOMBRE'))
             {
@@ -185,7 +185,7 @@ class BackgroundController extends Controller
                 $post->save();
             }
             return redirect()
-                ->route('background.show',$background)->with('success','Logo actualizado exitosamente');
+                ->route('background.show',$id)->with('success','Logo actualizado exitosamente');
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().

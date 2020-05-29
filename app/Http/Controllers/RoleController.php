@@ -113,10 +113,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RoleRequest $request, Role $role)
+    public function update(RoleRequest $request, $id)
     {
         //
         try{
+            $role=Role::findOrFail($id);
             $role->update( $request->validated() );
             return redirect()->route('role.show',$role)->with('success','Role actualizada exitosamente');
         }catch(Throwable $e)

@@ -19,6 +19,4 @@
     </div>
 </body>
 @include('identification.links-scripts.scripts.appscripts')
-
-
 </html>

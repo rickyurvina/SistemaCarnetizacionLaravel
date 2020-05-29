@@ -57,7 +57,7 @@
                                     <a> {{$solicitada->tipo}}</a>
                                 </td>
                                     <td class="project_progress">
-                                        <a href="{{route('institution.show',$solicitada->institution_id)}}">
+                                        <a href="{{route('institution.show',$solicitada->institution->id)}}">
                                             {{$solicitada->institution->INS_NOMBRE}}
                                         </a>
                                     </td>
@@ -68,7 +68,7 @@
                                             <i class="fa fa-print"></i>
                                             {{__('View Carnet')}}
                                         </a>
-                                <a href="#"
+                                <a href="{{route('solicitadas.edit',$solicitada)}}"
                                    class="btn btn-primary btn-xs">
                                     <i class="fa fa-print"></i>
                                     {{__('Aprobar Solicitud')}}

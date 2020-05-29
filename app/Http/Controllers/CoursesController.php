@@ -54,7 +54,7 @@ class CoursesController extends Controller
                 }
             }elseif(auth()->user()->hasRoles(['representanteEducativa']))
             {
-                $student=Student::where('EST_CEDULA',$cedula)->get('institution_id');
+                $student=Student::Id($cedula)->get('institution_id');
                 foreach ($student as $stu) {
                     $ins_id=$stu->institution_id;
                 }
@@ -115,8 +115,7 @@ class CoursesController extends Controller
     public function show(Course $course)
     {
         try{
-//            $students=Course::WithStudent()->orderBy('EST_APELLIDOS','ASC')->CourseID($course->id);
-           $students=Student::with('course')->orderBy('EST_APELLIDOS','ASC')->where('course_id',$course->id)->get();
+             $students=Student::withCourseOrder($course->id)->get();
             return view('identification.courses.show',[
                 'course'=>$course,
                 'students'=>$students
@@ -153,9 +152,10 @@ class CoursesController extends Controller
      * @param  \App\Course  $courses
      * @return \Illuminate\Http\Response
      */
-    public function update(CourseMessageRequest $request, Course $course)
+    public function update(CourseMessageRequest $request, $id)
     {
         try{
+            $course=Course::findOrFail($id);
             $course->update( $request->validated() );
             return redirect()->route('course.show',$course)->with('success','Curso actualizado exitosamente');
         }catch(Throwable $e)

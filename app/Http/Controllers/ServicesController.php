@@ -102,8 +102,8 @@ class ServicesController extends Controller
             $solicitadas=new Solicitadas();
             $cedula=auth()->user()->cedula;
             $solicitadas->cedula=$cedula;
-            $students=Student::where('EST_CEDULA',$cedula)->get();
-            $person=Person::where('PER_CEDULA',$cedula)->get();
+            $students=Student::StudentCedula($cedula)->get();
+            $person=Person::Id($cedula)->get();
             if (count($students)>0)
             {
                 $solicitadas->tipo='Estudiante';
@@ -128,5 +128,6 @@ class ServicesController extends Controller
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
+
 
 }

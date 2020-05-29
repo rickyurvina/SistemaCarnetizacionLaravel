@@ -87,23 +87,10 @@
                 </a>
                 <ul class="nav child_menu">
                     <li><a href="{{route('solicitadas.index')}}">{{__('Requested')}}</a></li>
-                    <li><a href="#">{{__('Approved')}}</a></li>
-                    <li><a href="#">{{__('Without Requesting')}}</a></li>
+                    <li><a href="{{route('aprobadas.index')}}">{{__('Approved')}}</a></li>
                 </ul>
             </li>
                 @endif()
-            @if(auth()->user()->isAdmin())
-                <li><a><i class="fa fa-money"></i>
-                        {{__('Billing')}}
-                        <span
-                            class="fa fa-chevron-down">
-                    </span>
-                    </a>
-                    <ul class="nav child_menu">
-                        <li><a href="#">{{__('Billings')}}</a></li>
-                    </ul>
-                </li>
-            @endif()
         </ul>
     </div>
 </div>

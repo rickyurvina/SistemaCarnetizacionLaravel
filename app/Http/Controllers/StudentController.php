@@ -53,21 +53,21 @@ class StudentController extends Controller
                 if (!empty($institution_id))
                 {
                     $students_count=Student::withInsCur()->InstitutionId($institution_id)->get();
-                    $students=Student::withInsCur()->orderBy('EST_APELLIDOS','ASC')->InstitutionId($institution_id)->Id($student)->paginate(count($students_count));
+                    $students=Student::withInsCur()->OrderApellidos()->InstitutionId($institution_id)->Id($student)->paginate(count($students_count));
                 }
                 elseif(!empty($student)){
-                    $students_count=Student::withInsCur()->orderBy('EST_APELLIDOS','ASC')->Id($student)->get();
-                    $students=Student::withInsCur()->orderBy('EST_APELLIDOS','ASC')->Id($student)->paginate(count($students_count));
+                    $students_count=Student::withInsCur()->OrderApellidos()->Id($student)->get();
+                    $students=Student::withInsCur()->OrderApellidos()->Id($student)->paginate(count($students_count));
                 }
                 else{
                     $students=Student::withInsCur()->paginate(15);
                 }
             }elseif(auth()->user()->hasRoles(['representanteEducativa'])){
-                $student=Student::where('EST_CEDULA',$cedula)->get('institution_id');
+                $student=Student::StudentCedula($cedula)->get('institution_id');
                 foreach ($student as $stu) {
                     $ins_id=$stu->institution_id;
+                    $students=Student::OrderApellidos()->InstitutionId($ins_id)->paginate(15);
                 }
-                $students=Student::orderBy('EST_APELLIDOS','ASC')->where('institution_id',$ins_id)->paginate(15);
 
             }
             else{
@@ -124,7 +124,7 @@ class StudentController extends Controller
                 ->with('success','Estudiante registrado exitosamente');
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return back()->with('error','Error: '.$e->getCode().' Constraint violation. Registro Cédula: '.$request->EST_CEDULA.' o Correo Electronico: '.$request->EST_CORREO. 'ya existen en la base de datos');
         }
     }
     /**
@@ -194,23 +194,38 @@ class StudentController extends Controller
      * @param  \App\Student  $student
      * @return \Illuminate\Http\Response
      */
-    public function update(StudentRequest $request, Student $student)
+    public function update(StudentRequest $request, $id)
     {
         try{
                 $user=auth()->user();
-                if ($user->can('update',$student))
+                $student=Student::findOrFail($id);
+                if (auth()->user()->isAdmin())
                 {
-                    $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));
-                    return redirect()
-                        ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
+                    if ($user->can('update',$student))
+                    {
+                        $student->update($request->validated());
+                        return redirect()
+                            ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
+                    }
+                    else{
+                        return back()->with('error','Error: Not Authorized.');
+                    }
+                }else{
+                    if ($user->can('update',$student))
+                    {
+                        $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));
+                        return redirect()
+                            ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
+                    }
+                    else{
+                        return back()->with('error','Error: Not Authorized.');
+                    }
                 }
-                else{
-                    return back()->with('error','Error: Not Authorized.');
-                }
+
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return back()->with('error','Error: '.$e->getCode().' Constraint violation. Registro Cédula: '.$request->EST_CEDULA.' o Correo Electronico: '.$request->EST_CORREO. ' ya existen en nuestros registros');
         }
     }
 

@@ -105,8 +105,8 @@ class PhotoController extends Controller
                 {
                     $extension=$request->file('nombre')->getClientOriginalExtension();
                     $people_id=$request->people_id;
-                    $cedula=Person::PeopleId($people_id);
-                    foreach ($cedula as $ced)
+                    $person=Person::PeopleId($people_id);
+                    foreach ($person as $ced)
                     {
                         $cedula_stu=$ced->PER_CEDULA;
                     }
@@ -121,7 +121,8 @@ class PhotoController extends Controller
             }
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return back()
+                ->with('error','Error: '.$e->getCode().' El usuario:'.$request->people_id.' ya tiene una foto asociada');
         }
     }
 
