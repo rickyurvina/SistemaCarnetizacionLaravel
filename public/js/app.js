@@ -49661,8 +49661,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\ricky\OneDrive - Pontificia Universidad Católica del Ecuador\Documentos\TESIS\DesarrolloTESIS\carnet-cotedem\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\ricky\OneDrive - Pontificia Universidad Católica del Ecuador\Documentos\TESIS\DesarrolloTESIS\carnet-cotedem\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\ricky\OneDrive - Pontificia Universidad Católica del Ecuador\Documentos\TESIS\carnet-cotedem\carnet-cotedem\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\ricky\OneDrive - Pontificia Universidad Católica del Ecuador\Documentos\TESIS\carnet-cotedem\carnet-cotedem\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

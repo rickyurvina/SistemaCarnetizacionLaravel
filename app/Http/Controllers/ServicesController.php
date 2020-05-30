@@ -130,28 +130,50 @@ class ServicesController extends Controller
     }
     public function solicitudImpresion()
     {
-        if (auth()->user()->hasRoles(['representanteEducativa']))
-        {
+        try{
             $cedula=auth()->user()->cedula;
-            $student=Student::StudentCedula($cedula)->get('institution_id');
-            foreach ($student as $stu) {
-                $ins_id=$stu->institution_id;
-                $students_count=Student::InstitutionId($ins_id)->get();
-//                echo count($students_count);
-               $students=Student::InstitutionId($ins_id)->get();
+            if (auth()->user()->hasRoles(['representanteEducativa']))
+            {
+                $student=Student::StudentCedula($cedula)->get('institution_id');
+                foreach ($student as $stu) {
+                    $ins_id=$stu->institution_id;
+                    $students=Student::InstitutionId($ins_id)->get();
+                    foreach ($students as $student) {
+                        $cedula_estudiante=$student->EST_CEDULA;
+                        $institution_id=$student->institution_id;
+                        $solicitadas=new Solicitadas();
+                        $solicitadas->cedula=$cedula_estudiante;
+                        $solicitadas->tipo='Estudiante';
+                        $solicitadas->institution_id=$institution_id;
+                        $solicitadas->save();
+                    }
+                    return back()->with('success','Registrado extisoamente');
+                }
+            }else{
 
-                   foreach ($students as $student) {
-                       $cedula_estudiante=$student->EST_CEDULA;
-                       $institution_id=$student->institution_id;
-                       $solicitadas=new Solicitadas();
-                       $solicitadas->cedula=$cedula_estudiante;
-                       $solicitadas->tipo='Estudiante';
-                       $solicitadas->institution_id=$institution_id;
-                       $solicitadas->save();
-                 }
-                   return back()->with('success','Registrado extisoamente');
+                $people=Person::FindCedula($cedula)->get('institution_id');
+                foreach ($people as $person)
+                {
+                    $ins_id=$person->institution_id;
+                    $peoples=Person::InstitutionId($ins_id)->get();
+                    foreach ($peoples as $persons)
+                    {
+                        $cedula_person=$persons->PER_CEDULA;
+                        $institution_id=$persons->institution_id;
+                        $solicitadas=new Solicitadas();
+                        $solicitadas->cedula=$cedula_person;
+                        $solicitadas->tipo='Usuario';
+                        $solicitadas->institution_id=$institution_id;
+                        $solicitadas->save();
+                    }
+                    return back()->with('success','Registrado extisoamente');
+                }
             }
+        }catch(Throwable $e)
+        {
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
+
     }
 
 

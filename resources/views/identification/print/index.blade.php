@@ -86,7 +86,7 @@
                                 </td>
                             </tr>
                         @empty
-                          <h1>{{__('There are no registered solicitadass')}}</h1>
+                          <h1>{{__('There are no registered solicitadas')}}</h1>
                         @endforelse
                         </tbody>
                     </table>
