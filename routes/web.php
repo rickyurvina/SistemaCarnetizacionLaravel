@@ -33,4 +33,4 @@ route::resource('/aprobadas','AprobadasController')->names('aprobadas');
 route::get('/pr','ServicesController@solicitadas')->name('soli');
 route::get('/profile','ServicesController@profile')->name('profile');
 route::get('/solicitud','ServicesController@solicitudImpresion')->name('solicitud');
-
+route::get('/mail','ServicesController@mail')->name('mail');

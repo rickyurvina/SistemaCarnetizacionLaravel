@@ -13,7 +13,7 @@
                         <input type="hidden" value="1" name="enviar" />
                         <h1 style="color: white;">Control de Acceso</h1>
                         <div>
-                            <input id="cedula" type="cedula" placeholder="Correo" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="{{ old('cedula') }}" required autocomplete="cedula" autofocus>
+                            <input id="cedula" type="cedula" placeholder="Cédula" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="{{ old('cedula') }}" required autocomplete="cedula" autofocus>
                             @error('cedula')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -35,7 +35,11 @@
                         <button type="submit" class="btn btn-primary">
                                 {{ __('Login') }}
                         </button>
-                        <a class="reset_pass" id="olvide_clave" href="javascript:void(0);">¿Perdiste tu contraseña?</a>
+                        @if (Route::has('password.request'))
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                        @endif
                     </div>
                         <div class="clearfix"></div>
                         <div class="separator">

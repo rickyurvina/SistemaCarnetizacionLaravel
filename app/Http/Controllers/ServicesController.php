@@ -11,6 +11,7 @@ use App\Models\Solicitadas;
 use App\Models\Student;
 //use http\Env\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 use Illuminate\Http\Request;
 
@@ -175,6 +176,12 @@ class ServicesController extends Controller
         }
 
     }
-
-
+    public function mail(Request $request)
+    {
+        $message=$request->get('email');
+        Mail::send('auth.mail',['msg'=>$message],function ($m) use ($message){
+            $m->to("ricky_uc12@hotmail.com")->subject('Reseteo de clave');
+        });
+        return back()->with('success','Hemos recibido tu solicitud, pronto nos pondremos en contacto');
+    }
 }

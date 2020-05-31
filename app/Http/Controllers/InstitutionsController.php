@@ -8,6 +8,7 @@ use App\Models\Institution;
 use App;
 use App\Models\Logo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class InstitutionsController extends Controller
@@ -27,17 +28,14 @@ class InstitutionsController extends Controller
     public function index(Request $request)
     {
         try{
-            $INS_NOMBRE=$request->get('INS_NOMBRE');
-            $type=$request->get('institution_id');
-            if (!empty($type))
-            {
-                $institutions_count=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->get();
-                $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->paginate(count($institutions_count));
-            }else{
-                $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->paginate(15);
-            }
+            $key="institutions.page.".request('page',1).request('institution_id',null).request('INS_NOMBRE',null);
+            $institutions=Cache::remember($key,180,function (){
+            $INS_NOMBRE=request('INS_NOMBRE');
+            $type=request('institution_id');
+                return Institution::OrderCreate()
+                      ->Name($INS_NOMBRE)->Type($type)->paginate(4);
+            });
             return view('identification.institutions.index',compact('institutions'));
-
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
