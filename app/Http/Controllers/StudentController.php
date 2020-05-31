@@ -7,6 +7,7 @@ use App\Http\Requests\StudentRequest;
 use App\Models\Institution;
 use App\Models\Picture;
 use App\Models\Student;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -40,41 +41,30 @@ class StudentController extends Controller
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
             $type='Institución Educativa';
             $institutions=Institution::OrderCreate()->type($type)->get();
-            $student=$request->get('EST_CEDULA');
-            $institution_id=$request->get('institution_id');
-            $cedula=auth()->user()->cedula;
             if (auth()->user()->isAdmin())
             {
-                if (!empty($institution_id))
-                {
-                    $students_count=Student::withInsCur()->InstitutionId($institution_id)->get();
-                    $students=Student::withInsCur()->OrderApellidos()->InstitutionId($institution_id)->Id($student)->paginate(count($students_count));
-                }
-                elseif(!empty($student)){
-                    $students_count=Student::withInsCur()->OrderApellidos()->Id($student)->get();
-                    $students=Student::withInsCur()->OrderApellidos()->Id($student)->paginate(count($students_count));
-                }
-                else{
-                    $students=Student::withInsCur()->paginate(15);
-                }
+                $key="students.page.".request('page',1).request('EST_CEDULA',null).request('institution_id');;
+                $students=Cache::remember($key,180, function (){
+                   return  Student::withInsCur()
+                       ->OrderApellidos()->InstitutionId(request('institution_id'))->Id(request('EST_CEDULA'))->paginate(15);
+                });
             }elseif(auth()->user()->hasRoles(['representanteEducativa'])){
-                $student=Student::StudentCedula($cedula)->get('institution_id');
+                $student=Student::StudentCedula(auth()->user()->cedula)->get('institution_id');
                 foreach ($student as $stu) {
-                    $ins_id=$stu->institution_id;
-                    $students=Student::OrderApellidos()->InstitutionId($ins_id)->paginate(15);
+                    $institution_id=$stu->institution_id;
+                    $students=Student::withInsCur()
+                        ->OrderApellidos()->InstitutionId($institution_id)->Id(request('EST_CEDULA'))->paginate(15);
                 }
-
             }
             else{
                 return back();
             }
-            return view('identification.students.index', compact('students','institutions'))
-                ->with('error','No se encontro ese estudiante');
+            return view('identification.students.index', compact('students','institutions'));
         }catch(Throwable $e)
         {
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
@@ -119,6 +109,7 @@ class StudentController extends Controller
     {
         try{
             Student::create($request->validated());
+            Cache::flush();
             return redirect()
                 ->route('student.index')
                 ->with('success','Estudiante registrado exitosamente');
@@ -204,6 +195,7 @@ class StudentController extends Controller
                     if ($user->can('update',$student))
                     {
                         $student->update($request->validated());
+                        Cache::flush();
                         return redirect()
                             ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
                     }
@@ -214,6 +206,7 @@ class StudentController extends Controller
                     if ($user->can('update',$student))
                     {
                         $student->update($request->only('EST_CEDULA','EST_NOMBRES','EST_APELLIDOS','EST_SEXO','EST_FECHANACIMIENTO','EST_TIPOSANGRE','EST_DIRECCION','EST_NUMERO','EST_CELULAR','EST_CORREO'));
+                        Cache::flush();
                         return redirect()
                             ->route('student.show',$student)->with('success','Estudiante actualizado exitosamente');
                     }
@@ -239,6 +232,7 @@ class StudentController extends Controller
     {
         try{
             Student::findOrFail($id)->delete();
+            Cache::flush();
             return redirect()->route('student.index')->with('delete','Estudiante eliminado exitosamente');
         }catch(Throwable $e)
         {

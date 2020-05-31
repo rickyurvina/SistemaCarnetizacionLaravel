@@ -36,7 +36,7 @@
                     <p>{{__('List of courses')}}
                         <a href="{{route('course.index')}}"
                                class="btn btn-link btn-xs">
-                        </a> {{$courses->fragment('foo')->links()}}</p>
+                        </a> {{$courses->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

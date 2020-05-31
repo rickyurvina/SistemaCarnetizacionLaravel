@@ -27,4 +27,10 @@ class Aprobadas extends Model
     {
         return $query->orderBy('created_at','asc');
     }
+    public function scopeWithSoliIns($query)
+    {
+        return $query->with(['solicitadas','institution']);
+    }
+
+
 }

@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of areas')}}
-                        {{$areas->fragment('foo')->links()}}</p>
+                        {{$areas->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

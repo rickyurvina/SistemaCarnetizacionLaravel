@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Background;
 use App\Http\Requests\BackgroundRequest;
 use App\Models\Institution;
-use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -21,12 +20,11 @@ class BackgroundController extends Controller
         $this->middleware('auth');
         $this->middleware('roles:admin');
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
             $institutions=Background::WithInstitution()->get();
-            $institution_id=$request->get('institution_id');
-            $backgrounds=Background::Order()->Institution($institution_id)->paginate(5);
+            $backgrounds=Background::Order()->Institution(request('institution_id'))->paginate(5);
             return view('identification.backgrounds.index',compact('backgrounds','institutions'))
                 ->with('error','No se encontro esa institutcion');
         }catch(Throwable $e)

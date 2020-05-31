@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PhotoRequest;
 use App\Models\Person;
 use App\Models\Photo;
-use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -21,41 +20,18 @@ class PhotoController extends Controller
         $this->middleware('auth');
         $this->middleware('roles:admin,usuario');
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
-            $people_id=$request->get('people_id');
-            $cedula_usuario=auth()->user()->cedula;
-            if (auth()->user()->isAdmin())
-            {
-                if (!empty($people_id))
-                {
-                    $person=Person::Order()->Id($people_id)->get('id');
-                    foreach ($person as $per) {
-                        $person_id= $per->id;
-                    }
-                    $photos=Photo::WithPer()->Id($person_id)->paginate(count(Person::get()));
-                }
-                else{
-                    $photos=Photo::WithPer()->paginate(5);
-                }
+            $person=Person::Order()->Id(request('people_id'))->get('id');
+            foreach ($person as $per) {
+                $person_id= $per->id;
             }
-            else{
-                $people=Person::FindCedula($cedula_usuario)->get('id');
-                foreach ($people as $person){
-                    $id_person=$person->id;
-                }
-                $photos=Photo::WithPer()->Id($id_person)->paginate(1);
-            }
-            if (empty($photos))
-            {
-                return view('identification.photos.index', compact('photos'));
-            }
-            return view('identification.photos.index', compact('photos'))->with('error','No se encontro esa persona');
-
+            $photos=Photo::WithPer()->Id($person_id)->paginate(5);
+            return view('identification.photos.index', compact('photos'));
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return back()->with('error','Error: '.$e->getCode().' No se encontró la solicitud');
         }
     }
 

@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
-use App\Models\Institution;
+
 use App\Models\Person;
 use App\Models\Photo;
 use App\Models\Picture;
 use App\Models\Solicitadas;
 use App\Models\Student;
-//use http\Env\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
 use Illuminate\Http\Request;

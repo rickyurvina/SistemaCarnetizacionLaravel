@@ -33,7 +33,7 @@
                     <p>{{__('List of logos')}}
                         <a href="{{route('logo.index')}}"
                                class="btn btn-link btn-xs">
-                        </a> {{$logos->fragment('foo')->links()}}</p>
+                        </a> {{$logos->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

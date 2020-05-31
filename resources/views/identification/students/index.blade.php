@@ -37,7 +37,7 @@
                             {{__('Solicitar Impresion')}}<i class="fa fa-check"></i>
                         </a>
                         @endif()
-                        {{$students->fragment('foo')->links()}}</p>
+                        {{$students->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

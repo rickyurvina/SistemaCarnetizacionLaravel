@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PictureRequest;
 use App\Models\Picture;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -22,42 +21,19 @@ class PictureController extends Controller
         $this->middleware('auth');
         $this->middleware('roles:admin,estudiante');
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
-            $students_id=$request->get('student_id');
-            $cedula_estudiante=auth()->user()->cedula;
-            if (auth()->user()->isAdmin())
-            {
-                if (!empty($students_id))
-                {
-                    $stu=Student::OrderCreated()->Id($students_id)->get('id');
-                    foreach($stu as $st){
-                        $stu_id=$st->id;
-                    }
-                    $pictures=picture::Order()->Id($stu_id)->paginate(count(Student::get()));
-                }
-                else{
-                    $pictures=picture::WithStu()->paginate(5);
-                }
+            $stu=Student::OrderCreated()->Id(request('student_id'))->get('id');
+            foreach($stu as $st){
+                $stu_id=$st->id;
             }
-            else{
-               $students=Student::StudentCedula($cedula_estudiante)->get('id');
-                foreach ($students as $student) {
-                    $id_estudiante=$student->id;
-               }
-                $pictures=Picture::WithStu()->Id($id_estudiante)->paginate(1);
-            }
-            if (empty($pictures))
-            {
-                return view('identification.pictures.index', compact('pictures'));
-            }
-            return view('identification.pictures.index', compact('pictures'))
-                ->with('error','No se encontro  Estudiante');
+            $pictures=picture::Order()->Id($stu_id)->paginate(5);
+            return view('identification.pictures.index', compact('pictures'));
 
         }catch(Throwable $e)
         {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return back()->with('error','Error: '.$e->getCode().' No se encontró la solicitud');
         }
     }
 

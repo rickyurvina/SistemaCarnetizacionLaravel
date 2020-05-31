@@ -9,7 +9,6 @@ use App\Models\Person;
 use App\Models\Student;
 use App\Role;
 use App\User;
-use Illuminate\Http\Request;
 use Throwable;
 
 class UserController extends Controller
@@ -25,11 +24,10 @@ class UserController extends Controller
         $this->middleware('roles:admin');
 
     }
-    public function index(Request $request  )
+    public function index()
     {
         try{
-            $name=$request->get('name');
-            $users=User::WithRoles()->Name($name)->paginate(15);
+            $users=User::WithRoles()->Name(request('name'))->paginate(15);
             return view('identification.users.index',compact('users'));
         }catch(Throwable $e)
         {

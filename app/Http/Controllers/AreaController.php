@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Http\Requests\AreaRequest;
-use Illuminate\Http\Request;
 use Throwable;
 
 class AreaController extends Controller
@@ -20,11 +19,11 @@ class AreaController extends Controller
         $this->middleware('roles:admin');
     }
 
-    public function index(Request $request)
+    public function index()
     {
         try{
-            $ARE_NOMBRE=$request->get('ARE_NOMBRE');
-            $areas=Area::Order()->name($ARE_NOMBRE)->paginate(6);
+
+            $areas=Area::Order()->name(request('ARE_NOMBRE'))->paginate(10);
             return view('identification.areas.index',compact('areas'));
 
         }catch(Throwable $e)

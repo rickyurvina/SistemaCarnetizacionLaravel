@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LogoRequest;
 use App\Models\Institution;
 use App\Models\Logo;
-use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -21,12 +20,11 @@ class LogoController extends Controller
         $this->middleware('auth');
         $this->middleware('roles:admin');
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
             $institutions=logo::WithInstitution();
-            $institution_id=$request->get('institution_id');
-            $logos=Logo::Order()->InstitutionId($institution_id)->paginate(5);
+            $logos=Logo::Order()->InstitutionId(request('institution_id'))->paginate(5);
             return view('identification.logos.index', compact('logos','institutions'))
                 ->with('error','No se encontro esa institutcion');
         }catch(Throwable $e)

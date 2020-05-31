@@ -31,7 +31,7 @@
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of solicitadass')}}
-                       {{$solicitadas->fragment('foo')->links()}}</p>
+                       {{$solicitadas->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

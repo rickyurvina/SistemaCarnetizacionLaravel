@@ -36,7 +36,7 @@
                             {{__('Solicitar Impresion')}}<i class="fa fa-check"></i>
                         </a>
                         @endif
-                      {{$people->fragment('foo')->links()}}</p>
+                      {{$people->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">

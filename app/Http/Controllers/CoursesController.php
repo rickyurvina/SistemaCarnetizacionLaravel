@@ -5,7 +5,6 @@ use App\Http\Requests\CourseMessageRequest;
 use App\Models\Course;
 use App\Models\Institution;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Throwable;
 
 class CoursesController extends Controller
@@ -34,27 +33,17 @@ class CoursesController extends Controller
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
             $type='Institución Educativa';
-            $institution_id=$request->get('institution_id');
             $institutions=Institution::OrderCreate()->Type($type)->get();
-            $cedula=auth()->user()->cedula;
-
             if (auth()->user()->isAdmin())
             {
-                if (!empty($institution_id))
-                {
-                    $courses_count=Course::Order()->CourseIns($institution_id)->get();
-                    $courses=Course::Order()->CourseIns($institution_id)->paginate(count($courses_count));
-                }
-                else{
-                    $courses=Course::Order()->paginate(15);
-                }
+                $courses=Course::with('institution')->Order()->CourseIns(request('institution_id'))->paginate(4);
             }elseif(auth()->user()->hasRoles(['representanteEducativa']))
             {
-                $student=Student::Id($cedula)->get('institution_id');
+                $student=Student::Id(auth()->user()->cedula)->get('institution_id');
                 foreach ($student as $stu) {
                     $ins_id=$stu->institution_id;
                 }
@@ -62,7 +51,6 @@ class CoursesController extends Controller
             }else{
                 return back();
             }
-
             return view('identification.courses.index', compact('courses','institutions'))
                 ->with('error','No se encontro esa institutcion');
 

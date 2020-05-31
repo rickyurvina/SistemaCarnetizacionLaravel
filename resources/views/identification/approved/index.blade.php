@@ -31,7 +31,7 @@
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of aprobadass')}}
-                       {{$aprobadas->fragment('foo')->links()}}</p>
+                       {{$aprobadas->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
@@ -40,6 +40,7 @@
                             <th>{{__('Solicitadas Id')}}</th>
                             <th>{{__('Identification card')}}</th>
                             <th>{{__('Institution')}}</th>
+                            <th>{{__('Requested on')}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,9 +61,12 @@
                                         {{$aprobada->institution->INS_NOMBRE}}
                                     </a>
                                 </td>
+                                <td>
+                                    {{$aprobada->created_at->format('d/m/Y H:i:s')}}
+                                </td>
                             </tr>
                         @empty
-                          <h1>{{__('There are no registered aprobadas')}}</h1>
+                          <h1>{{__('There are no registered approved')}}</h1>
                         @endforelse
                         </tbody>
                     </table>

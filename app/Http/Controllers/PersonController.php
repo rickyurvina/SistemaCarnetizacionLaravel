@@ -7,7 +7,6 @@ use App\Http\Requests\PersonRequest;
 use App\Models\Institution;
 use App\Models\Person;
 use App\Models\Photo;
-use Illuminate\Http\Request;
 use Throwable;
 
 class PersonController extends Controller
@@ -40,29 +39,15 @@ class PersonController extends Controller
             return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
-    public function index(Request $request)
+    public function index()
     {
         try{
             $type='Organización';
-            $person=$request->get('PER_CEDULA');
             $institutions=Institution::OrderCreate()->type($type)->get();
-            $institution_id=$request->get('institution_id');
             $cedula_user=auth()->user()->cedula;
             if (auth()->user()->isAdmin())
             {
-                if (!empty($institution_id))
-                {
-                    $people_count=Person::WithIns()->InstitutionId($institution_id)->get();
-                    $people=Person::WithIns()->OrderApellidos()->InstitutionId($institution_id)->paginate(count($people_count));
-                }elseif(!empty($person))
-                    {
-                        $people_count=Person::WithIns()->Id($person)->get();
-                        $people=Person::WithIns()->Id($person)->paginate(count($people_count));
-                    }
-                else
-                {
-                    $people=Person::WithIns()->paginate(15);
-                }
+                $people=Person::WithIns()->OrderApellidos()->InstitutionId(request('institution_id'))->Id(request('PER_CEDULA'))->paginate(15);
             }
             elseif(auth()->user()->hasRoles(['representanteOrganizacion'])){
                 $usuario=Person::FindCedula($cedula_user)->get('institution_id');
