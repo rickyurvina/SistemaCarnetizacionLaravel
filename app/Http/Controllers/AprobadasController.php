@@ -24,17 +24,17 @@ class AprobadasController extends Controller
     public function index()
     {
         //
-        try{
-            $key="solicitadas.page.".request('page',1).request('institution_id',null);
-            $institutions=Institution::OrderCreate()->get();
-            $aprobadas=Cache::remember($key,180,function (){
-                $institution_id=request('institution_id');
+        try {
+            $key = "solicitadas.page." . request('page', 1) . request('institution_id', null);
+            $institutions = Institution::OrderCreate()->get();
+            $aprobadas = Cache::remember($key, 180, function () {
+                $institution_id = request('institution_id');
                 return Aprobadas::WithSoliIns()->OrderWhere($institution_id)->paginate(2);
             });
-            return view('identification.approved.index',compact('aprobadas','institutions'))
-                ->with('error' ,'No se encuentran registros');
-        }catch(Throwable $e){
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return view('identification.approved.index', compact('aprobadas', 'institutions'))
+                ->with('error', 'No se encuentran registros');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 

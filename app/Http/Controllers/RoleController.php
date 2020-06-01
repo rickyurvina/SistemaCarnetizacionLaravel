@@ -17,16 +17,14 @@ class RoleController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('roles:admin');
-
     }
     public function index()
     {
-        try{
-            $roles=Role::Order()->paginate(10);
-            return view('identification.roles.index',compact('roles'));
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $roles = Role::Order()->paginate(10);
+            return view('identification.roles.index', compact('roles'));
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -38,13 +36,12 @@ class RoleController extends Controller
     public function create()
     {
         //
-        try{
-            return view('identification.roles.create',[
-                'role'=>new Role
+        try {
+            return view('identification.roles.create', [
+                'role' => new Role
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -57,14 +54,12 @@ class RoleController extends Controller
     public function store(RoleRequest $request)
     {
 
-        try{
+        try {
             Role::create($request->validated());
             return redirect()
-                ->route('role.index')->with('success','Role regitrado exitosamente');
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+                ->route('role.index')->with('success', 'Role regitrado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -77,13 +72,12 @@ class RoleController extends Controller
     public function show(Role $role)
     {
         //
-        try{
-            return view('identification.roles.show',[
-                'role'=>$role
+        try {
+            return view('identification.roles.show', [
+                'role' => $role
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -96,13 +90,12 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         //
-        try{
-            return view('identification.roles.edit',[
-                'role'=>$role
+        try {
+            return view('identification.roles.edit', [
+                'role' => $role
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -116,13 +109,12 @@ class RoleController extends Controller
     public function update(RoleRequest $request, $id)
     {
         //
-        try{
-            $role=Role::findOrFail($id);
-            $role->update( $request->validated() );
-            return redirect()->route('role.show',$role)->with('success','Role actualizada exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $role = Role::findOrFail($id);
+            $role->update($request->validated());
+            return redirect()->route('role.show', $role)->with('success', 'Role actualizada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -135,12 +127,11 @@ class RoleController extends Controller
     public function destroy($id)
     {
         //
-        try{
+        try {
             Role::findOrFail($id)->delete();
-            return redirect()->route('role.index')->with('delete','Role eliminado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('role.index')->with('delete', 'Role eliminado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

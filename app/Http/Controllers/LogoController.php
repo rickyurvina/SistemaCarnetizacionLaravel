@@ -22,14 +22,13 @@ class LogoController extends Controller
     }
     public function index()
     {
-        try{
-            $institutions=logo::WithInstitution();
-            $logos=Logo::Order()->InstitutionId(request('institution_id'))->paginate(5);
-            return view('identification.logos.index', compact('logos','institutions'))
-                ->with('error','No se encontro esa institutcion');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $institutions = logo::WithInstitution();
+            $logos = Logo::Order()->InstitutionId(request('institution_id'))->paginate(5);
+            return view('identification.logos.index', compact('logos', 'institutions'))
+                ->with('error', 'No se encontro esa institutcion');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -40,15 +39,14 @@ class LogoController extends Controller
      */
     public function create()
     {
-        try{
-            $institutions=Institution::OrderCreate()->get();
-            return view('identification.logos.create',[
-                'logo'=>new logo(),
-                'institution'=>$institutions
+        try {
+            $institutions = Institution::OrderCreate()->get();
+            return view('identification.logos.create', [
+                'logo' => new logo(),
+                'institution' => $institutions
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -61,33 +59,28 @@ class LogoController extends Controller
     public function store(LogoRequest $request)
     {
 
-        try{
-            if (!$request->LOG_NOMBRE)
-            {
-                return back()->with('error','No selecciono ninguna imagen');
-            }
-            else{
-                $post= logo::create($request->validated());
-                if ($request->hasFile('LOG_NOMBRE'))
-                {
-                    $extension=$request->file('LOG_NOMBRE')->getClientOriginalExtension();
-                    $institution_id=$request->institution_id;
-                    $cedula=Institution::InstitutionId($institution_id);
-                    foreach ($cedula as $ced)
-                    {
-                        $cedula_stu=$ced->INS_NOMBRE;
+        try {
+            if (!$request->LOG_NOMBRE) {
+                return back()->with('error', 'No selecciono ninguna imagen');
+            } else {
+                $post = logo::create($request->validated());
+                if ($request->hasFile('LOG_NOMBRE')) {
+                    $extension = $request->file('LOG_NOMBRE')->getClientOriginalExtension();
+                    $institution_id = $request->institution_id;
+                    $cedula = Institution::InstitutionId($institution_id);
+                    foreach ($cedula as $ced) {
+                        $cedula_stu = $ced->INS_NOMBRE;
                     }
-                    $file_name=$cedula_stu.'.'.$extension;
-                    Image::make($request->file('LOG_NOMBRE'))->resize(354,213)->save('images/LogosPhotos/'.$file_name);
-                    $post->LOG_NOMBRE=$file_name;
+                    $file_name = $cedula_stu . '.' . $extension;
+                    Image::make($request->file('LOG_NOMBRE'))->resize(354, 213)->save('images/LogosPhotos/' . $file_name);
+                    $post->LOG_NOMBRE = $file_name;
                     $post->save();
                 }
                 return redirect()
-                    ->route('logo.index')->with('success','Foto registrada exitosamente');
+                    ->route('logo.index')->with('success', 'Foto registrada exitosamente');
             }
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -99,13 +92,12 @@ class LogoController extends Controller
      */
     public function show(Logo $logo)
     {
-        try{
-            return view('identification.logos.show',[
-                'logo'=>$logo,
+        try {
+            return view('identification.logos.show', [
+                'logo' => $logo,
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -117,16 +109,15 @@ class LogoController extends Controller
      */
     public function edit(Logo $logo)
     {
-        try{
-            $institution_id=$logo->institution_id;
-            $institutions=Institution::InsId($institution_id);
-            return view('identification.logos.edit',[
-                'logo'=>$logo,
-                'institution'=>$institutions,
+        try {
+            $institution_id = $logo->institution_id;
+            $institutions = Institution::InsId($institution_id);
+            return view('identification.logos.edit', [
+                'logo' => $logo,
+                'institution' => $institutions,
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage() . ' ' . $e->getMessage());
         }
     }
 
@@ -139,30 +130,25 @@ class LogoController extends Controller
      */
     public function update(LogoRequest $request, $id)
     {
-        try
-        {
-            $post=logo::find($id);
+        try {
+            $post = logo::find($id);
             $post->fill($request->validated())->save();
-            if ($request->hasFile('LOG_NOMBRE'))
-            {
-                $extension=$request->file('LOG_NOMBRE')->getClientOriginalExtension();
-                $institution_id=$request->institution_id;
-                $cedula=Institution::InstitutionId($institution_id);
-                foreach ($cedula as $ced)
-                {
-                    $cedula_stu=$ced->INS_NOMBRE;
+            if ($request->hasFile('LOG_NOMBRE')) {
+                $extension = $request->file('LOG_NOMBRE')->getClientOriginalExtension();
+                $institution_id = $request->institution_id;
+                $cedula = Institution::InstitutionId($institution_id);
+                foreach ($cedula as $ced) {
+                    $cedula_stu = $ced->INS_NOMBRE;
                 }
-                $file_name=$cedula_stu.'.'.$extension;
-                Image::make($request->file('LOG_NOMBRE'))->resize(354,213)->save('images/LogosPhotos/'.$file_name);
-                $post->LOG_NOMBRE=$file_name;
+                $file_name = $cedula_stu . '.' . $extension;
+                Image::make($request->file('LOG_NOMBRE'))->resize(354, 213)->save('images/LogosPhotos/' . $file_name);
+                $post->LOG_NOMBRE = $file_name;
                 $post->save();
             }
             return redirect()
-                ->route('logo.show',$id)->with('success','Logo actualizado exitosamente');
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+                ->route('logo.show', $id)->with('success', 'Logo actualizado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -174,12 +160,11 @@ class LogoController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        try {
             logo::findOrFail($id)->delete();
-            return redirect()->route('logo.index')->with('delete','Fondo eliminado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('logo.index')->with('delete', 'Fondo eliminado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

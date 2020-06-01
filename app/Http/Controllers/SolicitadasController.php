@@ -22,13 +22,13 @@ class SolicitadasController extends Controller
     }
     public function index()
     {
-        try{
-            $institutions=Institution::OrderCreate()->get();
-            $solicitadas=Solicitadas::OrderCreate()->WhereInsId(request('institution_id'))->paginate(15);
-            return view('identification.print.index',compact('solicitadas','institutions'))
-                ->with('error' ,'No se encuentran registros');
-        }catch(Throwable $e){
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $institutions = Institution::OrderCreate()->get();
+            $solicitadas = Solicitadas::OrderCreate()->WhereInsId(request('institution_id'))->paginate(15);
+            return view('identification.print.index', compact('solicitadas', 'institutions'))
+                ->with('error', 'No se encuentran registros');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -50,7 +50,6 @@ class SolicitadasController extends Controller
      */
     public function store()
     {
-
     }
 
     /**
@@ -74,11 +73,11 @@ class SolicitadasController extends Controller
     public function edit(Solicitadas $solicitada)
     {
         //
-        $aprobadas=new Aprobadas();
-        $aprobadas->solicitadas_id=$solicitada->id;
-        $aprobadas->institution_id=$solicitada->institution_id;
+        $aprobadas = new Aprobadas();
+        $aprobadas->solicitadas_id = $solicitada->id;
+        $aprobadas->institution_id = $solicitada->institution_id;
         $aprobadas->save();
-        return back()->with('success','Aprobada exitosamente');
+        return back()->with('success', 'Aprobada exitosamente');
     }
 
     /**
@@ -102,12 +101,11 @@ class SolicitadasController extends Controller
     public function destroy($id)
     {
         //
-        try{
+        try {
             Solicitadas::findOrFail($id)->delete();
-            return redirect()->route('solicitadas.index')->with('delete','Solicitud eliminada exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('solicitadas.index')->with('delete', 'Solicitud eliminada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

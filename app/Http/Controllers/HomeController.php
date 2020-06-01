@@ -23,12 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        try{
+        try {
             return view('home');
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

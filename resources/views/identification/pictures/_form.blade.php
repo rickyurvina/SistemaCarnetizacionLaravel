@@ -18,10 +18,10 @@
                 type="file"
                 name="nombre"
                 accept="image/*"
-              >
-                <span class="fa fa-book form-control-feedback right"
-                      aria-hidden="true"></span>
-                {!! $errors->first('nombre','<small class="alert-error">:message</small>')!!}
+            >
+            <span class="fa fa-book form-control-feedback right"
+                  aria-hidden="true"></span>
+            {!! $errors->first('nombre','<small class="alert-error">:message</small>')!!}
         </div>
 
     </div>
@@ -30,21 +30,21 @@
             {{__('Student')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6"
-                    name="student_id" id="student_id" required>
-                <option selected></option>
-                @foreach($students as $student)
-                    @if(old('students', $picture->student_id)==$student->id)
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6"
+                name="student_id" id="student_id" required>
+            <option selected></option>
+            @foreach($students as $student)
+                @if(old('students', $picture->student_id)==$student->id)
                     <option value="{{$student->id}}" selected>
                         {{$student->EST_NOMBRES}} {{$student->EST_APELLIDOS}}
                     </option>
-                        @else
-                        <option value="{{$student->id}}">
-                            {{$student->EST_NOMBRES}} {{$student->EST_APELLIDOS}}
-                        </option>
-                    @endif
-                @endforeach
-            </select>
+                @else
+                    <option value="{{$student->id}}">
+                        {{$student->EST_NOMBRES}} {{$student->EST_APELLIDOS}}
+                    </option>
+                @endif
+            @endforeach
+        </select>
         {!! $errors->first('student_id','<small class="alert-error">:message</small>')!!}
     </div>
     <div class="ln_solid"></div>

@@ -7,7 +7,7 @@
             <div class="text-center text-center">
                 <h1 class="error-number">404</h1>
                 <h2>Disculpa no pudimos realizar tu solicitud</h2>
-                 <p>La página que estas buscando no existe <a href="https://cotedem.com/">Reporta esto?</a>
+                <p>La página que estas buscando no existe <a href="https://cotedem.com/">Reporta esto?</a>
                 </p>
                 <div class="mid_center">
                     <h3>Regresar</h3>

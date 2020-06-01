@@ -31,8 +31,8 @@
                  class="form-control border-0 bg-light shadow-sm"
                  cols="30"
                  rows="10"
-                name="ARE_DESCRIPCCION"
-                >{{old('ARE_DESCRIPCCION',$area->ARE_DESCRIPCCION)}}</textarea>
+                 name="ARE_DESCRIPCCION"
+             >{{old('ARE_DESCRIPCCION',$area->ARE_DESCRIPCCION)}}</textarea>
             <span class="fa fa-comments-o form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('ARE_DESCRIPCCION','<small class="alert-error">:message</small>')!!}

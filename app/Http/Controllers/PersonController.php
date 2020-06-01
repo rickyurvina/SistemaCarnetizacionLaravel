@@ -18,58 +18,50 @@ class PersonController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth',['except'=>['byInstitution','byPerson']]);
-        $this->middleware('roles:admin,usuario,representanteOrganizacion',['except'=>['byInstitution','byPerson']]);
+        $this->middleware('auth', ['except' => ['byInstitution', 'byPerson']]);
+        $this->middleware('roles:admin,usuario,representanteOrganizacion', ['except' => ['byInstitution', 'byPerson']]);
     }
     public function byInstitution($id)
     {
-        try{
-            return Person::where('institution_id',$id)->get();
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            return Person::where('institution_id', $id)->get();
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     public function byPerson($id)
     {
-        try{
-            return Person::where('id',$id)->get();
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            return Person::where('id', $id)->get();
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     public function index()
     {
-        try{
-            $type='Organización';
-            $institutions=Institution::OrderCreate()->type($type)->get();
-            $cedula_user=auth()->user()->cedula;
-            if (auth()->user()->isAdmin())
-            {
-                $people=Person::WithIns()->OrderApellidos()->InstitutionId(request('institution_id'))->Id(request('PER_CEDULA'))->paginate(15);
-            }
-            elseif(auth()->user()->hasRoles(['representanteOrganizacion'])){
-                $usuario=Person::FindCedula($cedula_user)->get('institution_id');
+        try {
+            $type = 'Organización';
+            $institutions = Institution::OrderCreate()->type($type)->get();
+            $cedula_user = auth()->user()->cedula;
+            if (auth()->user()->isAdmin()) {
+                $people = Person::WithIns()->OrderApellidos()->InstitutionId(request('institution_id'))->Id(request('PER_CEDULA'))->paginate(15);
+            } elseif (auth()->user()->hasRoles(['representanteOrganizacion'])) {
+                $usuario = Person::FindCedula($cedula_user)->get('institution_id');
                 foreach ($usuario as $usu) {
-                    $ins_id=$usu->institution_id;
+                    $ins_id = $usu->institution_id;
                 }
-                $people=Person::OrderApellidos()->InstitutionId($ins_id)->paginate(15);
-            }
-            else{
+                $people = Person::OrderApellidos()->InstitutionId($ins_id)->paginate(15);
+            } else {
                 return back();
             }
-            if (empty($people))
-            {
-                return view('identification.people.index', compact('people','institutions'));
-            }
-            else {
+            if (empty($people)) {
+                return view('identification.people.index', compact('people', 'institutions'));
+            } else {
                 return view('identification.people.index', compact('people', 'institutions'))
                     ->with('error', 'No se encontro esa persona');
             }
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -79,23 +71,21 @@ class PersonController extends Controller
      */
     public function create()
     {
-        try{
-            if (auth()->user()->isAdmin())
-            {
-                $areas=Area::Nombre();
-                $type='Organización';
-                $institutions=Institution::OrderCreate()->type($type)->get();
-                return view('identification.people.create',[
-                    'person'=>new Person,
-                    'institution'=>$institutions,
-                    'area'=>$areas,
+        try {
+            if (auth()->user()->isAdmin()) {
+                $areas = Area::Nombre();
+                $type = 'Organización';
+                $institutions = Institution::OrderCreate()->type($type)->get();
+                return view('identification.people.create', [
+                    'person' => new Person,
+                    'institution' => $institutions,
+                    'area' => $areas,
                 ]);
-            }else{
-                return back()->with('error','Error: Not Authorized.');
+            } else {
+                return back()->with('error', 'Error: Not Authorized.');
             }
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -106,13 +96,12 @@ class PersonController extends Controller
      */
     public function store(PersonRequest $request)
     {
-        try{//
+        try { //
             Person::create($request->validated());
             return redirect()
-                ->route('person.index')->with('success','Usuario registrado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+                ->route('person.index')->with('success', 'Usuario registrado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -123,22 +112,20 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-        try{
-            $user=auth()->user();
-            if ($user->can('show',$person))
-            {
-                $person_id=$person->id;
-                $photo=Photo::WithPerson($person_id);
-                return view('identification.people.show',[
-                    'person'=>$person,
-                    'photos'=>$photo
+        try {
+            $user = auth()->user();
+            if ($user->can('show', $person)) {
+                $person_id = $person->id;
+                $photo = Photo::WithPerson($person_id);
+                return view('identification.people.show', [
+                    'person' => $person,
+                    'photos' => $photo
                 ]);
-            }else{
-                return back()->with('error','Error: Not Authorized.');
+            } else {
+                return back()->with('error', 'Error: Not Authorized.');
             }
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -149,25 +136,22 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        try{
-            $type='Organización';
-            $institutions=Institution::OrderCreate()->type($type)->get();
-            $areas=Area::Nombre();
-            $user=auth()->user();
-            if ($user->can('edit',$person))
-            {
-                return view('identification.people.edit',[
-                    'person'=>$person,
-                    'institution'=>$institutions,
-                    'area'=>$areas
+        try {
+            $type = 'Organización';
+            $institutions = Institution::OrderCreate()->type($type)->get();
+            $areas = Area::Nombre();
+            $user = auth()->user();
+            if ($user->can('edit', $person)) {
+                return view('identification.people.edit', [
+                    'person' => $person,
+                    'institution' => $institutions,
+                    'area' => $areas
                 ]);
-            }else{
-                return back()->with('error','Error: Not Authorized.');
+            } else {
+                return back()->with('error', 'Error: Not Authorized.');
             }
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -179,19 +163,17 @@ class PersonController extends Controller
      */
     public function update(PersonRequest $request, $id)
     {
-        try{
-            $person=Person::findOrFail($id);
-            $user=auth()->user();
-            if ($user->can('update',$person))
-            {
-                $person->update( $request->validated());
-                return redirect()->route('person.show',$person)->with('success','Usuario actualizado exitosamente');
-            }else{
-                return back()->with('error','Error: Not Authorized.');
+        try {
+            $person = Person::findOrFail($id);
+            $user = auth()->user();
+            if ($user->can('update', $person)) {
+                $person->update($request->validated());
+                return redirect()->route('person.show', $person)->with('success', 'Usuario actualizado exitosamente');
+            } else {
+                return back()->with('error', 'Error: Not Authorized.');
             }
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -202,12 +184,11 @@ class PersonController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        try {
             Person::findOrFail($id)->delete();
-            return redirect()->route('person.index')->with('delete','Usuario eliminado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('person.index')->with('delete', 'Usuario eliminado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

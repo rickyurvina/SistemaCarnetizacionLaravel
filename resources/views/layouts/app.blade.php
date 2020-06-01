@@ -8,15 +8,15 @@
 
     <title>{{ __('Control de Acceso - Sistema de Registro e Identificación')}}</title>
 
-    @include('identification.links-scripts.links.linksapp')
-    <!-- Styles -->
+@include('identification.links-scripts.links.linksapp')
+<!-- Styles -->
 </head>
 <body>
-    <div id="app">
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+<div id="app">
+    <main class="py-4">
+        @yield('content')
+    </main>
+</div>
 </body>
 @include('identification.links-scripts.scripts.appscripts')
 </html>

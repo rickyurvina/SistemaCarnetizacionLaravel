@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','cedula'
+        'name', 'email', 'password', 'cedula'
     ];
 
     /**
@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     public function setPasswordAttribute($password)
     {
-        $this->attributes['password']=bcrypt($password);
+        $this->attributes['password'] = bcrypt($password);
     }
 
     /**
@@ -44,25 +44,28 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class,'assigned_roles');
+        return $this->belongsToMany(Role::class, 'assigned_roles');
     }
+
     public function hasRoles(array $roles)
     {
         return $this->roles->pluck('name')->intersect($roles)->count();
     }
+
     public function isAdmin()
     {
         return $this->hasRoles(['admin']);
     }
+
     public function scopeWithRoles($query)
     {
         return $query->with('roles');
     }
-    public function scopeName($query,$name)
+
+    public function scopeName($query, $name)
     {
-        if ($name)
-        {
-            return $query->where('cedula','LIKE',"%$name%");
+        if ($name) {
+            return $query->where('cedula', 'LIKE', "%$name%");
         }
     }
 

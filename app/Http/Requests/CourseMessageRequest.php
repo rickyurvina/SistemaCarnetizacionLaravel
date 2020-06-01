@@ -23,10 +23,10 @@ class CourseMessageRequest extends FormRequest
      */
     public function rules()
     {
-        return[
-            'CUR_NOMBRE'=>'required',
-            'CUR_PARALELO'=>'required',
-            'institution_id'=>'required'
+        return [
+            'CUR_NOMBRE' => 'required',
+            'CUR_PARALELO' => 'required',
+            'institution_id' => 'required'
         ];
     }
 }
