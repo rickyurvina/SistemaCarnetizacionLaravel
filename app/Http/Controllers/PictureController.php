@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PictureRequest;
 use App\Models\Picture;
 use App\Models\Student;
+use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -25,14 +26,25 @@ class PictureController extends Controller
     public function index()
     {
         try {
-            $stu = Student::OrderCreated()->Id(request('student_id'))->get('id');
-            foreach ($stu as $st) {
-                $stu_id = $st->id;
+            $cedula_estudiante = auth()->user()->cedula;
+            if (auth()->user()->isAdmin()) {
+                if (request('student_id')) {
+                    $stu = Student::OrderCreated()->Id(request('student_id'))->get('id');
+                    foreach ($stu as $st) {
+                        $stu_id = $st->id;
+                    }
+                    $pictures = picture::Order()->Id($stu_id)->paginate(count(Student::get()));
+                } else {
+                    $pictures = picture::WithStu()->paginate(5);
+                }
+            } else {
+                return back();
             }
-            $pictures = picture::Order()->Id($stu_id)->paginate(5);
             return view('identification.pictures.index', compact('pictures'));
+
+
         } catch (Throwable $e) {
-            return back()->with('error', 'Error: ' . $e->getCode() . ' No se encontró la solicitud');
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 

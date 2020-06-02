@@ -12,7 +12,7 @@
                     @csrf
                     <section class="login_content">
                         <input type="hidden" value="1" name="enviar"/>
-                        <h1 style="color: white;">Resetear Contrasena</h1>
+                        <h1 style="color: white;">Resetear Contraseña</h1>
                         <div>
                             <input id="email" placeholder="Cédula"
                                    class="form-control @error('email') is-invalid @enderror" name="email"
@@ -26,7 +26,7 @@
                         <br>
                         <div>
                             <button type="submit" class="btn btn-primary">
-                                Solicitar Cambio de Contrasena
+                                Solicitar Cambio de Contraseña
                             </button>
                             <a href="{{route('login')}}" class="btn btn-outline-info">Inicio</a>
                         </div>

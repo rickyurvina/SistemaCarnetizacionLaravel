@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*ver consultas en cada pagina del sistema*/
-//DB::listen(function ($query){
-//    echo "<pre>{$query->sql}</pre>";
-//});
 App::setlocale('es');
 Auth::routes();
 route::get('/', 'HomeController@index')->name('home');
@@ -27,9 +23,7 @@ route::resource('/user', 'UserController')->names('user');
 route::resource('/roles', 'RoleController')->names('role');
 route::resource('/solicitadas', 'SolicitadasController')->names('solicitadas');
 route::resource('/aprobadas', 'AprobadasController')->names('aprobadas');
-
-/*Rutas varias para funciones aisladas
- * */
+/*Rutas Auxiliares*/
 route::get('/pr', 'ServicesController@solicitadas')->name('soli');
 route::get('/profile', 'ServicesController@profile')->name('profile');
 route::get('/solicitud', 'ServicesController@solicitudImpresion')->name('solicitud');

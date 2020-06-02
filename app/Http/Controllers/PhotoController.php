@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PhotoRequest;
 use App\Models\Person;
 use App\Models\Photo;
+use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Throwable;
 
@@ -20,17 +21,28 @@ class PhotoController extends Controller
         $this->middleware('auth');
         $this->middleware('roles:admin,usuario');
     }
+
     public function index()
     {
         try {
-            $person = Person::Order()->Id(request('people_id'))->get('id');
-            foreach ($person as $per) {
-                $person_id = $per->id;
+            if (auth()->user()->isAdmin()) {
+                if (!empty(request('people_id'))) {
+                    $person = Person::Order()->Id(request('people_id'))->get('id');
+                    foreach ($person as $per) {
+                        $person_id = $per->id;
+                    }
+                    $photos = Photo::WithPer()->Id($person_id)->paginate(count(Person::get()));
+                } else {
+                    $photos = Photo::WithPer()->paginate(5);
+                }
+            } else {
+                return back();
             }
-            $photos = Photo::WithPer()->Id($person_id)->paginate(5);
+
             return view('identification.photos.index', compact('photos'));
+
         } catch (Throwable $e) {
-            return back()->with('error', 'Error: ' . $e->getCode() . ' No se encontró la solicitud');
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -59,7 +71,7 @@ class PhotoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(PhotoRequest $request)
@@ -97,7 +109,7 @@ class PhotoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Photo  $photo
+     * @param \App\Photo $photo
      * @return \Illuminate\Http\Response
      */
     public function show(Photo $photo)
@@ -122,7 +134,7 @@ class PhotoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Photo  $photo
+     * @param \App\Photo $photo
      * @return \Illuminate\Http\Response
      */
     public function edit(Photo $photo)
@@ -148,8 +160,8 @@ class PhotoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Photo  $photo
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Photo $photo
      * @return \Illuminate\Http\Response
      */
     public function update(PhotoRequest $request, Photo $photo)
@@ -187,7 +199,7 @@ class PhotoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Photo  $photo
+     * @param \App\Photo $photo
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

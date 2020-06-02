@@ -22,7 +22,7 @@ class Picture extends Model
     public function scopeId($query, $stu_id)
     {
         if ($stu_id)
-            return $query->where('student_id', $stu_id);
+            return $query->where('student_id', 'LIKE',"%$stu_id%");
     }
 
     public function scopeWithStudent($query, $student_id)
