@@ -25,6 +25,7 @@ class StudentController extends Controller
         $this->middleware('auth', ['except' => ['byInstitution', 'byStudent']]);
         $this->middleware('roles:admin,estudiante,representanteEducativa', ['except' => ['byInstitution', 'byStudent']]);
     }
+
     public function byInstitution($id)
     {
         try {
@@ -33,6 +34,7 @@ class StudentController extends Controller
             return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
+
     public function byStudent($id)
     {
         try {
@@ -41,6 +43,7 @@ class StudentController extends Controller
             return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
+
     public function index()
     {
         try {
@@ -49,7 +52,7 @@ class StudentController extends Controller
             if (auth()->user()->isAdmin()) {
                 $key = "students.page." . request('page', 1) . request('EST_CEDULA', null) . request('institution_id');;
                 $students = Cache::remember($key, 180, function () {
-                    return  Student::withInsCur()
+                    return Student::withInsCur()
                         ->OrderApellidos()->InstitutionId(request('institution_id'))->Id(request('EST_CEDULA'))->paginate(15);
                 });
             } elseif (auth()->user()->hasRoles(['representanteEducativa'])) {
@@ -96,7 +99,7 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StudentRequest $request)
@@ -111,70 +114,95 @@ class StudentController extends Controller
             return back()->with('error', 'Error: ' . $e->getCode() . ' Constraint violation. Registro Cédula: ' . $request->EST_CEDULA . ' o Correo Electronico: ' . $request->EST_CORREO . 'ya existen en la base de datos');
         }
     }
+
     /**
      * Display the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function carnet(Student $student)
     {
-        $fondos=Background::where('institution_id',$student->institution_id)->get();
-        $logos=Logo::where('institution_id',$student->institution_id)->get();
-        $pictures=Picture::where('student_id',$student->id)->get();
-
-        foreach ($logos as $logo) {
-            $img_logo=$logo->LOG_NOMBRE;
-        }
-
+        $fondos = Background::where('institution_id', $student->institution_id)->get();
+        $pictures = Picture::where('student_id', $student->id)->get();
+        $institutions = Institution::where('id', $student->institution_id)->get();
+        $courses = Course::where('institution_id', $student->institution_id)->get();
         $pdf = app('Fpdf');
-// Aqui empiezo armar el pdf con fpdf entonces agregamos la pagina y los fondos del carnet.
-        $pdf->AddPage();
+        $pdf->SetMargins(1, 0, 0);
+        $pdf->SetAutoPageBreak(true, 1);
+        $pdf->AddPage('L', array(87, 55));
+        $pdf->SetTextColor(0, 0, 0);
         $pdf->SetFont('Arial');
-// Fondos y Logos
         foreach ($fondos as $fondo) {
-            $img_fondo=$fondo->FON_NOMBRE;
-            $pdf->Image('images/BackgroundsPhotos/'.$img_fondo, 20, 30, 100, 80);
         }
-//               $pdf->Image('images/LogosPhotos/'.$img_logo, 23, 32, 40, 17);
-// Foto del estudiante
+        $pdf->Image('images/BackgroundsPhotos/' . $fondo->FON_NOMBRE, 0, 0.2, 87, 55);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->SetFont('Arial', '', 3);
         foreach ($pictures as $picture) {
-            $img_foto=$picture->nombre;
-            $pdf->Image('images/StudentsPhotos/'.$img_foto, 23 ,50, 27 , 30);
         }
-        // Aca el resto de los datos que necesitamos en el pdf los cuales ya nos hemos traido de la bd.
-        $pdf->Ln(32);
-        $pdf->SetFont('Arial','B',6);
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Nombre:'),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode($student->EST_NOMBRES.' '.$student->EST_APELLIDOS),0,1,'L');
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Identificacion: '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode($student->EST_CEDULA),0,1,'L');
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Fecha Nacimiento: '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode($student->EST_FECHANACIMIENTO),0,1,'L');
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Tipo Sangre: '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode($student->EST_TIPOSANGRE),0,1,'L');
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Curso: '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode('Curso del estudiante'),0,1,'L');
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Celular: '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode($student->EST_CELULAR),0,1,'L');
-        $pdf->SetX(55); // Set 20 Eje Y
-        $pdf->Cell(19,4, utf8_decode('Email: '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode($student->EST_CORREO),0,1,'L');
-        $pdf->Ln(5);
-        $pdf->SetX(22); // Set 20 Eje Y
-        $pdf->Cell(55,4, utf8_decode('F. Emisión: 10/01/2018 '),0,0,'L');
-        $pdf->Cell(66,4, utf8_decode('F. Vencimiento: 31/12/2018'),0,1,'L');
-        $name='Carnet-Nro00';
-//                $pdf->Output();
-        //y aqui generamos el carnet.
-        $pdf->Output('I',$name,true);
+        $pdf->Image('images/StudentsPhotos/' . $picture->nombre, 62, 20, 20, 23.8);
+        $pdf->SetY(16);
+        $pdf->SetFont('Arial', '', 5);
+        $pdf->SetX(2.5); // Set $pdf->SetFont('Arial','B',7);20 Eje Y
+        $pdf->Cell(15, 5, utf8_decode('Nombre:'), 0, 0, 'L');
+        $pdf->SetFont('Arial', 'B', 6);
+        $pdf->Cell(10, 5, strtoupper($student->EST_NOMBRES . ' ' . $student->EST_APELLIDOS), 0, 1, 'L');
+        /*CURSO Y PARALELO */
+        $pdf->SetX(2.5); // Set 20 Eje Yç
+        $pdf->SetFont('Arial', '', 5);
+        $pdf->Cell(15, 5, utf8_decode('Año lectivo: '), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(10, 5, '2019-2020', 0, 1, 'L');
+        $pdf->SetX(2.5); // Set 20 Eje Y
+        $pdf->SetFont('Arial', '', 5);
+        $pdf->Cell(15, 5, utf8_decode('Nivel: '), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 7);
+        foreach ($courses as $course) {
+        }
+        $pdf->Cell(10, 5, utf8_decode($course->CUR_NOMBRE . ' ' . $course->CUR_PARALELO), 0, 1, 'L');
+        $pdf->SetX(2.5); // Set 20 Eje Y
+        $pdf->Cell(15, 1, utf8_decode(' '), 0, 1, 'L');
+        $pdf->SetX(2.5); // Set 20 Eje Y
+        $pdf->SetFont('Arial', '', 5);
+        $pdf->Cell(15, 1, utf8_decode('Fecha '), 0, 1, 'L');
+        $pdf->SetX(2.5); // Set 20 Eje Y
+        $pdf->Cell(15, 5, utf8_decode('Nacimiento '), 0, 0, 'L');
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+        $fecha = strftime("%d de %B de %Y", strtotime($student->EST_FECHANACIMIENTO));
+        $pdf->Cell(10, 5, utf8_decode($fecha), 0, 1, 'L');
+        $pdf->SetX(2.5); // Set 20 Eje Y
+        $pdf->Cell(15, 1, utf8_decode(' '), 0, 1, 'L');
+        $pdf->SetX(2.5); // Set 20 Eje Y
+        $pdf->SetFont('Arial', '', 5);
+        $pdf->Cell(15, 5, utf8_decode('Tipo Sangre: '), 0, 0, 'L');
+        $pdf->SetFont('Arial', '', 7);
+        $pdf->Cell(10, 5, utf8_decode($student->EST_TIPOSANGRE), 0, 1, 'L');
+        $pdf->SetFont('Arial', '', 3);
+        $pdf->SetXY(19, 51); // Set 20 Eje Y
+        $pdf->Cell(28, 3, utf8_decode('Este carnet es de uso personal e instransferible, podrá ser utilizado únicamente por su titular'), 0, 0, 'L');
+        /*carnet posterior*/
+        $pdf->AddPage('L', array(87, 55));
+        $pdf->SetFont('Arial');
+        $pdf->Image('images/BackgroundsPhotos/' . $fondo->FON_NOMBRE2, 0, 0.2, 87, 55);
+        $pdf->SetX(1); // Set $pdf->SetFont('Arial','B',7);20 Eje Y
+        $pdf->SetY(13); // Set $pdf->SetFont('Arial','B',7);20 Eje Y
+        $pdf->SetFont('Arial','B',9);
+        $pdf->Cell(87,5, utf8_decode('MISIÓN'),0,1,'C');
+        $pdf->SetFont('Arial','',6);
+        foreach ($institutions as $institution) {
+        }
+        $pdf->MultiCell(87,3, utf8_decode($institution->INS_MISION),0,'C');
+        $pdf->SetY(27.5); // Set $pdf->SetFont('Arial','B',7);20 Eje Y
+        $pdf->SetFont('Arial','B',9);
+        $pdf->Cell(87,5, utf8_decode('VISIÓN'),0,1,'C');
+        $pdf->SetFont('Arial','',6);
+        $pdf->MultiCell(87,3, utf8_decode($institution->INS_VISION),0,'C');
+        $pdf->SetX(1); // Set 20 Eje Yç
+        $name = 'Carnet-';
+        $pdf->Output('I', $name, true);
     }
+
     public function show(Student $student)
     {
         //
@@ -198,7 +226,7 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -222,11 +250,12 @@ class StudentController extends Controller
             return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Student  $student
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function update(StudentRequest $request, $id)
@@ -261,7 +290,7 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Student  $student
+     * @param \App\Student $student
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

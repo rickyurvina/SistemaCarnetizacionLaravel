@@ -29,6 +29,8 @@ route::get('/profile', 'ServicesController@profile')->name('profile');
 route::get('/solicitud', 'ServicesController@solicitudImpresion')->name('solicitud');
 route::get('/mail', 'ServicesController@mail')->name('mail');
 route::get('/print/{student}','StudentController@carnet')->name('print');
+route::get('/print_person/{person}','PersonController@carnet')->name('print_person');
+
 //Route::get('/print', function (Codedge\Fpdf\Fpdf\Fpdf $fpdf) {
 //
 //    $fpdf->AddPage();

@@ -29,7 +29,7 @@ class AprobadasController extends Controller
             $institutions = Institution::OrderCreate()->get();
             $aprobadas = Cache::remember($key, 180, function () {
                 $institution_id = request('institution_id');
-                return Aprobadas::WithSoliIns()->OrderWhere($institution_id)->paginate(2);
+                return Aprobadas::WithSoliIns()->OrderWhere($institution_id)->paginate(15);
             });
             return view('identification.approved.index', compact('aprobadas', 'institutions'))
                 ->with('error', 'No se encuentran registros');
