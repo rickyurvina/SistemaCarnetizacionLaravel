@@ -9,6 +9,7 @@ use App\Models\Picture;
 use App\Models\Solicitadas;
 use App\Models\Student;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Illuminate\Http\Request;
 
@@ -163,6 +164,14 @@ class ServicesController extends Controller
 
     public function carnet()
     {
-        return view('identification.print.carnet');
+        $nombre=
+        $pdf = app('Fpdf');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'Hello World!');
+        $pdf->Output();
+        exit();
+
+
     }
 }

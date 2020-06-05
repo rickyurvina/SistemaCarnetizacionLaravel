@@ -28,4 +28,12 @@ route::get('/pr', 'ServicesController@solicitadas')->name('soli');
 route::get('/profile', 'ServicesController@profile')->name('profile');
 route::get('/solicitud', 'ServicesController@solicitudImpresion')->name('solicitud');
 route::get('/mail', 'ServicesController@mail')->name('mail');
-route::get('/print','ServicesController@carnet')->name('print');
+route::get('/print/{student}','StudentController@carnet')->name('print');
+//Route::get('/print', function (Codedge\Fpdf\Fpdf\Fpdf $fpdf) {
+//
+//    $fpdf->AddPage();
+//    $fpdf->SetFont('Courier', 'B', 18);
+//    $fpdf->Cell(50, 25, 'Hello World!');
+//    $fpdf->Output();
+//
+//});
