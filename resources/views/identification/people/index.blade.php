@@ -87,7 +87,7 @@
                                 <td>
                                     <div class="btn-group btn-group-sm">
                                         @if(auth()->user()->isAdmin())
-                                            <a href="#"
+                                            <a href="{{route('print_person',$person)}}"
                                                class="btn btn-outline-success btn-xs">
                                                 <i class="fa fa-print"></i>
                                                 {{__('View Carnet')}}

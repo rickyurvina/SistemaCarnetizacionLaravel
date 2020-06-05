@@ -44,6 +44,7 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         @forelse($solicitadas as $solicitada)
                             <tr>
                                 <td>
@@ -63,11 +64,11 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="#"
-                                           class="btn btn-outline-success btn-xs">
-                                            <i class="fa fa-print"></i>
-                                            {{__('View Carnet')}}
-                                        </a>
+{{--                                        <a href="#"--}}
+{{--                                           class="btn btn-outline-success btn-xs">--}}
+{{--                                            <i class="fa fa-print"></i>--}}
+{{--                                            {{__('View Carnet')}}--}}
+{{--                                        </a>--}}
                                         <a href="{{route('solicitadas.edit',$solicitada)}}"
                                            class="btn btn-primary btn-xs">
                                             <i class="fa fa-print"></i>

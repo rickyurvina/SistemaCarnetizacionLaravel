@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aprobadas;
 use App\Models\Institution;
 use App\Models\Solicitadas;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Throwable;
 

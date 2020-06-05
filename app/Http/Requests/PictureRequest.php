@@ -26,7 +26,7 @@ class PictureRequest extends FormRequest
         return [
             //
             'nombre' => 'nullable',
-            'student_id' => 'required|unique:pictures,student_id,' . $this->route('picture'),
+            'student_id' => 'required'
         ];
     }
 }
