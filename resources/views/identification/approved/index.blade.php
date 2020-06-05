@@ -8,7 +8,9 @@
             <div class="title_right">
                 <div class="col-md-5 col-sm-5   form-group pull-right top_search">
                     {{Form::open(['route'=>'aprobadas.index','method'=>'GET'])}}
+
                     <div class="input-group">
+
                         <select class="custom-select custom-select-sm"
                                 name="institution_id"
                                 id="institution_id">
