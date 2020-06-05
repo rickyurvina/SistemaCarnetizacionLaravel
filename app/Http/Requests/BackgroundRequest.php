@@ -25,9 +25,9 @@ class BackgroundRequest extends FormRequest
     {
         return [
             //
-            'FON_NOMBRE'=>'nullable',
-            'FON_NOMBRE2'=>'nullable',
-            'institution_id'=>'required|unique:backgrounds,institution_id,'.$this->route('background'),
-            ];
+            'FON_NOMBRE' => 'nullable',
+            'FON_NOMBRE2' => 'nullable',
+            'institution_id' => 'required|unique:backgrounds,institution_id,' . $this->route('background'),
+        ];
     }
 }

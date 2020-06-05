@@ -18,26 +18,30 @@ class UserPolicy
     {
         //
     }
-    public function before($user,$ability)
+
+    public function before($user, $ability)
     {
-        if ($user->isAdmin())
-        {
+        if ($user->isAdmin()) {
             return true;
         }
     }
-    public function edit(User $authUser,User $user)
+
+    public function edit(User $authUser, User $user)
     {
         return $authUser->id == $user->id;
     }
-    public function update(User $authUser,User $user)
+
+    public function update(User $authUser, User $user)
     {
         return $authUser->id == $user->id;
     }
-    public function destroy(User $authUser,User $user)
+
+    public function destroy(User $authUser, User $user)
     {
         return $authUser->id == $user->id;
     }
-    public function show(User $authUser,User $user)
+
+    public function show(User $authUser, User $user)
     {
         return $authUser->id == $user->id;
     }

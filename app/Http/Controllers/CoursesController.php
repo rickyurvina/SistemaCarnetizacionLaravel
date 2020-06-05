@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\CourseMessageRequest;
 use App\Models\Course;
 use App\Models\Institution;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Throwable;
 
 class CoursesController extends Controller
@@ -18,8 +18,8 @@ class CoursesController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth',['except'=>'byInstitution']);
-        $this->middleware('roles:admin,representanteEducativa',['except'=>'byInstitution']);
+        $this->middleware('auth', ['except' => 'byInstitution']);
+        $this->middleware('roles:admin,representanteEducativa', ['except' => 'byInstitution']);
     }
     /**
      * Funcion para cargar los cursos en el select de
@@ -27,48 +27,32 @@ class CoursesController extends Controller
      */
     public function byInstitution($id)
     {
-        try{
+        try {
             return Course::CourseIns($id)->get();
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
-    public function index(Request $request)
+    public function index()
     {
-        try{
-            $type='Institución Educativa';
-            $institution_id=$request->get('institution_id');
-            $institutions=Institution::OrderCreate()->Type($type)->get();
-            $cedula=auth()->user()->cedula;
-
-            if (auth()->user()->isAdmin())
-            {
-                if (!empty($institution_id))
-                {
-                    $courses_count=Course::Order()->CourseIns($institution_id)->get();
-                    $courses=Course::Order()->CourseIns($institution_id)->paginate(count($courses_count));
-                }
-                else{
-                    $courses=Course::Order()->paginate(15);
-                }
-            }elseif(auth()->user()->hasRoles(['representanteEducativa']))
-            {
-                $student=Student::Id($cedula)->get('institution_id');
+        try {
+            $type = 'Institución Educativa';
+            $institutions = Institution::OrderCreate()->Type($type)->get();
+            if (auth()->user()->isAdmin()) {
+                $courses = Course::with('institution')->Order()->CourseIns(request('institution_id'))->paginate(4);
+            } elseif (auth()->user()->hasRoles(['representanteEducativa'])) {
+                $student = Student::Id(auth()->user()->cedula)->get('institution_id');
                 foreach ($student as $stu) {
-                    $ins_id=$stu->institution_id;
+                    $ins_id = $stu->institution_id;
                 }
-                $courses=Course::with('institution')->where('institution_id',$ins_id)->paginate(15);
-            }else{
+                $courses = Course::with('institution')->where('institution_id', $ins_id)->paginate(15);
+            } else {
                 return back();
             }
-
-            return view('identification.courses.index', compact('courses','institutions'))
-                ->with('error','No se encontro esa institutcion');
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return view('identification.courses.index', compact('courses', 'institutions'))
+                ->with('error', 'No se encontro esa institutcion');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -78,16 +62,15 @@ class CoursesController extends Controller
      */
     public function create()
     {
-        try{
-            $type='Institución Educativa';
-            $institutions=Institution::OrderCreate()->Type($type)->get();
-            return view('identification.courses.create',[
-                'course'=>new Course,
-                'institution'=>$institutions
+        try {
+            $type = 'Institución Educativa';
+            $institutions = Institution::OrderCreate()->Type($type)->get();
+            return view('identification.courses.create', [
+                'course' => new Course,
+                'institution' => $institutions
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -98,12 +81,11 @@ class CoursesController extends Controller
      */
     public function store(CourseMessageRequest $request)
     {
-        try{
+        try {
             Course::create($request->validated());
-            return redirect()->route('course.index')->with('success','Curso registrado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('course.index')->with('success', 'Curso registrado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -114,15 +96,14 @@ class CoursesController extends Controller
      */
     public function show(Course $course)
     {
-        try{
-             $students=Student::withCourseOrder($course->id)->get();
-            return view('identification.courses.show',[
-                'course'=>$course,
-                'students'=>$students
+        try {
+            $students = Student::withCourseOrder($course->id)->get();
+            return view('identification.courses.show', [
+                'course' => $course,
+                'students' => $students
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -133,16 +114,15 @@ class CoursesController extends Controller
      */
     public function edit(Course $course)
     {
-        try{
-            $type='Institución Educativa';
-            $institutions=Institution::OrderCreate()->Type($type)->get();
-            return view('identification.courses.edit',[
-                'course'=>$course,
-                'institution'=>$institutions,
+        try {
+            $type = 'Institución Educativa';
+            $institutions = Institution::OrderCreate()->Type($type)->get();
+            return view('identification.courses.edit', [
+                'course' => $course,
+                'institution' => $institutions,
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -154,13 +134,12 @@ class CoursesController extends Controller
      */
     public function update(CourseMessageRequest $request, $id)
     {
-        try{
-            $course=Course::findOrFail($id);
-            $course->update( $request->validated() );
-            return redirect()->route('course.show',$course)->with('success','Curso actualizado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $course = Course::findOrFail($id);
+            $course->update($request->validated());
+            return redirect()->route('course.show', $course)->with('success', 'Curso actualizado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -173,12 +152,11 @@ class CoursesController extends Controller
     public function destroy($id)
     {
         //
-        try{
+        try {
             Course::findOrFail($id)->delete();
-            return redirect()->route('course.index')->with('delete','Curso eliminado exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('course.index')->with('delete', 'Curso eliminado exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

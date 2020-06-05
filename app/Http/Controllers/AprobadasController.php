@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aprobadas;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class AprobadasController extends Controller
@@ -20,27 +21,20 @@ class AprobadasController extends Controller
         $this->middleware('roles:admin');
     }
 
-    public function index(Request $request)
+    public function index()
     {
         //
-        try{
-            $institution_id=$request->get('institution_id');
-            $institutions=Institution::OrderCreate()->get();
-            if (!empty($institution_id))
-            {
-                $aprobadas_count=Aprobadas::with(['solicitadas','institution'])->OrderWhere($institution_id)->get();
-                $count=count($aprobadas_count);
-                $aprobadas=Aprobadas::with(['solicitadas','institution'])->OrderWhere($institution_id)->paginate(count($aprobadas_count));
-                return view('identification.approved.index',compact('aprobadas','institutions','count'))
-                    ->with('error' ,'No se encuentran registros');
-            }else{
-                $aprobadas=Aprobadas::Order()->paginate(10);
-                return view('identification.approved.index',compact('aprobadas','institutions'))
-                    ->with('error' ,'No se encuentran registros');
-            }
-
-        }catch(Throwable $e){
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $key = "solicitadas.page." . request('page', 1) . request('institution_id', null);
+            $institutions = Institution::OrderCreate()->get();
+            $aprobadas = Cache::remember($key, 180, function () {
+                $institution_id = request('institution_id');
+                return Aprobadas::WithSoliIns()->OrderWhere($institution_id)->paginate(2);
+            });
+            return view('identification.approved.index', compact('aprobadas', 'institutions'))
+                ->with('error', 'No se encuentran registros');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 

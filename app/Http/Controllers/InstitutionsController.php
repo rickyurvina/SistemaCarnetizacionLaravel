@@ -7,7 +7,7 @@ use App\Models\Background;
 use App\Models\Institution;
 use App;
 use App\Models\Logo;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 class InstitutionsController extends Controller
@@ -21,26 +21,21 @@ class InstitutionsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('roles:admin');
-
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        try{
-            $INS_NOMBRE=$request->get('INS_NOMBRE');
-            $type=$request->get('institution_id');
-            if (!empty($type))
-            {
-                $institutions_count=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->get();
-                $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->Type($type)->paginate(count($institutions_count));
-            }else{
-                $institutions=Institution::OrderCreate()->Name($INS_NOMBRE)->paginate(15);
-            }
-            return view('identification.institutions.index',compact('institutions'));
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $key = "institutions.page." . request('page', 1) . request('institution_id', null) . request('INS_NOMBRE', null);
+            $institutions = Cache::remember($key, 180, function () {
+                $INS_NOMBRE = request('INS_NOMBRE');
+                $type = request('institution_id');
+                return Institution::OrderCreate()
+                    ->Name($INS_NOMBRE)->Type($type)->paginate(5);
+            });
+            return view('identification.institutions.index', compact('institutions'));
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -50,13 +45,12 @@ class InstitutionsController extends Controller
      */
     public function create()
     {
-        try{
-            return view('identification.institutions.create',[
-                'institution'=>new Institution
+        try {
+            return view('identification.institutions.create', [
+                'institution' => new Institution
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -67,13 +61,12 @@ class InstitutionsController extends Controller
      */
     public function store(InstitutionMesageRequest $request)
     {
-        try{
+        try {
             Institution::create($request->validated());
-            return redirect()->route('institution.index')->with('success','Institución registrada exitosamente');
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            Cache::flush();
+            return redirect()->route('institution.index')->with('success', 'Institución registrada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -85,20 +78,21 @@ class InstitutionsController extends Controller
 
     public function show(Institution $institution)
     {
-        try{
-            $institution_id=$institution->id;
-            $logo=Logo::WithInstitutionLogo($institution_id);
-            $background=Background::WithInstitutionBack($institution_id);
-            $courses=Institution::WithCourse()->CourseID($institution->id);
-            return view('identification.institutions.show',[
-                'institution'=>$institution,
-                'courses'=>$courses,
-                'logos'=>$logo,
-                'backgrounds'=>$background
+        try {
+            $institution_id = $institution->id;
+            $logo = Logo::WithInstitutionLogo($institution_id);
+            $background = Background::WithInstitutionBack($institution_id);
+            $courses = Cache::remember("institution.{$institution_id}", 180, function () use ($institution_id) {
+                return Institution::WithCourse()->CourseID($institution_id);
+            });
+            return view('identification.institutions.show', [
+                'institution' => $institution,
+                'courses' => $courses,
+                'logos' => $logo,
+                'backgrounds' => $background
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -107,16 +101,17 @@ class InstitutionsController extends Controller
      * @param  \App\Institution  $institution
      * @return \Illuminate\Http\Response
      */
-    public function edit(Institution $institution)
+    public function edit($id)
     {
-        try{
-            return view('identification.institutions.edit',[
-                'institution'=>$institution
+        try {
+            $institution = Cache::remember("institutions.{$id}", 180, function () use ($id) {
+                return Institution::findOrFail($id);
+            });
+            return view('identification.institutions.edit', [
+                'institution' => $institution
             ]);
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -128,16 +123,15 @@ class InstitutionsController extends Controller
      */
     public function update(InstitutionMesageRequest $request, $id)
     {
-        try{
-            $institution=Institution::findOrFail($id);
-            $institution->update( $request->validated() );
+        try {
+            $institution = Institution::findOrFail($id);
+            $institution->update($request->validated());
+            Cache::flush();
             return redirect()
-                ->route('institution.show',$institution)
-                ->with('success','Institución actualizada exitosamente');
-
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+                ->route('institution.show', $institution)
+                ->with('success', 'Institución actualizada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -148,12 +142,12 @@ class InstitutionsController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        try {
             Institution::findOrFail($id)->delete();
+            Cache::flush();
             return redirect()->route('institution.index')->with('delete', 'Institución eliminada exitosamente');
-        }catch(\Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
-   }
+    }
 }

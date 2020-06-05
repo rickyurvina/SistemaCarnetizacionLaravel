@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Area;
 use App\Http\Requests\AreaRequest;
-use Illuminate\Http\Request;
 use Throwable;
 
 class AreaController extends Controller
@@ -20,16 +19,14 @@ class AreaController extends Controller
         $this->middleware('roles:admin');
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        try{
-            $ARE_NOMBRE=$request->get('ARE_NOMBRE');
-            $areas=Area::Order()->name($ARE_NOMBRE)->paginate(6);
-            return view('identification.areas.index',compact('areas'));
+        try {
 
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode());
+            $areas = Area::Order()->name(request('ARE_NOMBRE'))->paginate(10);
+            return view('identification.areas.index', compact('areas'));
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode());
         }
     }
 
@@ -40,13 +37,12 @@ class AreaController extends Controller
      */
     public function create()
     {
-        try{
-            return view('identification.areas.create',[
-                'area'=>new Area
+        try {
+            return view('identification.areas.create', [
+                'area' => new Area
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode());
         }
     }
 
@@ -58,12 +54,11 @@ class AreaController extends Controller
      */
     public function store(AreaRequest $request)
     {
-        try{
+        try {
             Area::create($request->validated());
-            return redirect()->route('area.index')->with('success','Area registrada exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('area.index')->with('success', 'Area registrada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
     /**
@@ -74,13 +69,12 @@ class AreaController extends Controller
      */
     public function show(Area $area)
     {
-        try{
-            return view('identification.areas.show',[
-                'area'=>$area
+        try {
+            return view('identification.areas.show', [
+                'area' => $area
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -92,13 +86,12 @@ class AreaController extends Controller
      */
     public function edit(Area $area)
     {
-        try{
-            return view('identification.areas.edit',[
-                'area'=>$area
+        try {
+            return view('identification.areas.edit', [
+                'area' => $area
             ]);
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -111,13 +104,12 @@ class AreaController extends Controller
      */
     public function update(AreaRequest $request, $id)
     {
-        try{
-            $area=Area::findOrFail($id);
-            $area->update( $request->validated() );
-            return redirect()->route('area.show',$area)->with('success','Area actualizada exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+        try {
+            $area = Area::findOrFail($id);
+            $area->update($request->validated());
+            return redirect()->route('area.show', $area)->with('success', 'Area actualizada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 
@@ -129,12 +121,11 @@ class AreaController extends Controller
      */
     public function destroy($id)
     {
-        try{
+        try {
             Area::findOrFail($id)->delete();
-            return redirect()->route('area.index')->with('delete','Area eliminada exitosamente');
-        }catch(Throwable $e)
-        {
-            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
+            return redirect()->route('area.index')->with('delete', 'Area eliminada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
         }
     }
 }

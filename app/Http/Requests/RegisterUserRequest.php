@@ -26,10 +26,10 @@ class RegisterUserRequest extends FormRequest
         return [
             //
             'name' => ['required', 'string', 'max:255'],
-            'cedula'=>['required','integer','min:10','unique:users,cedula'],
+            'cedula' => ['required', 'integer', 'min:10', 'unique:users,cedula'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'roles'=>'required'
+            'roles' => 'required'
         ];
     }
 }

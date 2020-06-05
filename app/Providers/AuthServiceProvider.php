@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Providers;
+
 use App\Models\Person;
+use App\Models\Photo;
 use App\Models\Picture;
 use App\Models\Student;
 use App\Policies\PhotoPolicy;
@@ -21,10 +23,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         User::class => UserPolicy::class,
-        Student::class =>StudentPolicy::class,
-        Picture::class=>PicturePolicy::class,
-        Person::class=>UsuarioPolicy::class,
-        Photo::class=>PhotoPolicy::class
+        Student::class => StudentPolicy::class,
+        Picture::class => PicturePolicy::class,
+        Person::class => UsuarioPolicy::class,
+        Photo::class => PhotoPolicy::class
     ];
 
     /**

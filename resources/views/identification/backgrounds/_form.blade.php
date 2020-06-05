@@ -50,21 +50,21 @@
             {{__('Institution')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6"
-                    name="institution_id" id="institution_id" required>
-                <option selected></option>
-                @foreach($institution as $ins)
-                    @if(old('institution', $background->institution_id)==$ins->id)
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6"
+                name="institution_id" id="institution_id" required>
+            <option selected></option>
+            @foreach($institution as $ins)
+                @if(old('institution', $background->institution_id)==$ins->id)
                     <option id="ins" value="{{$ins->id}}" selected>
                         {{$ins->INS_NOMBRE}}
                     </option>
-                        @else
-                        <option value="{{$ins->id}}">
-                            {{$ins->INS_NOMBRE}}
-                        </option>
-                    @endif
-                @endforeach
-            </select>
+                @else
+                    <option value="{{$ins->id}}">
+                        {{$ins->INS_NOMBRE}}
+                    </option>
+                @endif
+            @endforeach
+        </select>
         {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
     </div>
     <div class="ln_solid"></div>

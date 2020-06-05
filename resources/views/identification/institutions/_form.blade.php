@@ -56,7 +56,7 @@
     </div>
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">
-           {{__('CellPhone')}}
+            {{__('CellPhone')}}
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
@@ -77,22 +77,22 @@
             <span class="required">*</span>
         </label>
         <div class="col-md-6 col-sm-6 ">
-                        <p>
-                            {{__('Institution Educative')}}:
-                            <input
-                                type="radio" class="radio-inline"
-                                name="INS_TIPO" id="INS_TIPO"
-                                value="{{__('Institution Educative')}}"
-                                required
-                                {{ old('INS_TIPO', $institution->INS_TIPO) == 'Institución Educativa' ? 'checked' : '' }}
-                            />
-                            {{__('Organisation')}}:
-                            <input type="radio" class="radio-inline"
-                                   name="INS_TIPO" id="INS_TIPO"
-                                   value="{{__('Organisation')}}"
-                                {{ old('INS_TIPO', $institution->INS_TIPO) == 'Organización' ? 'checked' : '' }}
-                            />
-                        </p>
+            <p>
+                {{__('Institution Educative')}}:
+                <input
+                    type="radio" class="radio-inline"
+                    name="INS_TIPO" id="INS_TIPO"
+                    value="{{__('Institution Educative')}}"
+                    required
+                    {{ old('INS_TIPO', $institution->INS_TIPO) == 'Institución Educativa' ? 'checked' : '' }}
+                />
+                {{__('Organisation')}}:
+                <input type="radio" class="radio-inline"
+                       name="INS_TIPO" id="INS_TIPO"
+                       value="{{__('Organisation')}}"
+                    {{ old('INS_TIPO', $institution->INS_TIPO) == 'Organización' ? 'checked' : '' }}
+                />
+            </p>
             <span class="fa fa-check form-control-feedback right"
                   aria-hidden="true"></span>
             {!! $errors->first('INS_TIPO','<small class="alert-error">:message</small>')!!}

@@ -26,8 +26,8 @@ class PhotoRequest extends FormRequest
 //        dd($this->route('people_id'));
         return [
             //
-            'nombre'=>'nullable',
-            'people_id'=>'required'
+            'nombre' => 'nullable',
+            'people_id' => 'required'
         ];
     }
 }

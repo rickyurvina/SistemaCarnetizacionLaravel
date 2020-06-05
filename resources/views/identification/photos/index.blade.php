@@ -3,27 +3,27 @@
 @section('content')
     <!-- page content -->
     @include('identification.layouts.top-content',['routeText'=>'photo.create','btnText'=>'Crear','textTitle'=>'Fotos Usuarios Organizaciones'])
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="title_right">
-                    <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
 
-                        {{Form::open(['route'=>'photo.index','method'=>'GET'])}}
-                        <div class="input-group">
-                            @if(auth()->user()->hasRoles(['admin']))
+                    {{Form::open(['route'=>'photo.index','method'=>'GET'])}}
+                    <div class="input-group">
+                        @if(auth()->user()->hasRoles(['admin']))
                             {{Form::text('people_id', null,['class'=>'form-control','placeholder'=>'Cedula del usuario'])}}
-                    <span class="input-group-btn">
+                            <span class="input-group-btn">
                           <button
                               type="submit"
-                              class="btn btn-xs" >{{__('Search')}}
+                              class="btn btn-xs">{{__('Search')}}
                           </button>
                     </span>
-                            @endif()
+                        @endif()
                     </div>
                 </div>
                 <div class="card-box table-responsive">
                     <p>{{__('List of Photos')}}
-                   {{$photos->fragment('foo')->links()}}</p>
+                        {{$photos->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
@@ -39,7 +39,7 @@
                             <tr>
                                 <td>
                                     <img width="100px" src="{{asset('images/PeoplePhotos/'.$photo->nombre)}}">
-                                    <br />
+                                    <br/>
                                     <small>
                                         {{__('Created_at')}} {{$photo->created_at->format('d/m/Y')}}
                                     </small>
@@ -52,43 +52,43 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                <a href="{{route('photo.show',$photo)}}"
-                                   class="btn btn-primary btn-xs">
-                                    <i class="fa fa-search"></i>
-                                    {{__('View')}}
-                                </a>
-                                <a href="{{route('photo.edit',$photo)}}"
-                                   class="btn btn-info btn-xs">
-                                    <i class="fa fa-pencil"></i>
-                                    {{__('Edit')}}
-                                    {{Form::close()}}
-                                </a>
+                                        <a href="{{route('photo.show',$photo)}}"
+                                           class="btn btn-primary btn-xs">
+                                            <i class="fa fa-search"></i>
+                                            {{__('View')}}
+                                        </a>
+                                        <a href="{{route('photo.edit',$photo)}}"
+                                           class="btn btn-info btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                            {{__('Edit')}}
+                                            {{Form::close()}}
+                                        </a>
                                         @if(auth()->user()->hasRoles(['admin']))
-                                    <form action="{{route('photo.destroy',$photo->id)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fa fa-trash-o"></i>
-                                            {{__('Delete')}}
-                                        </button>
-                                    </form>
+                                            <form action="{{route('photo.destroy',$photo->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    {{__('Delete')}}
+                                                </button>
+                                            </form>
                                         @endif()
                                     </div>
                                 </td>
                             </tr>
                         @empty
-                          <h1>{{__('There are no registered photos')}}</h1>
+                            <h1>{{__('There are no registered photos')}}</h1>
                         @endforelse
                         </tbody>
                     </table>
-            </div>
+                </div>
             </div>
         </div>
         <!-- end project list -->
-{{--    </div>--}}
-</div>
-</div>
-</div>
+        {{--    </div>--}}
+    </div>
+    </div>
+    </div>
     <!-- /page content -->
 @endsection
 

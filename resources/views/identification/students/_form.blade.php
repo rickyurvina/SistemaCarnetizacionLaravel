@@ -137,186 +137,186 @@
         </div>
     </div>
     @if(auth()->user()->isAdmin())
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Code')}}
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="number"
-                name="EST_CODIGO"
-                class="form-control"
-                value="{{old('EST_CODIGO',$student->EST_CODIGO)}}">
-            <span class="fa fa-codepen form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('EST_CODIGO','<small class="alert-error">:message</small>')!!}
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Code')}}
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <input
+                    type="number"
+                    name="EST_CODIGO"
+                    class="form-control"
+                    value="{{old('EST_CODIGO',$student->EST_CODIGO)}}">
+                <span class="fa fa-codepen form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('EST_CODIGO','<small class="alert-error">:message</small>')!!}
+            </div>
         </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Enrollment')}}
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="EST_MATRICULA"
-                {{--                required="required"--}}
-                class="form-control"
-                value="{{old('EST_MATRICULA',$student->EST_MATRICULA)}}">
-            <span class="fa fa-check-circle form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('EST_MATRICULA','<small class="alert-error">:message</small>')!!}
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Enrollment')}}
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <input
+                    type="text"
+                    name="EST_MATRICULA"
+                    {{--                required="required"--}}
+                    class="form-control"
+                    value="{{old('EST_MATRICULA',$student->EST_MATRICULA)}}">
+                <span class="fa fa-check-circle form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('EST_MATRICULA','<small class="alert-error">:message</small>')!!}
+            </div>
         </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Signed up')}}
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="EST_INSCRITO"
-                {{--                required="required"--}}
-                class="form-control"
-                value="{{old('EST_INSCRITO',$student->EST_INSCRITO)}}">
-            <span class="fa fa-check-circle form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('EST_INSCRITO','<small class="alert-error">:message</small>')!!}
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Signed up')}}
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <input
+                    type="text"
+                    name="EST_INSCRITO"
+                    {{--                required="required"--}}
+                    class="form-control"
+                    value="{{old('EST_INSCRITO',$student->EST_INSCRITO)}}">
+                <span class="fa fa-check-circle form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('EST_INSCRITO','<small class="alert-error">:message</small>')!!}
+            </div>
         </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('No Enrollment')}}
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="number"
-                name="EST_NROMATRICULA"
-                {{--                required="required"--}}
-                class="form-control"
-                value="{{old('EST_NROMATRICULA',$student->EST_NROMATRICULA)}}">
-            <span class="fa fa-check-circle form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('EST_MATRICULA','<small class="alert-error">:message</small>')!!}
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('No Enrollment')}}
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <input
+                    type="number"
+                    name="EST_NROMATRICULA"
+                    {{--                required="required"--}}
+                    class="form-control"
+                    value="{{old('EST_NROMATRICULA',$student->EST_NROMATRICULA)}}">
+                <span class="fa fa-check-circle form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('EST_MATRICULA','<small class="alert-error">:message</small>')!!}
+            </div>
         </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Retired')}}
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="EST_RETIRADO"
-                {{--                required="required"--}}
-                class="form-control"
-                value="{{old('EST_RETIRADO',$student->EST_RETIRADO)}}">
-            <span class="fa fa-circle-o-notch form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('EST_RETIRADO','<small class="alert-error">:message</small>')!!}
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Retired')}}
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <input
+                    type="text"
+                    name="EST_RETIRADO"
+                    {{--                required="required"--}}
+                    class="form-control"
+                    value="{{old('EST_RETIRADO',$student->EST_RETIRADO)}}">
+                <span class="fa fa-circle-o-notch form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('EST_RETIRADO','<small class="alert-error">:message</small>')!!}
+            </div>
         </div>
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Scholarship')}}
-        </label>
-        <div class="col-md-6 col-sm-6 ">
-            <input
-                type="text"
-                name="EST_BECA"
-                class="form-control"
-                value="{{old('EST_BECA',$student->EST_BECA)}}">
-            <span class="fa fa-book form-control-feedback right"
-                  aria-hidden="true"></span>
-            {!! $errors->first('EST_BECA','<small class="alert-error">:message</small>')!!}
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Scholarship')}}
+            </label>
+            <div class="col-md-6 col-sm-6 ">
+                <input
+                    type="text"
+                    name="EST_BECA"
+                    class="form-control"
+                    value="{{old('EST_BECA',$student->EST_BECA)}}">
+                <span class="fa fa-book form-control-feedback right"
+                      aria-hidden="true"></span>
+                {!! $errors->first('EST_BECA','<small class="alert-error">:message</small>')!!}
+            </div>
         </div>
-    </div>
 
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Institution')}}
-            <span class="required">*</span>
-        </label>
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Institution')}}
+                <span class="required">*</span>
+            </label>
             <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
                     name="institution_id" id="select-institution"
                     required>
                 <option selected></option>
-            @foreach($institution as $ins )
+                @foreach($institution as $ins )
                     @if(old('institution', $student->institution_id)==$ins->id)
-                    <option  id="ins_id"  value="{{$ins->id}}" selected>
-                        {{$ins->INS_NOMBRE}}
-                    </option>
-                        @else
-                        <option  id="ins_id"  value="{{$ins->id}}">
+                        <option id="ins_id" value="{{$ins->id}}" selected>
+                            {{$ins->INS_NOMBRE}}
+                        </option>
+                    @else
+                        <option id="ins_id" value="{{$ins->id}}">
                             {{$ins->INS_NOMBRE}}
                         </option>
                     @endif
                 @endforeach
             </select>
-        {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Course')}}
-            <span class="required">*</span>
-        </label>
-        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
-                name="course_id" id="select-course" required>
-            @foreach($course as $id =>$name )
-                @if(old('course', $student->course_id)==$id)
-                    <option value="{{$id}}" selected>
-                        {{$name}}
-                    </option>
-                @endif
-            @endforeach
-            <option value="">Seleccione Curso</option>
-        </select>
-        {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
-    </div>
+            {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
+        </div>
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Course')}}
+                <span class="required">*</span>
+            </label>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                    name="course_id" id="select-course" required>
+                @foreach($course as $id =>$name )
+                    @if(old('course', $student->course_id)==$id)
+                        <option value="{{$id}}" selected>
+                            {{$name}}
+                        </option>
+                    @endif
+                @endforeach
+                <option value="">Seleccione Curso</option>
+            </select>
+            {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
+        </div>
     @endif
     @if(!auth()->user()->isAdmin())
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Institution')}}
-            <span class="required">*</span>
-        </label>
-        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
-                name="institution_id" id="select-institution"
-                required>
-            <option selected></option>
-            @foreach($institution as $ins )
-                @if(old('institution', $student->institution_id)==$ins->id)
-                    <option  id="ins_id"  value="{{$ins->id}}" selected >
-                        {{$ins->INS_NOMBRE}}
-                    </option>
-                @else
-                    <option  id="ins_id"  value="{{$ins->id}}" disabled>
-                        {{$ins->INS_NOMBRE}}
-                    </option>
-                @endif
-            @endforeach
-        </select>
-        {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
-    </div>
-    <div class="item form-group">
-        <label class="col-form-label col-md-3 col-sm-3 label-align">
-            {{__('Course')}}
-            <span class="required">*</span>
-        </label>
-        <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
-                name="course_id" id="select-course"
-                required>
-            @foreach($course as $id =>$name )
-                @if(old('course', $student->course_id)==$id)
-                    <option value="{{$id}}" selected>
-                        {{$name}}
-                    </option>
-                @endif
-            @endforeach
-            <option value="">Seleccione Curso</option>
-        </select>
-        {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
-    </div>
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Institution')}}
+                <span class="required">*</span>
+            </label>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                    name="institution_id" id="select-institution"
+                    required>
+                <option selected></option>
+                @foreach($institution as $ins )
+                    @if(old('institution', $student->institution_id)==$ins->id)
+                        <option id="ins_id" value="{{$ins->id}}" selected>
+                            {{$ins->INS_NOMBRE}}
+                        </option>
+                    @else
+                        <option id="ins_id" value="{{$ins->id}}" disabled>
+                            {{$ins->INS_NOMBRE}}
+                        </option>
+                    @endif
+                @endforeach
+            </select>
+            {!! $errors->first('institution_id','<small class="alert-error">:message</small>')!!}
+        </div>
+        <div class="item form-group">
+            <label class="col-form-label col-md-3 col-sm-3 label-align">
+                {{__('Course')}}
+                <span class="required">*</span>
+            </label>
+            <select class="custom-select custom-select-sm col-md-6 col-sm-6 "
+                    name="course_id" id="select-course"
+                    required>
+                @foreach($course as $id =>$name )
+                    @if(old('course', $student->course_id)==$id)
+                        <option value="{{$id}}" selected>
+                            {{$name}}
+                        </option>
+                    @endif
+                @endforeach
+                <option value="">Seleccione Curso</option>
+            </select>
+            {!! $errors->first('course_id','<small class="alert-error">:message</small>')!!}
+        </div>
     @endif()
     <div class="item form-group">
         <label class="col-form-label col-md-3 col-sm-3 label-align">

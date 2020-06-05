@@ -29,21 +29,21 @@
             {{__('User')}}
             <span class="required">*</span>
         </label>
-            <select class="custom-select custom-select-sm col-md-6 col-sm-6"
-                    name="people_id" id="people_id" required>
-                <option selected></option>
-                @foreach($people as $person)
-                    @if(old('people', $photo->people_id)==$person->id)
+        <select class="custom-select custom-select-sm col-md-6 col-sm-6"
+                name="people_id" id="people_id" required>
+            <option selected></option>
+            @foreach($people as $person)
+                @if(old('people', $photo->people_id)==$person->id)
                     <option value="{{$person->id}}" selected>
                         {{$person->PER_NOMBRES}} {{$person->PER_APELLIDOS}}
                     </option>
-                        @else
-                        <option value="{{$person->id}}">
-                            {{$person->PER_NOMBRES}} {{$person->PER_APELLIDOS}}
-                        </option>
-                    @endif
-                @endforeach
-            </select>
+                @else
+                    <option value="{{$person->id}}">
+                        {{$person->PER_NOMBRES}} {{$person->PER_APELLIDOS}}
+                    </option>
+                @endif
+            @endforeach
+        </select>
         {!! $errors->first('people_id','<small class="alert-error">:message</small>')!!}
     </div>
     <div class="ln_solid"></div>

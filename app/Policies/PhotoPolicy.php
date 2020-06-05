@@ -19,25 +19,27 @@ class PhotoPolicy
     {
         //
     }
-    public function before($user,$ability)
+
+    public function before($user, $ability)
     {
-        if ($user->isAdmin())
-        {
+        if ($user->isAdmin()) {
             return true;
         }
     }
 
     public function edit(User $user, Person $person)
     {
-        return $user->cedula==$person->PER_CEDULA;
+        return $user->cedula == $person->PER_CEDULA;
     }
+
     public function update(User $user, Person $person)
     {
-        return $user->cedula==$person->PER_CEDULA;
+        return $user->cedula == $person->PER_CEDULA;
     }
+
     public function show(User $user, Person $person)
     {
-        return $user->cedula==$person->PER_CEDULA;
+        return $user->cedula == $person->PER_CEDULA;
     }
 
 }
