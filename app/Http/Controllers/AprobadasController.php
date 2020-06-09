@@ -24,17 +24,23 @@ class AprobadasController extends Controller
     public function index()
     {
         //
-        try {
-            $key = "solicitadas.page." . request('page', 1) . request('institution_id', null);
-            $institutions = Institution::OrderCreate()->get();
-            $aprobadas = Cache::remember($key, 180, function () {
-                $institution_id = request('institution_id');
-                return Aprobadas::WithSoliIns()->OrderWhere($institution_id)->paginate(15);
-            });
-            return view('identification.approved.index', compact('aprobadas', 'institutions'))
-                ->with('error', 'No se encuentran registros');
-        } catch (Throwable $e) {
-            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
+        try{
+            $institutions=Institution::OrderCreate()->get();
+            if (!empty(request('institution_id')))
+            {
+                $aprobadas_count=Aprobadas::with(['solicitadas','institution'])->OrderWhere(request('institution_id'))->get();
+                $count=count($aprobadas_count);
+                $aprobadas=Aprobadas::with(['solicitadas','institution'])->OrderWhere(request('institution_id'))->paginate(15);
+                return view('identification.approved.index',compact('aprobadas','institutions','count'))
+                    ->with('error' ,'No se encuentran registros');
+            }else{
+                $aprobadas=Aprobadas::Order()->paginate(10);
+                return view('identification.approved.index',compact('aprobadas','institutions'))
+                    ->with('error' ,'No se encuentran registros');
+            }
+
+        }catch(Throwable $e){
+            return back()->with('error','Error: '.$e->getCode().' '.$e->getMessage());
         }
     }
 
@@ -99,8 +105,14 @@ class AprobadasController extends Controller
      * @param  \App\Aprobadas  $aprobadas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Aprobadas $aprobadas)
+    public function destroy($id)
     {
         //
+        try {
+           Aprobadas::findOrFail($id)->delete();
+            return redirect()->route('aprobadas.index')->with('delete', 'Solicitud eliminada exitosamente');
+        } catch (Throwable $e) {
+            return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());
+        }
     }
 }
