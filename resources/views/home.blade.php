@@ -159,28 +159,27 @@
                                                 <span>Cambiar de fotografia</span>
                                             </div>
                                             <p class="excerpt">
-                                                Si observa que su fotografia no es la deseada dirigirse a la pestana de
-                                                Registros Generales ubicada en la parte izquiqerda de la pantalla
+                                                Si observa que su fotografia no es la deseada al pulsar Ver Perfil podrá editar su fotografía.
                                             </p>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="block">
-                                        <div class="block_content">
-                                            <h2 class="title">
-                                                <a>Registros Generales</a>
-                                            </h2>
-                                            <div class="byline">
-                                                <span>Fotos Estudiantes/Usuarios</span>
-                                            </div>
-                                            <p class="excerpt">Al ingresar a Fotos Estudiantes/Usuarios, clic sobre
-                                                editar y escoger una nueva fotografia y guardar.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
+{{--                                <li>--}}
+{{--                                    <div class="block">--}}
+{{--                                        <div class="block_content">--}}
+{{--                                            <h2 class="title">--}}
+{{--                                                <a>Registros Generales</a>--}}
+{{--                                            </h2>--}}
+{{--                                            <div class="byline">--}}
+{{--                                                <span>Fotos Estudiantes/Usuarios</span>--}}
+{{--                                            </div>--}}
+{{--                                            <p class="excerpt">Al ingresar a Fotos Estudiantes/Usuarios, clic sobre--}}
+{{--                                                editar y escoger una nueva fotografia y guardar.--}}
+{{--                                            </p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
                                     <div class="block">
                                         <div class="block_content">
                                             <h2 class="title">
@@ -191,7 +190,7 @@
                                             </div>
                                             <p class="excerpt">Si observa que su institucion curso/area son incorrectos,
                                                 contactarse con el encargado de su Institucion o enviar un correo a:
-                                                cotedem@mail.com
+                                                Soporte@cotedem.com
                                             </p>
                                         </div>
                                     </div>
