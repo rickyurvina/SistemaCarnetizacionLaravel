@@ -72,7 +72,9 @@ class BackgroundController extends Controller
                         $cedula_stu = $ced->INS_NOMBRE;
                     }
                     $file_name = $cedula_stu . '.' . $extension;
-                    Image::make($request->file('FON_NOMBRE'))->resize(354, 213)->save('images/BackgroundsPhotos/' . 'frontal' . $file_name);
+                    Image::make($request->file('FON_NOMBRE'))
+//                        ->resize(354, 213)
+                        ->save('images/BackgroundsPhotos/' . 'frontal' . $file_name);
                     $post->FON_NOMBRE = 'frontal' . $file_name;
                     $post->save();
                 }
@@ -84,7 +86,9 @@ class BackgroundController extends Controller
                         $cedula_stu = $ced->INS_NOMBRE;
                     }
                     $file_name = $cedula_stu . '.' . $extension;
-                    Image::make($request->file('FON_NOMBRE2'))->resize(354, 213)->save('images/BackgroundsPhotos/' . 'posterior' . $file_name);
+                    Image::make($request->file('FON_NOMBRE2'))
+//                        ->resize(354, 213)
+                        ->save('images/BackgroundsPhotos/' . 'posterior' . $file_name);
                     $post->FON_NOMBRE2 = 'posterior' . $file_name;
                     $post->save();
                 }

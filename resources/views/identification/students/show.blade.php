@@ -150,7 +150,7 @@
         </a>
         @if(!empty($pic))
             <a href="{{route('picture.edit',$pic)}}"
-               class="btn btn-outline-success btn-xs">
+               class="btn btn-outline-primary btn-xs">
                 <i class="fa fa-pencil"></i>
                 {{__('Edit Photo')}}
             </a>

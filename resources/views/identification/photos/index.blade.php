@@ -11,7 +11,7 @@
                     {{Form::open(['route'=>'photo.index','method'=>'GET'])}}
                     <div class="input-group">
                         @if(auth()->user()->hasRoles(['admin']))
-                            {{Form::text('people_id', null,['class'=>'form-control','placeholder'=>'Cedula del usuario'])}}
+                            {{Form::text('people_id', null,['class'=>'form-control','placeholder'=>'Cédula del usuario'])}}
                             <span class="input-group-btn">
                           <button
                               type="submit"

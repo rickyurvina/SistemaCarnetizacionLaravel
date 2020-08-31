@@ -1,10 +1,11 @@
 @extends('identification.layouts.app')
 @section('content')
-    @include('identification.layouts.top-content',['routeText'=>'student.index','btnText'=>'Panel de Control','textTitle'=>'Bienveido al Sistema de Carnetizacion'])
+    @include('identification.layouts.top-content',['routeText'=>'student.index','btnText'=>'Panel de Control','textTitle'=>'Bienvenido al Sistema de Carnetización'])
     <div class="row">
         <div class="col-sm-12">
             <div class="title_right">
             </div>
+
             <div class="card-box table-responsive">
                 <!-- start project list -->
                 <table id="datatable"
@@ -48,7 +49,7 @@
                                     <a href="{{route('soli')}}"
                                        class="btn btn-outline-success btn-xs">
                                         <i class="fa fa-print"></i>
-                                        Solcitar Impresion
+                                        Solcitar Impresión
                                     </a>
                                 @endif
                             </div>
@@ -86,10 +87,10 @@
                                                 <a>Paso 1</a>
                                             </h2>
                                             <div class="byline">
-                                                <span>Ver perfil</span>
+                                                <span>Ver Perfil</span>
                                             </div>
                                             <p class="excerpt">
-                                                Al hacer clic en el boton "Ver Perfil" se abrira una pagina con todos
+                                                Al hacer clic en el boton "Ver Perfil" se abrirá una página con todos
                                                 sus datos personales.
                                             </p>
                                         </div>
@@ -105,7 +106,7 @@
                                                 <span>Verficar Datos Personales</span>
                                             </div>
                                             <p class="excerpt">Verificar si todos los datos ingresados son correctos,
-                                                si algun datos esta incorrecto, dar clic en editar y corregir los datos
+                                                si algún dato esta incorrecto, dar clic en editar y corregir los datos
                                                 que esten con error.
                                             </p>
                                         </div>
@@ -118,11 +119,11 @@
                                                 <a>Paso 3</a>
                                             </h2>
                                             <div class="byline">
-                                                <span>Solicitar Impresion</span>
+                                                <span>Solicitar Impresión</span>
                                             </div>
-                                            <p class="excerpt">Dar clic sobre la opcion de "Solicitar Impresion",
+                                            <p class="excerpt">Dar clic sobre la opción de "Solicitar Impresión",
                                                 en lo pronto que este listo su solicitud nos pondremos en contacto con
-                                                el encargado de la institucion para hacer la posterior entrega del
+                                                el encargado de la institución para hacer la posterior entrega del
                                                 carnet.
                                             </p>
                                         </div>
@@ -136,7 +137,7 @@
             <div class="col-md-4 col-sm-4 ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Verificacion Fotografia/Institucion</h2>
+                        <h2>Verificación Fotografía/Instituci{on</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -153,45 +154,44 @@
                                     <div class="block">
                                         <div class="block_content">
                                             <h2 class="title">
-                                                <a>Fotografia erronea</a>
+                                                <a>Fotografía Erronea</a>
                                             </h2>
                                             <div class="byline">
-                                                <span>Cambiar de fotografia</span>
+                                                <span>Cambiar de fotografía</span>
                                             </div>
                                             <p class="excerpt">
-                                                Si observa que su fotografia no es la deseada dirigirse a la pestana de
-                                                Registros Generales ubicada en la parte izquiqerda de la pantalla
+                                                Si observa que su fotografía no es la deseada al pulsar Ver Perfil podrá editar su fotografía.
                                             </p>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
+{{--                                <li>--}}
+{{--                                    <div class="block">--}}
+{{--                                        <div class="block_content">--}}
+{{--                                            <h2 class="title">--}}
+{{--                                                <a>Registros Generales</a>--}}
+{{--                                            </h2>--}}
+{{--                                            <div class="byline">--}}
+{{--                                                <span>Fotos Estudiantes/Usuarios</span>--}}
+{{--                                            </div>--}}
+{{--                                            <p class="excerpt">Al ingresar a Fotos Estudiantes/Usuarios, clic sobre--}}
+{{--                                                editar y escoger una nueva fotografia y guardar.--}}
+{{--                                            </p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
                                     <div class="block">
                                         <div class="block_content">
                                             <h2 class="title">
-                                                <a>Registros Generales</a>
+                                                <a>Verificación Institución</a>
                                             </h2>
                                             <div class="byline">
-                                                <span>Fotos Estudiantes/Usuarios</span>
+                                                <span>Institución Incorrecta</span>
                                             </div>
-                                            <p class="excerpt">Al ingresar a Fotos Estudiantes/Usuarios, clic sobre
-                                                editar y escoger una nueva fotografia y guardar.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="block">
-                                        <div class="block_content">
-                                            <h2 class="title">
-                                                <a>Verificacion Institucion</a>
-                                            </h2>
-                                            <div class="byline">
-                                                <span>Institucion Incorrecta</span>
-                                            </div>
-                                            <p class="excerpt">Si observa que su institucion curso/area son incorrectos,
-                                                contactarse con el encargado de su Institucion o enviar un correo a:
-                                                cotedem@mail.com
+                                            <p class="excerpt">Si observa que su institucion curso/área son incorrectos,
+                                                contactarse con el encargado de su Institución o enviar un correo a:
+                                                soporte@cotedem.com
                                             </p>
                                         </div>
                                     </div>

@@ -30,15 +30,15 @@
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of solicitadass')}}
+                    <p>{{__('Lista de Solicitadas')}}
                         {{$solicitadas->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th>{{__('Cedula')}}</th>
-                            <th>{{__('Number Of Requested')}}</th>
+                            <th>{{__('Identification Card')}}</th>
+                            <th>{{__('User Type')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>
                         </tr>
@@ -64,23 +64,23 @@
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-{{--                                        <a href="#"--}}
-{{--                                           class="btn btn-outline-success btn-xs">--}}
-{{--                                            <i class="fa fa-print"></i>--}}
-{{--                                            {{__('View Carnet')}}--}}
-{{--                                        </a>--}}
+                                        <a href="{{route('solicitadas.show',$solicitada)}}"
+                                           class="btn btn-outline-success btn-xs">
+                                            <i class="fa fa-eye"></i>
+                                            {{__('View Carnet')}}
+                                        </a>
                                         <a href="{{route('solicitadas.edit',$solicitada)}}"
                                            class="btn btn-primary btn-xs">
-                                            <i class="fa fa-print"></i>
+                                            <i class="fa fa-check"></i>
                                             {{__('Aprobar Solicitud')}}
                                             {{Form::close()}}
                                         </a>
                                         <form action="{{route('solicitadas.destroy',$solicitada->id)}}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
+                                            <button type="submit" class="btn btn-warning btn-sm">
                                                 <i class="fa fa-print"></i>
-                                                {{__('Cancel Print')}}
+                                                {{__('Carnet Impreso')}}
                                             </button>
                                         </form>
                                     </div>

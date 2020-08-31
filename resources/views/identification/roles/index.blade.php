@@ -2,7 +2,7 @@
 @section('title','Roles')
 @section('content')
     <!-- page content -->
-    @include('identification.layouts.top-content',['routeText'=>'role.create','btnText'=>'Crear','textTitle'=>'User-Roles'])
+    @include('identification.layouts.top-content',['routeText'=>'role.create','btnText'=>'Crear','textTitle'=>'Usuarios-Roles'])
     <div class="row">
         <div class="col-sm-12">
             <div class="title_right">

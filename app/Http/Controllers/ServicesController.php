@@ -157,21 +157,9 @@ class ServicesController extends Controller
     {
         $message = $request->get('email');
         Mail::send('auth.mail', ['msg' => $message], function ($m) use ($message) {
-            $m->to("ricky_uc12@hotmail.com")->subject('Reseteo de clave');
+            $m->to("info@cotedem.com")->subject('Reseteo de clave');
         });
         return back()->with('success', 'Hemos recibido tu solicitud, pronto nos pondremos en contacto');
     }
 
-    public function carnet()
-    {
-        $nombre=
-        $pdf = app('Fpdf');
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(40,10,'Hello World!');
-        $pdf->Output();
-        exit();
-
-
-    }
 }
