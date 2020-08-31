@@ -20,7 +20,7 @@ class CreateStudentsTable extends Migration
             $table->string('EST_APELLIDOS');
             $table->char('EST_SEXO',10);
             $table->dateTime('EST_FECHANACIMIENTO');
-            $table->char('EST_TIPOSANGRE',10);
+            $table->char('EST_TIPOSANGRE',20);
             $table->string('EST_CORREO')->unique();
             $table->string('EST_DIRECCION')->nullable();
             $table->string('EST_NUMERO')->nullable();

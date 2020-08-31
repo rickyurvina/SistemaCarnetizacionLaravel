@@ -30,14 +30,14 @@
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of solicitadass')}}
+                    <p>{{__('Lista de Solicitadas')}}
                         {{$solicitadas->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"
                            class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th>{{__('Cedula')}}</th>
+                            <th>{{__('Identification Card')}}</th>
                             <th>{{__('User Type')}}</th>
                             <th>{{__('Institution')}}</th>
                             <th>{{__('Actions')}}</th>

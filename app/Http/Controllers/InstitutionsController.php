@@ -62,7 +62,11 @@ class InstitutionsController extends Controller
     public function store(InstitutionMesageRequest $request)
     {
         try {
-            Institution::create($request->validated());
+//            return $request;
+            $institution= Institution::create($request->all());
+            $institution->INS_DIRECCION=$request->INS_DIRECCION;
+            $institution->INS_CELULAR=$request->INS_CELULAR;
+            $institution->save();
             Cache::flush();
             return redirect()->route('institution.index')->with('success', 'Institución registrada exitosamente');
         } catch (Throwable $e) {
@@ -125,7 +129,10 @@ class InstitutionsController extends Controller
     {
         try {
             $institution = Institution::findOrFail($id);
-            $institution->update($request->validated());
+            $institution->update($request->all());
+            $institution->INS_DIRECCION=$request->INS_DIRECCION;
+            $institution->INS_CELULAR=$request->INS_CELULAR;
+            $institution->save();
             Cache::flush();
             return redirect()
                 ->route('institution.show', $institution)

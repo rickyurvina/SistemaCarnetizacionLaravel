@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card-box table-responsive">
-                    <p>{{__('List of aprobadass')}}
+                    <p>{{__('List of approved')}}
                         {{$aprobadas->appends(request()->query())->links()}}</p>
                     <!-- start project list -->
                     <table id="datatable"

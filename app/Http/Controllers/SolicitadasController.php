@@ -235,7 +235,6 @@ class SolicitadasController extends Controller
         return back()->with('success','Aprobada Exitosamente');
     }
 
-
     /**
      * Remove the specified resource from storage.
      *

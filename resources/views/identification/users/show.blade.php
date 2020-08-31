@@ -1,7 +1,7 @@
 @extends('identification.layouts.app')
 @section('title','Usuarios del Sistema')
 @section('content')
-    @include('identification.layouts.top-content',['routeText'=>'user.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Uusario'])
+    @include('identification.layouts.top-content',['routeText'=>'user.index','btnText'=>'Panel de Control','textTitle'=>'Detalles del Usuario'])
     <div>
         <br/>
         <div class="card-box table-responsive">

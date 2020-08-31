@@ -110,6 +110,7 @@ class AprobadasController extends Controller
         //
         try {
            Aprobadas::findOrFail($id)->delete();
+           Cache::flush();
             return redirect()->route('aprobadas.index')->with('delete', 'Solicitud eliminada exitosamente');
         } catch (Throwable $e) {
             return back()->with('error', 'Error: ' . $e->getCode() . ' ' . $e->getMessage());

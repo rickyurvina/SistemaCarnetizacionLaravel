@@ -36,8 +36,8 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'mailtrap.io'),
-            'port' => env('MAIL_PORT', 2525),
+            'host' => env('MAIL_HOST', 'smtp.office365.com'),
+            'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
@@ -83,8 +83,8 @@ return [
     */
 
     'from' => [
-        'address' => env('ricky_uc12@hotmail.comS', 'ricky_uc12@hotmail.com'),
-        'name' => env('Ricky', 'Ricky Urvina'),
+        'address' => env('info@cotedem.com', 'info@cotedem.com'),
+        'name' => env('User', 'User'),
     ],
 
     /*

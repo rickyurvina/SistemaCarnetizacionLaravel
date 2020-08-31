@@ -10,7 +10,7 @@
                     {{Form::open(['route'=>'picture.index','method'=>'GET'])}}
                     <div class="input-group">
                         @if(auth()->user()->hasRoles(['admin']))
-                            {{Form::text('student_id', null,['class'=>'form-control','placeholder'=>'Cedula del Estudiante'])}}
+                            {{Form::text('student_id', null,['class'=>'form-control','placeholder'=>'Cédula del Estudiante'])}}
                             <span class="input-group-btn">
                           <button
                               type="submit"
